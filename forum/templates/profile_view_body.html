@@ -23,53 +23,102 @@
 	</div>
 </section>
 
-<!-- Les liens à double accord, en répertoire de bipeur : le champ « Liens » (une ligne « Pseudo : nature »).
-     Un lien ne s affiche que s il est réciproque ; sinon seul son auteur le voit, en attente. -->
+<!-- Le bipeur : les bips (intérêt mutuel caché, champ « Envies », que des empreintes) et le répertoire
+     des liens à double accord (champ « Liens », une ligne « Pseudo : nature »). Un bip ne s annonce que
+     s il est réciproque ; un lien ne s affiche que s il est réciproque, sinon seul son auteur le voit. -->
 <section class="bts-liens" id="bts-liens" aria-labelledby="bts-liens-titre" hidden>
-	<h2 class="bts-liens__titre" id="bts-liens-titre"><span lang="ko">삐삐</span> · Répertoire</h2>
+	<h2 class="bts-liens__titre" id="bts-liens-titre"><span lang="ko">삐삐</span> · Bipeur</h2>
+	<div class="bts-bips"></div>
 	<div class="bts-liens__corps"></div>
 </section>
-<script src="https://cdn.jsdelivr.net/gh/LisaThoa/behind-the-soul-site@ff9381477e6fcfe536d8cdeb1246f6248f6980cb/forum/liens/liens.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/LisaThoa/behind-the-soul-site@e347ea0bc285e9ce2a7ccd70007bb8cd7bc5a826/forum/liens/liens.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/LisaThoa/behind-the-soul-site@e347ea0bc285e9ce2a7ccd70007bb8cd7bc5a826/forum/envies/envies.js"></script>
 <script>
 	(function () {
 		var section = document.getElementById("bts-liens");
-		if (!section || !window.BTSLiens) return;
-		var champ = [].filter.call(document.querySelectorAll("dl[id^=field_id]"), function (dl) {
-			var dt = dl.querySelector("dt");
-			return dt && /^Liens\b/i.test(dt.textContent.trim());
-		})[0];
-		if (!champ) return;
-		var zone = champ.querySelector(".field_editable textarea");
-		var texte = "";
-		if (zone) {
-			texte = zone.value;
-		} else {
-			var copie = champ.querySelector(".field_uneditable").cloneNode(true);
-			[].forEach.call(copie.querySelectorAll("br"), function (br) {
-				br.parentNode.replaceChild(document.createTextNode("\n"), br);
-			});
-			texte = copie.textContent;
+		if (!section) return;
+		function champNomme(nom) {
+			return [].filter.call(document.querySelectorAll("dl[id^=field_id]"), function (dl) {
+				var dt = dl.querySelector("dt");
+				return dt && new RegExp("^" + nom + "\\b", "i").test(dt.textContent.trim());
+			})[0] || null;
 		}
-		champ.style.display = "none";
-		section.appendChild(champ);
-		var id = champ.id.substring(8);
-		window.BTSLiens.demarrer({
+		function poster(id, user, active, nom, texte, resoudre) {
+			var requete = window.$.post("{U_AJAX_PROFILE}", {
+				id: id, user: user, active: active,
+				content: JSON.stringify([[nom, texte]]), tid: "{TID}"
+			}, function (data) {
+				var retour = data && data[id];
+				resoudre(!(typeof retour === "string" && retour.indexOf("error : ") === 0));
+			}, "json");
+			if (requete && requete.fail) requete.fail(function () { resoudre(false); });
+		}
+		var pret = Promise.resolve(null);
+		var champ = champNomme("Liens");
+		if (champ && window.BTSLiens) {
+			var zone = champ.querySelector(".field_editable textarea");
+			var texte = "";
+			if (zone) {
+				texte = zone.value;
+			} else {
+				var copie = champ.querySelector(".field_uneditable").cloneNode(true);
+				[].forEach.call(copie.querySelectorAll("br"), function (br) {
+					br.parentNode.replaceChild(document.createTextNode("\n"), br);
+				});
+				texte = copie.textContent;
+			}
+			champ.style.display = "none";
+			section.appendChild(champ);
+			var id = champ.id.substring(8);
+			var proposer = "";
+			if (zone) {
+				try {
+					proposer = window.sessionStorage.getItem("bts-lien-a-proposer") || "";
+					window.sessionStorage.removeItem("bts-lien-a-proposer");
+				} catch (e) {
+					proposer = "";
+				}
+			}
+			pret = window.BTSLiens.demarrer({
+				section: section,
+				corps: section.querySelector(".bts-liens__corps"),
+				texte: texte,
+				nom: document.getElementById("bts-resident-nom").textContent,
+				modifiable: !!zone,
+				proposer: proposer,
+				enregistrer: function (nouveau) {
+					return new Promise(function (resoudre) {
+						zone.value = nouveau;
+						poster(id, "{CUR_USER_ID}", "{CUR_USER_ACTIVE}", zone.name, nouveau, resoudre);
+					});
+				}
+			});
+		}
+		var connecte = window._userdata && Number(window._userdata.session_logged_in);
+		if (!connecte || !window.BTSEnvies || !window.crypto || !window.crypto.subtle) return;
+		var envies = champNomme("Envies");
+		if (envies) {
+			envies.style.display = "none";
+			section.appendChild(envies);
+		}
+		var numero = location.pathname.match(/^\/u(\d+)/);
+		var mp = document.querySelector(".bts-joueur a[href*=\"privmsg\"], .bts-resident a[href*=\"privmsg\"]");
+		window.BTSEnvies.demarrer({
 			section: section,
-			corps: section.querySelector(".bts-liens__corps"),
-			texte: texte,
-			nom: document.getElementById("bts-resident-nom").textContent,
-			modifiable: !!zone,
-			enregistrer: function (nouveau) {
+			corps: section.querySelector(".bts-bips"),
+			champ: envies,
+			moi: window._userdata.user_id,
+			autre: numero ? numero[1] : 0,
+			nom: document.getElementById("bts-resident-nom").textContent.trim(),
+			mp: mp ? mp.getAttribute("href") : "",
+			proposer: function (nom) {
+				pret.then(function (controle) {
+					if (controle && controle.ajouter) controle.ajouter(nom);
+				});
+			},
+			enregistrer: function (id, texte) {
 				return new Promise(function (resoudre) {
-					zone.value = nouveau;
-					var requete = window.$.post("{U_AJAX_PROFILE}", {
-						id: id, user: "{CUR_USER_ID}", active: "{CUR_USER_ACTIVE}",
-						content: JSON.stringify([[zone.name, nouveau]]), tid: "{TID}"
-					}, function (data) {
-						var retour = data && data[id];
-						resoudre(!(typeof retour === "string" && retour.indexOf("error : ") === 0));
-					}, "json");
-					if (requete && requete.fail) requete.fail(function () { resoudre(false); });
+					poster(id, String(window._userdata.user_id), "1", "profile_field_2_" + id, texte, resoudre);
 				});
 			}
 		});
@@ -108,52 +157,6 @@
 			photo.tabIndex = 0;
 			photo.classList.add("bts-resident__photo--gif");
 		}
-	})();
-</script>
-
-<!-- Les envies discrètes : cocher « un lien » ou « un RP » sur le profil de quelqu un ; la personne
-     ne le découvre que si elle a coché aussi. Le champ « Envies » ne garde que des empreintes. -->
-<section class="bts-envies" id="bts-envies" aria-labelledby="bts-envies-titre" hidden>
-	<h2 class="bts-envies__titre" id="bts-envies-titre">Envies · discrètes, réciproques ou rien</h2>
-	<div class="bts-envies__corps"></div>
-</section>
-<script src="https://cdn.jsdelivr.net/gh/LisaThoa/behind-the-soul-site@ff9381477e6fcfe536d8cdeb1246f6248f6980cb/forum/envies/envies.js"></script>
-<script>
-	(function () {
-		var section = document.getElementById("bts-envies");
-		var connecte = window._userdata && Number(window._userdata.session_logged_in);
-		if (!section || !connecte || !window.BTSEnvies || !window.crypto || !window.crypto.subtle) return;
-		var champ = [].filter.call(document.querySelectorAll("dl[id^=field_id]"), function (dl) {
-			var dt = dl.querySelector("dt");
-			return dt && /^Envies\b/i.test(dt.textContent.trim());
-		})[0] || null;
-		if (champ) {
-			champ.style.display = "none";
-			section.appendChild(champ);
-		}
-		var numero = location.pathname.match(/^\/u(\d+)/);
-		var mp = document.querySelector(".bts-joueur a[href*=\"privmsg\"], .bts-resident a[href*=\"privmsg\"]");
-		window.BTSEnvies.demarrer({
-			section: section,
-			corps: section.querySelector(".bts-envies__corps"),
-			champ: champ,
-			moi: window._userdata.user_id,
-			autre: numero ? numero[1] : 0,
-			nom: document.getElementById("bts-resident-nom").textContent.trim(),
-			mp: mp ? mp.getAttribute("href") : "",
-			enregistrer: function (id, texte) {
-				return new Promise(function (resoudre) {
-					var requete = window.$.post("{U_AJAX_PROFILE}", {
-						id: id, user: String(window._userdata.user_id), active: "1",
-						content: JSON.stringify([["profile_field_2_" + id, texte]]), tid: "{TID}"
-					}, function (data) {
-						var retour = data && data[id];
-						resoudre(!(typeof retour === "string" && retour.indexOf("error : ") === 0));
-					}, "json");
-					if (requete && requete.fail) requete.fail(function () { resoudre(false); });
-				});
-			}
-		});
 	})();
 </script>
 
