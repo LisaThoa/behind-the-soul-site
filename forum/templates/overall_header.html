@@ -42,7 +42,7 @@
 	<!-- La base, avant la variable CSS pour que les réglages du forum passent après : -->
 	<!-- Behind the Soul : la base fa-lab puis le thème Séoul 2001, servis par jsDelivr (trop lourds pour le panneau). -->
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/LisaThoa/fa-lab@0.1.0/fa-lab.css" />
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/LisaThoa/behind-the-soul-site@67ff9e62475a0e1a74743a2e640868765a163c5c/forum/seoul-2001.css" />
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/LisaThoa/behind-the-soul-site@4583a56d4297b90d9c2d177da166fc80891fd0a9/forum/seoul-2001.css" />
 	{T_HEAD_STYLESHEET}
 	{CSS}
 
@@ -285,6 +285,33 @@
 					a.setAttribute("aria-current", "page");
 				}
 			});
+		})();
+	</script>
+	<!-- Les stations du compte : Comptes, À toi, Messagerie et Notifications rejoignent la ligne de métro
+	     (chacun dans un arrêt .bts-arret, même s il arrive après coup) ; le pseudo s affiche seul, sans « Bienvenue ». -->
+	<script>
+		(function () {
+			var compte = document.getElementById("fal-compte");
+			if (!compte) return;
+			var ARRETS = [[".bts-comptes", "comptes"], [".bts-tour", "tour"], ["a.fal-compte__lien[href^=\"/privmsg\"]", "mp"], ["#fa_notifications", "notifs"]];
+			function ranger() {
+				[].forEach.call(compte.querySelectorAll(":scope > .bts-arret"), function (a) {
+					if (!a.firstElementChild) compte.removeChild(a);
+				});
+				ARRETS.forEach(function (x) {
+					var el = compte.querySelector(":scope > " + x[0]);
+					if (!el) return;
+					var arret = document.createElement("div");
+					arret.className = "bts-arret bts-arret--" + x[1];
+					compte.insertBefore(arret, el);
+					arret.appendChild(el);
+				});
+				var bienvenue = document.getElementById("fa_welcome");
+				var u = window._userdata;
+				if (bienvenue && u && u.username && bienvenue.textContent !== u.username) bienvenue.textContent = u.username;
+			}
+			ranger();
+			if (window.MutationObserver) new MutationObserver(ranger).observe(compte, { childList: true, subtree: true });
 		})();
 	</script>
 	<!-- Le quai : le menu est une barre fixe en bas de l écran. Le choix jour / nuit et les boutons
