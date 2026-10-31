@@ -84,7 +84,7 @@
       });
       rendre(m, rendu);
     });
-    barre(doc, contacts.join(', ') || droite);
+    barre(doc, contacts.join(', ') || 'Nouvelle conversation');
   }
 
   function monterChat(doc, liste) {
