@@ -278,6 +278,9 @@ h1, h2, h3, .fal-titre-site { color: var(--s01-titre); }
 }
 .bts-arret::after { content: ""; position: absolute; left: -12px; right: 0; top: 11px; height: 4px; background: var(--fal-accent); }
 .bts-arret--notifs::after { right: 50%; }
+.bts-arret--ici::before { background: var(--fal-accent); }
+/* La liste des notifications suit sa station : elle s ouvre juste au-dessus, alignée sur elle. */
+.fal-nav .bts-arret--notifs #notif_list { position: absolute !important; top: auto !important; bottom: calc(100% + .5rem) !important; left: 0 !important; right: auto !important; }
 /* Les panneaux (À toi, Comptes) s ouvrent au-dessus de l arrêt entier, pas au milieu du quai. */
 .bts-arret .bts-tour, .bts-arret .bts-comptes { position: static; }
 .bts-arret--comptes { order: 1; }
@@ -331,7 +334,7 @@ h1, h2, h3, .fal-titre-site { color: var(--s01-titre); }
    (messagerie, carte « Bienvenue… », notifications). Les liens inutiles sont masqués :
    ils restent dans le menu du compte ou n'ont pas leur place ici. */
 .fal-nav__bouton { display: none !important; }
-.fal-nav .fal-cadre { align-items: center; gap: 2px 12px; padding-block: 2px; }
+.fal-nav .fal-cadre { align-items: center; gap: 2px 12px; padding-block: 2px 4px; }
 .fal-nav__liens, .fal-nav__bascule:checked ~ .fal-nav__liens {
   display: flex; flex: 0 1 auto; order: 0; justify-content: flex-start; align-items: flex-end; flex-wrap: nowrap;
   gap: 0; margin: 0; padding: 6px 4px 2px; position: relative; max-width: 100%; overflow: visible;
