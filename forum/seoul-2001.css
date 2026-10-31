@@ -237,6 +237,38 @@ h1, h2, h3, .fal-titre-site { color: var(--s01-titre); }
 .fal-nav .fal-compte .bts-tour__liste li a { color: var(--fal-texte); text-decoration: underline; }
 .bts-tour__meta { display: block; font-size: var(--fal-taille-petite); color: var(--fal-texte-doux); }
 .bts-tour__vide, .bts-tour__aide { margin: 6px 0 0; font-size: var(--fal-taille-petite); color: var(--fal-texte-doux); }
+/* Les comptes (forum/comptes/comptes.js) : changer de compte depuis le quai, un panneau vers le haut. */
+.bts-comptes { position: relative; }
+.bts-comptes__bouton {
+  padding: .35em .75em; cursor: pointer; border: 2px solid var(--s01-barre-texte); border-radius: 0;
+  background: transparent; color: var(--s01-barre-texte); font: var(--s01-taille-barre)/1.2 var(--fal-police-interface);
+}
+.bts-comptes__bouton:hover, .bts-comptes__bouton[aria-expanded="true"] { background: var(--fal-accent); color: var(--fal-accent-contraste); }
+.bts-comptes__bouton:focus-visible { outline: 3px solid var(--fal-accent); outline-offset: 2px; }
+.bts-comptes__panneau {
+  position: absolute; left: 0; bottom: calc(100% + .5rem); z-index: 9000; width: min(20rem, calc(100vw - 2rem));
+  padding: 10px 12px; background: var(--s01-fenetre); color: var(--fal-texte); border: 2px solid var(--s01-cadre); box-shadow: var(--s01-ombre);
+  font: .875rem/1.4 var(--fal-police-texte, inherit); display: grid; gap: 8px;
+}
+.bts-comptes__panneau[hidden] { display: none; }
+.bts-comptes__titre { margin: 0; font: .8125rem/1.4 var(--fal-police-interface); color: var(--fal-texte-doux); }
+.bts-comptes__liste { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
+.bts-comptes__liste li { display: flex; gap: 6px; }
+.bts-comptes__compte, .bts-comptes__oublier, .bts-comptes__valider, .bts-comptes__effacer {
+  padding: 3px 10px; border: 2px solid var(--s01-cadre); border-radius: 0; background: var(--s01-puce); color: var(--fal-texte);
+  font: .8125rem/1.4 var(--fal-police-interface); cursor: pointer; text-align: left;
+}
+.bts-comptes__compte { flex: 1; }
+.bts-comptes__compte[aria-current="true"] { background: var(--fal-accent); color: var(--fal-accent-contraste); cursor: default; }
+.bts-comptes__panneau button:focus-visible, .bts-comptes__panneau input:focus-visible, .bts-comptes__ajout summary:focus-visible { outline: 3px solid var(--fal-accent); outline-offset: 2px; }
+.bts-comptes__formulaire { display: grid; gap: 6px; }
+.bts-comptes__champ { display: grid; gap: 2px; }
+.bts-comptes__champ label { font: .75rem/1.4 var(--fal-police-interface); color: var(--fal-texte-doux); }
+.bts-comptes__champ input { box-sizing: border-box; width: 100%; border: 2px solid var(--s01-cadre); border-radius: 0; background: var(--s01-champ); color: var(--fal-texte); font: inherit; padding: 4px 8px; }
+.bts-comptes__ajout summary { cursor: pointer; font: .8125rem/1.4 var(--fal-police-interface); }
+.bts-comptes__effacer { justify-self: start; background: transparent; }
+.bts-comptes__aide, .bts-comptes__statut { margin: 0; font-size: var(--fal-taille-petite); color: var(--fal-texte-doux); }
+.bts-comptes__statut:empty { display: none; }
 /* Le quai sur mobile : deux rangées compactes. En haut les stations et haut / bas de page ;
    en bas le compte (libellés courts) et jour / nuit. */
 @media (max-width: 640px) {
