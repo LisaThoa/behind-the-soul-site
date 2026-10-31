@@ -1,4 +1,4 @@
-/* Behind the Soul — les liens à double accord, en répertoire de bipeur.
+/* Behind the Soul — les liens à double accord, en répertoire de bipeur (les bips vivent à côté : envies.js).
  * Chacun note ses liens dans le champ de profil « Liens », une ligne « Pseudo : nature ». Un lien ne
  * s'affiche que s'il est réciproque (l'autre a noté ce résident en retour) ; sinon seul son auteur le voit,
  * « en attente ». Personne n'est prévenu d'un refus : ne pas noter le lien suffit. */
@@ -220,6 +220,15 @@
       }).then(function () { enregistrer.disabled = false; });
     };
     enregistrer.addEventListener('click', function () { controle.enregistrer(); });
+
+    /* Un bip réciproque propose un lien : la ligne s'ajoute (une seule fois), il reste à écrire la nature. */
+    controle.ajouter = function (pseudo) {
+      var bloc = [].filter.call(lignes.querySelectorAll('.bts-liens__ligne'), function (b) {
+        return pareil(b.querySelector('input[name="pseudo"]').value, pseudo);
+      })[0] || ligne({ pseudo: pseudo });
+      edition.open = true;
+      bloc.querySelector('input[name="nature"]').focus();
+    };
     return controle;
   }
 
@@ -234,9 +243,10 @@
         var masques = contacts.filter(function (c, i) { return !vus[i]; }).map(function (c) { return c.pseudo; });
         var visibles = contacts.filter(function (c, i) { return c.etat === 'ok' && vus[i]; });
         if (!options.modifiable && !visibles.length) return false;
-        monter(options.corps, { contacts: contacts, masques: masques, modifiable: options.modifiable, enregistrer: options.enregistrer });
+        var controle = monter(options.corps, { contacts: contacts, masques: masques, modifiable: options.modifiable, enregistrer: options.enregistrer });
         options.section.hidden = false;
-        return true;
+        if (options.proposer && controle.ajouter) controle.ajouter(options.proposer);
+        return controle;
       });
     });
   }

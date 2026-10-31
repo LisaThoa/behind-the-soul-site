@@ -856,30 +856,29 @@ fieldset.bts-pref__theme legend { padding: 0; margin-bottom: 4px; font-size: .87
   .bts-liens__ligne { grid-template-columns: 1fr; }
 }
 
-/* ---------- Les envies discrètes (après le bandeau hors-jeu) ----------
-   Module : forum/envies/envies.js. Réciproques ou rien : aucun signal tant que l'envie n'est pas partagée. */
-.bts-envies {
-  max-width: 48rem; margin: 16px auto 0;
-  background: var(--s01-fenetre); border: 2px solid var(--s01-cadre); box-shadow: var(--s01-ombre);
+/* ---------- Les bips, en haut du bipeur (forum/envies/envies.js) ----------
+   Réciproques ou rien : aucun signal tant que le bip n'est pas partagé. Un bip reçu s'affiche comme un message de bipeur. */
+.bts-bips { padding: 14px 24px 0; display: grid; gap: 10px; }
+.bts-bips:empty { display: none; }
+.bts-envies__choix { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.bts-envies__biper, .bts-envies__proposer {
+  padding: 3px 10px; border: 2px solid var(--s01-cadre); border-radius: 0; background: var(--s01-puce); color: var(--fal-texte);
+  font: .8125rem/1.4 var(--fal-police-interface); cursor: pointer; text-decoration: none;
 }
-.bts-envies__titre {
-  margin: 0; padding: 6px 24px; background: var(--s01-barre); color: var(--s01-barre-texte);
-  font: 400 .875rem/1.4 var(--fal-police-interface);
-}
-.bts-envies__corps { padding: 14px 24px 18px; display: grid; gap: 10px; }
-.bts-envies__choix { margin: 0; padding: 0; border: 0; display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
-.bts-envies__choix legend { float: left; margin-right: 8px; padding: 0; font-size: .9375rem; }
-.bts-envies__case {
-  position: relative; display: inline-flex; align-items: center; gap: .35em; padding: 3px 10px; cursor: pointer;
-  border: 2px solid var(--s01-cadre); background: var(--s01-puce); font: .8125rem/1.4 var(--fal-police-interface);
-}
-.bts-envies__case input { margin: 0; accent-color: var(--fal-accent); }
-.bts-envies__case:has(input:checked) { background: var(--fal-accent); color: var(--fal-accent-contraste); }
-.bts-envies__case:has(input:focus-visible) { outline: 3px solid var(--fal-accent); outline-offset: 2px; }
+.bts-envies__biper[aria-pressed="true"] { background: var(--fal-accent); color: var(--fal-accent-contraste); }
+.bts-envies__biper:focus-visible, .bts-envies__proposer:focus-visible { outline: 3px solid var(--fal-accent); outline-offset: 2px; }
+.bts-envies__biper[disabled] { cursor: wait; }
 .bts-envies__aide, .bts-envies__statut { margin: 0; font-size: var(--fal-taille-petite); color: var(--fal-texte-doux); }
 .bts-envies__statut:empty { display: none; }
-.bts-envies__partage { margin: 0; padding: 6px 10px; border-left: 6px solid var(--fal-accent); background: var(--s01-puce); }
-.bts-envies__liste { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
+.bts-envies__liste { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.bts-envies__recu {
+  margin: 0; padding: 6px 10px; border: 3px solid var(--s01-bipeur-cadre); border-radius: 6px;
+  background: var(--s01-bipeur); color: var(--s01-bipeur-texte); font: .875rem/1.6 var(--fal-police-interface);
+  display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px;
+}
+.bts-envies__recu a { color: inherit; }
+.bts-envies__recu .bts-envies__proposer, .bts-envies__recu .bts-envies__ecrire { margin-left: auto; }
+.bts-envies__recu .bts-envies__ecrire + .bts-envies__proposer { margin-left: 0; }
 
 /* ---------- Les absences (forum/absences/absences.js) ----------
    « En pause » : du texte dans un cadre, pas seulement une couleur ; aucune date affichée aux autres. */

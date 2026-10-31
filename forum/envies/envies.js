@@ -1,6 +1,6 @@
-/* Behind the Soul — les envies discrètes : l'intérêt mutuel caché.
- * Sur le profil de quelqu'un, on coche « un lien » ou « un RP ». La personne ne le découvre que si elle a
- * coché aussi ; sinon elle ne sait rien, et personne n'est prévenu d'un « non ».
+/* Behind the Soul — les bips : l'intérêt mutuel caché, dans le bipeur.
+ * Sur le profil de quelqu'un, on bipe pour « un lien » ou « un RP ». La personne ne voit « X vous a bipé »
+ * que si elle a bipé aussi ; sinon elle ne sait rien, et personne n'est prévenu d'un « non ».
  * Le champ de profil « Envies » ne garde que des empreintes (SHA-256 tronquées) de « moi > l'autre, type »,
  * jamais de pseudo en clair. C'est discret, pas un coffre-fort : un membre qui fouille le code peut recalculer. */
 (function (window, document) {
@@ -145,73 +145,78 @@
     }).join(' et ');
   }
 
+  function actions(parent, mp, proposer) {
+    if (mp) {
+      var ecrire = element('a', 'bts-envies__ecrire', 'Lui écrire');
+      ecrire.href = mp;
+      parent.appendChild(ecrire);
+    }
+    parent.appendChild(proposer);
+  }
+
   function monterChez(conteneur, options) {
     conteneur.textContent = '';
-    var groupe = element('fieldset', 'bts-envies__choix');
-    groupe.appendChild(element('legend', null, 'Envie de jouer avec ' + options.nom + ' ?'));
+    var groupe = element('div', 'bts-envies__choix');
+    groupe.setAttribute('role', 'group');
+    groupe.setAttribute('aria-label', 'Biper ' + options.nom);
     var statut = element('p', 'bts-envies__statut');
     statut.setAttribute('role', 'status');
-    TYPES.forEach(function (t) {
-      var label = element('label', 'bts-envies__case');
-      var c = document.createElement('input');
-      c.type = 'checkbox';
-      c.value = t.id;
-      c.checked = !!options.etat[t.id].moi;
-      label.appendChild(c);
-      label.appendChild(document.createTextNode(' ' + t.mot));
-      c.addEventListener('change', function () {
-        var voulu = c.checked;
-        var cases = groupe.querySelectorAll('input');
+    var boutons = TYPES.map(function (t) {
+      var b = element('button', 'bts-envies__biper', 'Biper · ' + t.mot);
+      b.type = 'button';
+      b.setAttribute('data-type', t.id);
+      b.setAttribute('aria-pressed', options.etat[t.id].moi ? 'true' : 'false');
+      b.addEventListener('click', function () {
+        var voulu = b.getAttribute('aria-pressed') !== 'true';
         /* Un seul enregistrement à la fois : le suivant repartirait d'un texte périmé. */
-        [].forEach.call(cases, function (x) { x.disabled = true; });
+        boutons.forEach(function (x) { x.disabled = true; });
         statut.textContent = 'Enregistrement…';
         Promise.resolve(options.basculer(t.id, voulu)).then(function (ok) { return ok; }, function () { return false; }).then(function (ok) {
-          [].forEach.call(cases, function (x) { x.disabled = false; });
-          if (!ok) c.checked = !voulu;
-          statut.textContent = ok ? (voulu ? 'C\'est noté, discrètement.' : 'C\'est retiré.')
-            : 'Ton envie n\'a pas pu être enregistrée. Réessaie dans un instant.';
+          boutons.forEach(function (x) { x.disabled = false; });
+          if (ok) b.setAttribute('aria-pressed', voulu ? 'true' : 'false');
+          statut.textContent = ok ? (voulu ? 'Bip envoyé, discrètement.' : 'Bip retiré.')
+            : 'Ton bip n\'a pas pu être enregistré. Réessaie dans un instant.';
         });
       });
-      groupe.appendChild(label);
+      groupe.appendChild(b);
+      return b;
     });
     conteneur.appendChild(groupe);
     conteneur.appendChild(element('p', 'bts-envies__aide',
-      'C\'est discret : ' + options.nom + ' ne le saura que si cette envie est partagée. Sinon, rien ne s\'affiche, pour personne.'));
+      options.nom + ' ne le verra que si ce bip est réciproque. Sinon, rien ne s\'affiche, pour personne.'));
     var communs = TYPES.filter(function (t) { return options.etat[t.id].partage; }).map(function (t) { return t.id; });
     if (communs.length) {
-      var p = element('p', 'bts-envies__partage');
-      var coeur = element('span', null, '♥ ');
-      coeur.setAttribute('aria-hidden', 'true');
-      p.appendChild(coeur);
-      p.appendChild(document.createTextNode('Vous avez tous les deux envie de ' + mots(communs) + ' ensemble.'));
-      if (options.mp) {
-        var a = element('a', null, 'Lui écrire');
-        a.href = options.mp;
-        p.appendChild(document.createTextNode(' '));
-        p.appendChild(a);
-      }
-      conteneur.appendChild(p);
+      var recu = element('p', 'bts-envies__recu', '▸ Vous vous êtes bipés · ' + mots(communs) + ' ');
+      var proposer = element('a', 'bts-envies__proposer', 'Proposer un lien');
+      proposer.href = '/u' + options.moi + '#bts-liens';
+      proposer.addEventListener('click', function () {
+        try { window.sessionStorage.setItem('bts-lien-a-proposer', options.nom); } catch (e) { return; }
+      });
+      actions(recu, options.mp, proposer);
+      conteneur.appendChild(recu);
     }
     conteneur.appendChild(statut);
   }
 
-  function monterChezMoi(conteneur, liste) {
+  function monterChezMoi(conteneur, liste, options) {
+    options = options || {};
     conteneur.textContent = '';
     if (!liste.length) {
-      conteneur.appendChild(element('p', 'bts-envies__aide',
-        'Aucune envie partagée pour l\'instant. Coche « un lien » ou « un RP » sur le profil de quelqu\'un : ça n\'apparaît ici que si c\'est réciproque.'));
+      conteneur.appendChild(element('p', 'bts-envies__aide', 'Pas de bip pour l\'instant. Un bip n\'arrive ici que s\'il est réciproque.'));
       return;
     }
     var ul = element('ul', 'bts-envies__liste');
     liste.forEach(function (m) {
-      var li = element('li');
-      var coeur = element('span', null, '♥ ');
-      coeur.setAttribute('aria-hidden', 'true');
-      li.appendChild(coeur);
+      var li = element('li', 'bts-envies__recu');
+      li.appendChild(document.createTextNode('▸ '));
       var a = element('a', null, m.nom);
       a.href = m.profil;
       li.appendChild(a);
-      li.appendChild(document.createTextNode(' · ' + mots(m.types)));
+      li.appendChild(document.createTextNode(' vous a bipé · ' + mots(m.types) + ' '));
+      var proposer = element('button', 'bts-envies__proposer', 'Proposer un lien');
+      proposer.type = 'button';
+      proposer.addEventListener('click', function () { if (options.proposer) options.proposer(m.nom); });
+      actions(li, '/privmsg?mode=post&u=' + m.id, proposer);
       ul.appendChild(li);
     });
     conteneur.appendChild(ul);
@@ -225,7 +230,7 @@
     if (!moi || !autre) return Promise.resolve(false);
     if (moi === autre) {
       return partages(moi, lire(texteDu(o.champ))).then(function (liste) {
-        monterChezMoi(o.corps, liste);
+        monterChezMoi(o.corps, liste, { proposer: o.proposer });
         o.section.hidden = false;
         return true;
       });
@@ -237,7 +242,7 @@
       if (!id) return false;
       return etat(moi, autre, lire(texteDu(mien)), siens).then(function (e) {
         monterChez(o.corps, {
-          nom: o.nom, mp: o.mp, etat: e,
+          nom: o.nom, mp: o.mp, moi: moi, etat: e,
           basculer: function (type, coche) {
             return page('/u' + moi).then(function (d) {
               return basculerJeton(texteDu(d && champ(d)), moi, autre, type, coche);
