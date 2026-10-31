@@ -204,12 +204,12 @@ h1, h2, h3, .fal-titre-site { color: var(--s01-titre); }
 .fal-nav #search_menu .overview { top: auto !important; bottom: calc(100% + .5rem); left: 0 !important; right: auto !important; margin: 0 !important; max-width: calc(100vw - 2rem) !important; font-size: .875rem; color: var(--fal-texte); background: var(--s01-fenetre); border: 2px solid var(--s01-cadre); }
 .bts-quai__outils { display: flex; align-items: center; gap: 6px; }
 .bts-quai__outils .fal-apparence { border-color: var(--s01-barre-texte); }
-.fal-nav .bts-quai__outils .fal-apparence button { min-width: 2rem; min-height: 2rem; padding: 0 .3rem; color: var(--s01-barre-texte); background: transparent; font: 1rem/1 var(--fal-police-interface); }
+.fal-nav .bts-quai__outils .fal-apparence button { min-width: 1.5rem; min-height: 1.5rem; padding: 0 .2rem; color: var(--s01-barre-texte); background: transparent; font: .8125rem/1 var(--fal-police-interface); }
 .fal-nav .bts-quai__outils .fal-apparence button[aria-pressed="true"] { background: var(--fal-accent); color: var(--fal-accent-contraste); }
 .bts-quai__outils .fal-apparence button + button { border-left-color: var(--s01-barre-texte); }
 .bts-quai__bouton {
-  min-width: 2.25rem; min-height: 2.25rem; padding: 0 .5rem; cursor: pointer; border: 2px solid var(--s01-barre-texte);
-  border-radius: 0; background: transparent; color: var(--s01-barre-texte); font: 1rem/1 var(--fal-police-interface);
+  min-width: 1.5rem; min-height: 1.5rem; padding: 0 .25rem; cursor: pointer; border: 2px solid var(--s01-barre-texte);
+  border-radius: 0; background: transparent; color: var(--s01-barre-texte); font: .8125rem/1 var(--fal-police-interface);
 }
 .bts-quai__bouton:hover { background: var(--fal-accent); color: var(--fal-accent-contraste); }
 .bts-quai__bouton:focus-visible, .bts-quai__outils .fal-apparence button:focus-visible { outline: 3px solid var(--fal-accent); outline-offset: 2px; }
@@ -269,23 +269,50 @@ h1, h2, h3, .fal-titre-site { color: var(--s01-titre); }
 .bts-comptes__effacer { justify-self: start; background: transparent; }
 .bts-comptes__aide, .bts-comptes__statut { margin: 0; font-size: var(--fal-taille-petite); color: var(--fal-texte-doux); }
 .bts-comptes__statut:empty { display: none; }
-/* Le quai sur mobile : deux rangées compactes. En haut les stations et haut / bas de page ;
-   en bas le compte (libellés courts) et jour / nuit. */
+/* Les stations du compte (script de l en-tête) : Comptes, À toi, Messagerie et Notifications sont des arrêts
+   de la même ligne. Chaque arrêt porte son point (::before) et le bout de trait qui le relie au précédent (::after). */
+.bts-arret { position: relative; display: grid; justify-items: center; gap: 2px; padding: 6px 0 2px; }
+.bts-arret::before {
+  content: ""; position: relative; z-index: 1; width: 14px; height: 14px; box-sizing: border-box;
+  border: 3px solid var(--fal-accent); border-radius: 50%; background: var(--s01-fenetre);
+}
+.bts-arret::after { content: ""; position: absolute; left: -12px; right: 0; top: 11px; height: 4px; background: var(--fal-accent); }
+.bts-arret--notifs::after { right: 50%; }
+.bts-arret--comptes { order: 1; }
+.bts-arret--tour { order: 2; }
+.bts-arret--mp { order: 3; }
+.bts-arret--notifs { order: 4; }
+.fal-nav .fal-cadre:has(.bts-arret) .fal-nav__liens::before { right: 0; }
+.fal-nav .bts-arret .bts-tour__bouton, .fal-nav .bts-arret .bts-comptes__bouton,
+.fal-nav .bts-arret .fal-compte__lien, .fal-nav .bts-arret #fa_notifications {
+  padding: .2em .5em; border: 2px solid transparent; background: transparent; color: var(--s01-barre-texte);
+  font: var(--s01-taille-barre)/1.4 var(--fal-police-interface); white-space: nowrap; text-decoration: none;
+}
+.fal-nav .bts-arret .bts-tour__bouton:hover, .fal-nav .bts-arret .bts-comptes__bouton:hover,
+.fal-nav .bts-arret .fal-compte__lien:hover, .fal-nav .bts-arret #fa_notifications:hover,
+.fal-nav .bts-arret [aria-expanded="true"], .fal-nav .fal-compte[data-ouvert="notifications"] .bts-arret #fa_notifications {
+  border-color: var(--s01-cadre); background: var(--s01-puce); color: var(--fal-texte);
+}
+.fal-nav .fal-compte #fa_menu { order: 10; margin-left: auto; }
+.fal-nav .fal-compte > a.fal-compte__lien { order: 9; }
+.fal-nav .fal-compte > a.fal-compte__lien:first-of-type { margin-left: auto; }
+.fal-nav .fal-compte #fa_welcome { padding: .15em .6em; }
+.fal-nav .bts-quai__outils { order: 11; }
+.fal-nav .bts-quai__page { order: 12; }
+/* Le quai sur mobile : la ligne et ses stations sur la première rangée (libellés courts),
+   puis le pseudo, jour / nuit et haut / bas. */
 @media (max-width: 640px) {
-  .fal-nav .fal-cadre { gap: 4px 8px; padding-block: 4px; }
-  .fal-nav__liens { order: 1; flex: 1 1 auto; padding-top: 4px; }
-  .bts-quai__page { order: 2; margin-left: auto; }
-  .fal-nav .fal-compte { order: 3; width: auto; margin-left: 0; gap: 4px 6px; }
-  .bts-quai__outils { order: 4; margin-left: auto; }
-  .fal-nav .fal-compte .fal-compte__lien, .fal-nav .fal-compte #fa_welcome, .fal-nav .fal-compte #fa_notifications { padding: .2em .45em; }
-  .bts-quai__bouton, .bts-quai__outils .fal-apparence button { min-width: 2rem; min-height: 2rem; padding: 0 .35rem; }
-  .fal-nav .fal-compte #fa_welcome { font-size: 0; }
-  .fal-nav .fal-compte #fa_welcome::after { content: "Compte"; font-size: var(--s01-taille-barre); }
-  .fal-nav .fal-compte .fal-compte__lien[href^="/privmsg"] { font-size: 0; }
-  .fal-nav .fal-compte .fal-compte__lien[href^="/privmsg"]::after { content: "MP"; font-size: var(--s01-taille-barre); }
-  .fal-nav .fal-compte #fa_notifications { font-size: 0; }
-  .fal-nav .fal-compte #fa_notifications::before { content: "Notifs"; font-size: var(--s01-taille-barre); }
+  .fal-nav .fal-cadre { gap: 2px 8px; padding-block: 2px; }
+  .bts-arret::after { left: -8px; }
+  .fal-nav .fal-station > a.mainmenu, .fal-nav .bts-arret .bts-tour__bouton, .fal-nav .bts-arret .bts-comptes__bouton,
+  .fal-nav .bts-arret .fal-compte__lien, .fal-nav .bts-arret #fa_notifications { padding: .15em .3em; font-size: .75rem; }
+  .fal-station { padding: 0 2px; }
+  .fal-nav .bts-arret--mp .fal-compte__lien { font-size: 0; }
+  .fal-nav .bts-arret--mp .fal-compte__lien::after { content: "MP"; font-size: .75rem; }
+  .fal-nav .bts-arret--notifs #fa_notifications { font-size: 0; }
+  .fal-nav .bts-arret--notifs #fa_notifications::before { content: "Notifs"; font-size: .75rem; }
   .fal-nav .fal-compte #notif_unread { font-size: .75rem; }
+  .fal-nav .fal-compte #fa_menu { margin-left: 0; }
 }
 .fal-description-site { color: var(--fal-texte-doux); }
 
@@ -294,7 +321,7 @@ h1, h2, h3, .fal-titre-site { color: var(--s01-titre); }
   border-top: 3px solid var(--fal-accent); background: var(--s01-barre); color: var(--s01-barre-texte);
 }
 .fal-nav__liens a.mainmenu {
-  padding: .35em .75em;
+  padding: .2em .5em;
   border: 2px solid transparent;
   font-family: var(--fal-police-interface);
   font-size: var(--s01-taille-barre);
@@ -317,7 +344,7 @@ h1, h2, h3, .fal-titre-site { color: var(--s01-titre); }
    (messagerie, carte « Bienvenue… », notifications). Les liens inutiles sont masqués :
    ils restent dans le menu du compte ou n'ont pas leur place ici. */
 .fal-nav__bouton { display: none !important; }
-.fal-nav .fal-cadre { align-items: center; gap: 8px 16px; padding-block: 8px; }
+.fal-nav .fal-cadre { align-items: center; gap: 2px 12px; padding-block: 2px; }
 .fal-nav__liens, .fal-nav__bascule:checked ~ .fal-nav__liens {
   display: flex; flex: 0 1 auto; order: 0; justify-content: flex-start; align-items: flex-end; flex-wrap: nowrap;
   gap: 0; margin: 0; padding: 6px 4px 2px; position: relative; max-width: 100%; overflow: visible;
@@ -336,9 +363,10 @@ h1, h2, h3, .fal-titre-site { color: var(--s01-titre); }
   border: 3px solid var(--fal-accent); border-radius: 50%; background: var(--s01-fenetre);
 }
 .fal-station--ici::before { background: var(--fal-accent); }
-.fal-station > a.mainmenu { font-size: var(--s01-taille-barre); white-space: nowrap; }
+.fal-station > a.mainmenu { font-size: var(--s01-taille-barre); line-height: 1.4; white-space: nowrap; }
 .fal-station > a.mainmenu:focus-visible { outline: 3px solid var(--fal-accent); outline-offset: 2px; }
-.fal-compte { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; margin-left: auto; }
+/* Le compte n a plus de boîte à lui : ses arrêts, le pseudo et les liens se rangent directement dans le quai. */
+.fal-compte { display: contents; }
 .fal-compte .fal-compte__lien {
   display: inline-block; padding: .35em .75em; border: 2px solid var(--s01-cadre); color: var(--fal-texte); text-decoration: none;
   font-family: var(--fal-police-interface); font-size: var(--s01-taille-barre);
@@ -347,9 +375,6 @@ h1, h2, h3, .fal-titre-site { color: var(--s01-titre); }
 .fal-compte .fal-compte__lien:hover { background: var(--s01-puce); }
 .fal-compte .fal-compte__lien:focus-visible { outline: 3px solid var(--fal-accent); outline-offset: 2px; }
 .fal-compte #fa_welcome { background: var(--s01-sortie); color: var(--s01-sortie-texte); border-color: var(--s01-cadre); }
-@media (max-width: 640px) {
-  .fal-compte { margin-left: 0; width: 100%; }
-}
 
 .fal-apparence { border: 2px solid var(--s01-cadre); }
 .fal-apparence button { min-height: 2.75rem; font-family: var(--fal-police-interface); font-size: var(--s01-taille-barre); }
