@@ -42,7 +42,7 @@
 	<!-- La base, avant la variable CSS pour que les réglages du forum passent après : -->
 	<!-- Behind the Soul : la base fa-lab puis le thème Séoul 2001, servis par jsDelivr (trop lourds pour le panneau). -->
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/LisaThoa/fa-lab@0.1.0/fa-lab.css" />
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/LisaThoa/behind-the-soul-site@2e7244b9217eec6f73fe6dac30e1b748cb07bdf4/forum/seoul-2001.css" />
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/LisaThoa/behind-the-soul-site@63b3ad1ce5baf5bf71ecd4cb5a6f0a4a815ea5db/forum/seoul-2001.css" />
 	{T_HEAD_STYLESHEET}
 	{CSS}
 
@@ -305,7 +305,14 @@
 					arret.className = "bts-arret bts-arret--" + x[1];
 					compte.insertBefore(arret, el);
 					arret.appendChild(el);
+					if (x[1] === "mp" && /^\/privmsg/.test(location.pathname)) {
+						arret.classList.add("bts-arret--ici");
+						el.setAttribute("aria-current", "page");
+					}
 				});
+				var liste = compte.querySelector(":scope > #notif_list");
+				var notifs = compte.querySelector(".bts-arret--notifs");
+				if (liste && notifs) notifs.appendChild(liste);
 				var bienvenue = document.getElementById("fa_welcome");
 				var u = window._userdata;
 				if (bienvenue && u && u.username && bienvenue.textContent !== u.username) bienvenue.textContent = u.username;
