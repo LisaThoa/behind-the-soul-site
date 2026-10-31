@@ -280,7 +280,7 @@ h1, h2, h3, .fal-titre-site { color: var(--s01-titre); }
 .bts-arret--notifs::after { right: 50%; }
 .bts-arret--ici::before { background: var(--fal-accent); }
 /* La liste des notifications suit sa station : elle s ouvre juste au-dessus, alignée sur elle. */
-.fal-nav .bts-arret--notifs #notif_list { position: absolute !important; top: auto !important; bottom: calc(100% + .5rem) !important; left: 0 !important; right: auto !important; }
+.fal-nav .bts-arret--notifs #notif_list { position: absolute !important; top: auto !important; bottom: calc(100% + .5rem) !important; left: 0 !important; right: auto !important; width: min(20rem, calc(100vw - 2rem)); }
 /* Les panneaux (À toi, Comptes) s ouvrent au-dessus de l arrêt entier, pas au milieu du quai. */
 .bts-arret .bts-tour, .bts-arret .bts-comptes { position: static; }
 .bts-arret--comptes { order: 1; }
