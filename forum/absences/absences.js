@@ -144,8 +144,7 @@
       ids.push(String(q.forum));
       (q.lieux || []).forEach(function (l) { ids.push(String(l.forum)); });
     });
-    /* Les ondes (SMS, chatrooms) sont des RP, même hors de la carte. */
-    ((config && config.ondes) || []).forEach(function (o) { ids.push(String(o.forum)); });
+    /* Les ondes (SMS, chatrooms) ne comptent pas : la présence se prouve par un RP dans un lieu de la carte. */
     return ids;
   }
 
@@ -446,6 +445,6 @@
   window.BTSAbsences = {
     lire: lire, ecrire: ecrire, ajouterMois: ajouterMois, declarer: declarer, prolonger: prolonger, revenir: revenir,
     etat: etat, pauseDans: pauseDans, comptesDe: comptesDe, pausePersonne: pausePersonne, dateDe: dateDe, dernierRP: dernierRP, fantome: fantome, pastille: pastille,
-    monterChezMoi: monterChezMoi, monterFantomes: monterFantomes, chercherFantomes: chercherFantomes, profil: profil,
+    monterChezMoi: monterChezMoi, monterFantomes: monterFantomes, chercherFantomes: chercherFantomes, profil: profil, forumsDeLaCarte: forumsDeLaCarte,
   };
 })(window, document);
