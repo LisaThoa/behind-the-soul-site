@@ -1146,3 +1146,36 @@ fieldset.bts-pref__theme legend { padding: 0; margin-bottom: 4px; font-size: .87
   border-bottom: 2px solid var(--s01-cadre);
 }
 #fa_menulist, #notif_list { border: 2px solid var(--s01-cadre); border-radius: 0; box-shadow: var(--s01-ombre); background: var(--s01-fenetre); }
+
+/* ---------- Les ondes (forum/ondes/ondes.js) : SMS et chatrooms ----------
+   Le sujet devient un écran : écran de portable (SMS) ou salon (chatroom). Les outils de chaque message
+   (citer, éditer, signaler) restent là, en petit ; la mini-carte et le titre de chaque message disparaissent. */
+.bts-ondes__barre {
+  max-width: 40rem; margin: 0 auto -1.25rem; padding: 6px 14px; background: var(--s01-bipeur-cadre); color: var(--s01-bipeur);
+  font: .875rem/1.4 var(--fal-police-interface); letter-spacing: .04em;
+}
+html.bts-ondes--sms .fal-messages, html.bts-ondes--chat .fal-messages {
+  max-width: 40rem; margin: 0 auto; gap: .5rem; padding: 12px; border: 3px solid var(--s01-bipeur-cadre);
+  background: var(--s01-bipeur); color: var(--s01-bipeur-texte);
+}
+html.bts-ondes--sms .bts-ondes__message, html.bts-ondes--chat .bts-ondes__message {
+  display: block; padding: 0; border: 0; background: transparent; box-shadow: none; color: inherit;
+}
+.bts-ondes__message .bts-mini, .bts-ondes__message .fal-message__titre, .bts-ondes__message .fal-message__signature { display: none; }
+.bts-ondes__message .fal-message__entete { display: flex; gap: 8px; justify-content: flex-end; font-size: .75rem; opacity: .8; background: transparent; padding: 0; }
+.bts-ondes__rendu { display: grid; gap: 4px; }
+.bts-ondes__bulle {
+  justify-self: start; max-width: 80%; margin: 0; padding: 4px 10px; border: 2px solid var(--s01-bipeur-cadre); border-radius: 8px;
+  background: var(--s01-fenetre); color: var(--fal-texte); font: .9375rem/1.4 var(--fal-police-interface); overflow-wrap: anywhere;
+}
+.bts-ondes__message--droite .bts-ondes__bulle { justify-self: end; background: var(--s01-bipeur-texte); color: var(--s01-bipeur); }
+.bts-ondes__note { justify-self: center; margin: 2px 0; font-style: italic; font-size: .8125rem; }
+.bts-ondes__ligne, .bts-ondes__systeme { margin: 0; font: .9375rem/1.5 var(--fal-police-interface); overflow-wrap: anywhere; }
+.bts-ondes__systeme { font-size: .8125rem; opacity: .85; }
+.bts-ondes__envoi { max-width: 40rem; margin: 0 auto; display: grid; grid-template-columns: 1fr auto; gap: 6px 8px; align-items: end; }
+.bts-ondes__etiquette { grid-column: 1 / -1; font: .75rem/1.4 var(--fal-police-interface); color: var(--fal-texte-doux); }
+.bts-ondes__envoi textarea { box-sizing: border-box; width: 100%; resize: vertical; border: 2px solid var(--s01-cadre); border-radius: 0; background: var(--s01-champ); color: var(--fal-texte); font: inherit; padding: 6px 8px; }
+.bts-ondes__envoyer { padding: 6px 14px; border: 2px solid var(--s01-cadre); border-radius: 0; background: var(--s01-puce); color: var(--fal-texte); font: .875rem/1.3 var(--fal-police-interface); cursor: pointer; }
+.bts-ondes__envoi textarea:focus-visible, .bts-ondes__envoyer:focus-visible { outline: 3px solid var(--fal-accent); outline-offset: 2px; }
+/* La réponse rapide de Forumactif reste là, mais la zone d envoi des ondes la remplace à l écran. */
+html.bts-ondes--sms .fal-reponse-rapide, html.bts-ondes--chat .fal-reponse-rapide { display: none; }

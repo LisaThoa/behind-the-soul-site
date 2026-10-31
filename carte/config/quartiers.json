@@ -84,5 +84,9 @@
       ],
       "nomKo": "영등포구"
     }
+  ],
+  "ondes": [
+    { "type": "sms", "forum": 7, "nom": "Téléphones" },
+    { "type": "chat", "forum": 8, "nom": "Chatrooms" }
   ]
 }

@@ -144,6 +144,8 @@
       ids.push(String(q.forum));
       (q.lieux || []).forEach(function (l) { ids.push(String(l.forum)); });
     });
+    /* Les ondes (SMS, chatrooms) sont des RP, même hors de la carte. */
+    ((config && config.ondes) || []).forEach(function (o) { ids.push(String(o.forum)); });
     return ids;
   }
 
