@@ -1,0 +1,90 @@
+<!-- Behind the Soul : sans la liste de qui lit la section, ni modérateurs, ni permissions. -->
+{BOARD_INDEX}
+
+<header class="fal-titre-page sub-header">
+	<nav class="fal-fil sub-header-path" aria-label="Fil d'Ariane">
+		<a class="nav" href="{U_INDEX}"><span>{L_INDEX}</span></a>
+		{NAV_CAT_DESC}
+	</nav>
+	<h1 class="fal-titre-page__titre page-title"><a href="{U_VIEW_FORUM}">{FORUM_NAME}</a></h1>
+	<!-- BEGIN switch_forum_desc -->
+	<div id="page-desc" class="fal-titre-page__chapo">{SINGLE_FORUM_DESC}</div>
+	<!-- END switch_forum_desc -->
+
+	<div class="fal-actions sub-header-buttons">
+		<form class="fal-recherche" method="get" id="forum-search" action="{S_SEARCHBOX_ACTION}" role="search">
+			<input class="inputbox search" type="search" name="search_keywords" id="search_keywords" placeholder="{L_SEARCH}" aria-label="{L_SEARCH}" />
+			<input type="hidden" value="{SEARCH_WHERE}" name="search_where" />
+			<button type="submit" class="button2">{L_SEARCH}</button>
+		</form>
+		<!-- BEGIN switch_user_authpost -->
+		<a href="{U_POST_NEW_TOPIC}" accesskey="n" rel="nofollow" {S_POST_NEW_TOPIC} title="{T_POST_NEW_TOPIC}" class="fal-bouton ion-{I_POST_NEW_TOPIC} button1">{L_POST_NEW_TOPIC}</a>
+		<!-- END switch_user_authpost -->
+	</div>
+</header>
+
+<div class="fal-barre topic-actions">
+	<div class="pagination">{PAGINATION}</div>
+	<div class="fal-barre__outils topic-actions-buttons">
+		<!-- BEGIN show_plus_menu -->
+		<a href="{U_MARK_READ}">{L_MARK_TOPICS_READ}</a>
+		<script>
+			var url_newposts = '{U_NEWPOSTS_JS_PLUS_MENU}';
+			var url_egosearch = '{U_EGOSEARCH_JS_PLUS_MENU}';
+			var url_unanswered = '{U_UNANSWERED_JS_PLUS_MENU}';
+			var url_watchsearch = '{U_WATCHSEARCH_JS_PLUS_MENU}';
+			insert_plus_menu_new('f{FORUM_ID}&amp;f={FORUM_ID}', '{JS_SESSION_ID}', {JS_AUTH_FAVOURITES});
+		</script>
+		<!-- END show_plus_menu -->
+	</div>
+</div>
+
+{TOPICS_LIST_BOX}
+
+<div class="fal-barre fal-barre--bas topic-actions bottom">
+	<div class="pagination">{PAGINATION}</div>
+	<div class="fal-barre__outils topic-actions-buttons">
+		{S_WATCH_FORUM}
+		<a href="{U_MARK_READ}">{L_MARK_TOPICS_READ}</a>
+		<!-- BEGIN switch_sort_options -->
+		<details class="fal-tri" id="sort-box">
+			<summary>{switch_sort_options.L_SORT}</summary>
+			<form method="post" class="fal-tri__formulaire sort-form">
+				<label>{switch_sort_options.L_SORT_BY}
+					<select name="sort_method">{switch_sort_options.S_OPTIONS}</select>
+				</label>
+				<fieldset>
+					<legend>{switch_sort_options.L_ORDER}</legend>
+					<label><input type="radio" name="sort_order" id="sort_order_d" value="0" {switch_sort_options.DESC_CHECKED} /> {switch_sort_options.L_DESC}</label>
+					<label><input type="radio" name="sort_order" id="sort_order_a" value="1" {switch_sort_options.ASC_CHECKED} /> {switch_sort_options.L_ASC}</label>
+				</fieldset>
+				<input class="button2" type="submit" value="{switch_sort_options.L_SORT}" />
+			</form>
+		</details>
+		<!-- END switch_sort_options -->
+		<!-- BEGIN switch_user_authpost -->
+		<a href="{U_POST_NEW_TOPIC}" accesskey="n" rel="nofollow" {S_POST_NEW_TOPIC} title="{T_POST_NEW_TOPIC}" class="fal-bouton ion-{I_POST_NEW_TOPIC} button1">{L_POST_NEW_TOPIC}</a>
+		<!-- END switch_user_authpost -->
+	</div>
+</div>
+
+<form class="fal-saut" action="{S_JUMPBOX_ACTION}" method="get" name="jumpbox" onsubmit="if(document.jumpbox.f.value == -1){return false;}">
+	<label>{L_JUMP_TO} : {S_JUMPBOX_SELECT}</label>
+	<input class="button2" type="submit" value="{L_GO}" />
+</form>
+
+
+
+<!-- BEGIN switch_legend -->
+<ul id="picture_legend" class="fal-legende">
+	<li><img src="{FOLDER_NEW_IMG}" alt="" loading="lazy" />{L_FOLDER_NEW_IMG}</li>
+	<li><img src="{FOLDER_HOT_NEW_IMG}" alt="" loading="lazy" />{L_FOLDER_HOT_NEW_IMG}</li>
+	<li><img src="{FOLDER_LOCKED_NEW_IMG}" alt="" loading="lazy" />{L_FOLDER_LOCKED_NEW_IMG}</li>
+	<li><img src="{FOLDER_IMG}" alt="" loading="lazy" />{L_FOLDER_IMG}</li>
+	<li><img src="{FOLDER_HOT_IMG}" alt="" loading="lazy" />{L_FOLDER_HOT_IMG}</li>
+	<li><img src="{FOLDER_LOCKED_IMG}" alt="" loading="lazy" />{L_FOLDER_LOCKED_IMG}</li>
+	<li><img src="{FOLDER_ANNOUNCE_IMG}" alt="" loading="lazy" />{L_FOLDER_ANNOUNCE_IMG}</li>
+	<li><img src="{FOLDER_STICKY_IMG}" alt="" loading="lazy" />{L_FOLDER_STICKY_IMG}</li>
+	<li><img src="{FOLDER_GLOBAL_ANNOUNCE_IMG}" alt="" loading="lazy" />{L_FOLDER_GLOBAL_ANNOUNCE_IMG}</li>
+</ul>
+<!-- END switch_legend -->

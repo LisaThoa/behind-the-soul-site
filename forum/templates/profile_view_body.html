@@ -1,0 +1,404 @@
+<!-- Behind the Soul : la carte de résident (profil simple). Recto : le personnage ; dos : le joueur.
+     Ni statistiques, ni statut en ligne, ni groupes : pas de compteurs, moins de regard. -->
+<section class="bts-resident" aria-labelledby="bts-resident-nom">
+	<p class="bts-resident__bande"><span><span lang="ko">주민등록증</span> · Carte de résident</span><span>Séoul 2001</span></p>
+	<div class="bts-resident__photo"><div class="bts-resident__avatar">{AVATAR_IMG}</div></div>
+	<div class="bts-resident__identite">
+		<h1 class="bts-resident__nom" id="bts-resident-nom">{USERNAME}</h1>
+		<!-- L édition en ligne dépend de l emboîtement dl > dd > .field_uneditable / .field_editable. -->
+		<div class="bts-resident__champs">
+			<!-- BEGIN profile_field -->
+			<dl id="field_id{profile_field.ID}" class="bts-resident__champ">
+				<dt>{profile_field.LABEL}</dt>
+				<dd>{profile_field.CONTENT}</dd>
+			</dl>
+			<!-- END profile_field -->
+			<!-- BEGIN contact_field -->
+			<dl id="field_id{contact_field.ID}" class="bts-resident__champ bts-resident__contact">
+				<dt>{contact_field.LABEL}</dt>
+				<dd>{contact_field.CONTENT}</dd>
+			</dl>
+			<!-- END contact_field -->
+		</div>
+	</div>
+</section>
+
+<!-- Les liens à double accord, en répertoire de bipeur : le champ « Liens » (une ligne « Pseudo : nature »).
+     Un lien ne s affiche que s il est réciproque ; sinon seul son auteur le voit, en attente. -->
+<section class="bts-liens" id="bts-liens" aria-labelledby="bts-liens-titre" hidden>
+	<h2 class="bts-liens__titre" id="bts-liens-titre"><span lang="ko">삐삐</span> · Répertoire</h2>
+	<div class="bts-liens__corps"></div>
+</section>
+<script src="https://cdn.jsdelivr.net/gh/LisaThoa/behind-the-soul-site@ff9381477e6fcfe536d8cdeb1246f6248f6980cb/forum/liens/liens.js"></script>
+<script>
+	(function () {
+		var section = document.getElementById("bts-liens");
+		if (!section || !window.BTSLiens) return;
+		var champ = [].filter.call(document.querySelectorAll("dl[id^=field_id]"), function (dl) {
+			var dt = dl.querySelector("dt");
+			return dt && /^Liens\b/i.test(dt.textContent.trim());
+		})[0];
+		if (!champ) return;
+		var zone = champ.querySelector(".field_editable textarea");
+		var texte = "";
+		if (zone) {
+			texte = zone.value;
+		} else {
+			var copie = champ.querySelector(".field_uneditable").cloneNode(true);
+			[].forEach.call(copie.querySelectorAll("br"), function (br) {
+				br.parentNode.replaceChild(document.createTextNode("\n"), br);
+			});
+			texte = copie.textContent;
+		}
+		champ.style.display = "none";
+		section.appendChild(champ);
+		var id = champ.id.substring(8);
+		window.BTSLiens.demarrer({
+			section: section,
+			corps: section.querySelector(".bts-liens__corps"),
+			texte: texte,
+			nom: document.getElementById("bts-resident-nom").textContent,
+			modifiable: !!zone,
+			enregistrer: function (nouveau) {
+				return new Promise(function (resoudre) {
+					zone.value = nouveau;
+					var requete = window.$.post("{U_AJAX_PROFILE}", {
+						id: id, user: "{CUR_USER_ID}", active: "{CUR_USER_ACTIVE}",
+						content: JSON.stringify([[zone.name, nouveau]]), tid: "{TID}"
+					}, function (data) {
+						var retour = data && data[id];
+						resoudre(!(typeof retour === "string" && retour.indexOf("error : ") === 0));
+					}, "json");
+					if (requete && requete.fail) requete.fail(function () { resoudre(false); });
+				});
+			}
+		});
+	})();
+</script>
+
+<!-- Le joueur n est pas le résident : ses champs IRL vont dans un bandeau à part, sous la carte.
+     Sans JavaScript, ils restent sur la carte et le bandeau vide se cache. -->
+<section class="bts-joueur" aria-labelledby="bts-joueur-titre">
+	<h2 class="bts-joueur__titre" id="bts-joueur-titre">Hors-jeu · la personne derrière le personnage</h2>
+	<div class="bts-joueur__champs"></div>
+</section>
+<script>
+	(function () {
+		var carte = document.querySelector(".bts-resident");
+		var joueur = document.querySelector(".bts-joueur__champs");
+		if (!carte || !joueur) return;
+		["field_id-9", "field_id-8", "field_id3", "field_id2"].forEach(function (id) {
+			var champ = document.getElementById(id);
+			if (champ) joueur.appendChild(champ);
+		});
+		var mp = carte.querySelector(".bts-resident__contact a[href*=\"privmsg\"]");
+		if (mp) joueur.appendChild(mp.closest("dl"));
+		var photo = carte.querySelector(".bts-resident__photo");
+		var faceclaim = document.getElementById("field_id-11");
+		if (faceclaim && photo) photo.appendChild(faceclaim);
+		var gif = document.querySelector("#field_id1 img");
+		if (gif && photo) {
+			var calque = document.createElement("div");
+			calque.className = "bts-resident__gif";
+			calque.setAttribute("aria-hidden", "true");
+			var image = gif.cloneNode(false);
+			image.alt = "";
+			calque.appendChild(image);
+			photo.insertBefore(calque, photo.firstChild);
+			photo.tabIndex = 0;
+			photo.classList.add("bts-resident__photo--gif");
+		}
+	})();
+</script>
+
+<!-- Les envies discrètes : cocher « un lien » ou « un RP » sur le profil de quelqu un ; la personne
+     ne le découvre que si elle a coché aussi. Le champ « Envies » ne garde que des empreintes. -->
+<section class="bts-envies" id="bts-envies" aria-labelledby="bts-envies-titre" hidden>
+	<h2 class="bts-envies__titre" id="bts-envies-titre">Envies · discrètes, réciproques ou rien</h2>
+	<div class="bts-envies__corps"></div>
+</section>
+<script src="https://cdn.jsdelivr.net/gh/LisaThoa/behind-the-soul-site@ff9381477e6fcfe536d8cdeb1246f6248f6980cb/forum/envies/envies.js"></script>
+<script>
+	(function () {
+		var section = document.getElementById("bts-envies");
+		var connecte = window._userdata && Number(window._userdata.session_logged_in);
+		if (!section || !connecte || !window.BTSEnvies || !window.crypto || !window.crypto.subtle) return;
+		var champ = [].filter.call(document.querySelectorAll("dl[id^=field_id]"), function (dl) {
+			var dt = dl.querySelector("dt");
+			return dt && /^Envies\b/i.test(dt.textContent.trim());
+		})[0] || null;
+		if (champ) {
+			champ.style.display = "none";
+			section.appendChild(champ);
+		}
+		var numero = location.pathname.match(/^\/u(\d+)/);
+		var mp = document.querySelector(".bts-joueur a[href*=\"privmsg\"], .bts-resident a[href*=\"privmsg\"]");
+		window.BTSEnvies.demarrer({
+			section: section,
+			corps: section.querySelector(".bts-envies__corps"),
+			champ: champ,
+			moi: window._userdata.user_id,
+			autre: numero ? numero[1] : 0,
+			nom: document.getElementById("bts-resident-nom").textContent.trim(),
+			mp: mp ? mp.getAttribute("href") : "",
+			enregistrer: function (id, texte) {
+				return new Promise(function (resoudre) {
+					var requete = window.$.post("{U_AJAX_PROFILE}", {
+						id: id, user: String(window._userdata.user_id), active: "1",
+						content: JSON.stringify([["profile_field_2_" + id, texte]]), tid: "{TID}"
+					}, function (data) {
+						var retour = data && data[id];
+						resoudre(!(typeof retour === "string" && retour.indexOf("error : ") === 0));
+					}, "json");
+					if (requete && requete.fail) requete.fail(function () { resoudre(false); });
+				});
+			}
+		});
+	})();
+</script>
+
+<!-- Le filtre : sur mon profil, mes réglages ; sur celui de quelqu un, un bouton discret pour filtrer
+     cette personne (tous ses comptes, d après le bottin). Le module est chargé par l en-tête. -->
+<section class="bts-filtre" id="bts-filtre" aria-labelledby="bts-filtre-titre" hidden>
+	<h2 class="bts-filtre__titre" id="bts-filtre-titre">Filtre · qui je vois, et comment</h2>
+	<div class="bts-filtre__corps"></div>
+</section>
+<script>
+	(function () {
+		var section = document.getElementById("bts-filtre");
+		var u = window._userdata;
+		if (!section || !u || !Number(u.session_logged_in) || !window.BTSFiltre) return;
+		var champ = [].filter.call(document.querySelectorAll("dl[id^=field_id]"), function (dl) {
+			var dt = dl.querySelector("dt");
+			return dt && /^Filtre\b/i.test(dt.textContent.trim());
+		})[0] || null;
+		if (champ) {
+			champ.style.display = "none";
+			section.appendChild(champ);
+		}
+		var numero = location.pathname.match(/^\/u(\d+)/);
+		window.BTSFiltre.profil({
+			section: section,
+			corps: section.querySelector(".bts-filtre__corps"),
+			champ: champ,
+			moi: u.user_id,
+			pseudoMoi: u.username,
+			autre: numero ? numero[1] : 0,
+			pseudo: document.getElementById("bts-resident-nom").textContent.trim(),
+			bottin: "/h1-bottin",
+			enregistrer: function (id, texte) {
+				return new Promise(function (resoudre) {
+					var requete = window.$.post("{U_AJAX_PROFILE}", {
+						id: id, user: String(u.user_id), active: "1",
+						content: JSON.stringify([["profile_field_2_" + id, texte]]), tid: "{TID}"
+					}, function (data) {
+						var retour = data && data[id];
+						resoudre(!(typeof retour === "string" && retour.indexOf("error : ") === 0));
+					}, "json");
+					if (requete && requete.fail) requete.fail(function () { resoudre(false); });
+				});
+			}
+		});
+	})();
+</script>
+
+<!-- Les absences : « En pause » sur la carte de qui s est déclaré absent ; sur son propre profil, le bouton.
+     Le staff y trouve aussi la liste des comptes sans RP depuis plus d un mois. -->
+<section class="bts-absence" id="bts-absence" aria-labelledby="bts-absence-titre" hidden>
+	<h2 class="bts-absence__titre" id="bts-absence-titre">Absence · faire une pause</h2>
+	<div class="bts-absence__corps"></div>
+</section>
+<script src="https://cdn.jsdelivr.net/gh/LisaThoa/behind-the-soul-site@ff9381477e6fcfe536d8cdeb1246f6248f6980cb/forum/absences/absences.js"></script>
+<script>
+	(function () {
+		var section = document.getElementById("bts-absence");
+		var u = window._userdata;
+		if (!section || !u || !Number(u.session_logged_in) || !window.BTSAbsences || !window.fetch) return;
+		var champ = [].filter.call(document.querySelectorAll("dl[id^=field_id]"), function (dl) {
+			var dt = dl.querySelector("dt");
+			return dt && /^Absence\b/i.test(dt.textContent.trim());
+		})[0] || null;
+		if (champ) {
+			champ.style.display = "none";
+			section.appendChild(champ);
+		}
+		var numero = location.pathname.match(/^\/u(\d+)/);
+		window.fetch("https://cdn.jsdelivr.net/gh/LisaThoa/behind-the-soul-site@ff9381477e6fcfe536d8cdeb1246f6248f6980cb/carte/config/quartiers.json")
+			.then(function (r) { return r.json(); })
+			.then(function (config) {
+				return window.BTSAbsences.profil({
+					section: section,
+					corps: section.querySelector(".bts-absence__corps"),
+					champ: champ,
+					moi: u.user_id,
+					autre: numero ? numero[1] : 0,
+					pseudo: u.username,
+					nom: document.getElementById("bts-resident-nom").textContent.trim(),
+					bottin: "/h1-bottin",
+					staff: Number(u.user_level) > 0,
+					config: config,
+					enregistrer: function (id, texte) {
+						return new Promise(function (resoudre) {
+							var requete = window.$.post("{U_AJAX_PROFILE}", {
+								id: id, user: String(u.user_id), active: "1",
+								content: JSON.stringify([["profile_field_2_" + id, texte]]), tid: "{TID}"
+							}, function (data) {
+								var retour = data && data[id];
+								resoudre(!(typeof retour === "string" && retour.indexOf("error : ") === 0));
+							}, "json");
+							if (requete && requete.fail) requete.fail(function () { resoudre(false); });
+						});
+					}
+				});
+			})
+			.catch(function () { return false; });
+	})();
+</script>
+
+<!-- La fiche de préférences RP : le champ « Préférences RP » devient une grille ok / hors champ / non,
+     modifiable par son propriétaire. Visible des membres connectés seulement (profils fermés aux invités). -->
+<section class="bts-preferences" id="bts-preferences" aria-labelledby="bts-preferences-titre" hidden>
+	<h2 class="bts-preferences__titre" id="bts-preferences-titre">Préférences RP · ce que je joue, hors champ, ou pas</h2>
+	<div class="bts-preferences__corps"></div>
+</section>
+<script src="https://cdn.jsdelivr.net/gh/LisaThoa/behind-the-soul-site@ff9381477e6fcfe536d8cdeb1246f6248f6980cb/forum/preferences/preferences.js"></script>
+<script>
+	(function () {
+		var section = document.getElementById("bts-preferences");
+		if (!section || !window.BTSPreferences) return;
+		var champ = [].filter.call(document.querySelectorAll("dl[id^=field_id]"), function (dl) {
+			var dt = dl.querySelector("dt");
+			return dt && /^Préférences RP/i.test(dt.textContent.trim());
+		})[0];
+		if (!champ) return;
+		var zone = champ.querySelector(".field_editable textarea");
+		var texte = "";
+		if (zone) {
+			texte = zone.value;
+		} else {
+			var copie = champ.querySelector(".field_uneditable").cloneNode(true);
+			[].forEach.call(copie.querySelectorAll("br"), function (br) {
+				br.parentNode.replaceChild(document.createTextNode("\n"), br);
+			});
+			texte = copie.textContent;
+		}
+		champ.style.display = "none";
+		section.appendChild(champ);
+		section.hidden = false;
+		if (location.hash === "#bts-preferences") {
+			window.addEventListener("load", function () { section.scrollIntoView(); });
+		}
+		var id = champ.id.substring(8);
+		window.BTSPreferences.monter(section.querySelector(".bts-preferences__corps"), {
+			texte: texte,
+			modifiable: !!zone,
+			enregistrer: function (nouveau) {
+				return new Promise(function (resoudre) {
+					zone.value = nouveau;
+					var requete = window.$.post("{U_AJAX_PROFILE}", {
+						id: id, user: "{CUR_USER_ID}", active: "{CUR_USER_ACTIVE}",
+						content: JSON.stringify([[zone.name, nouveau]]), tid: "{TID}"
+					}, function (data) {
+						var retour = data && data[id];
+						resoudre(!(typeof retour === "string" && retour.indexOf("error : ") === 0));
+					}, "json");
+					if (requete && requete.fail) requete.fail(function () { resoudre(false); });
+				});
+			}
+		});
+	})();
+</script>
+
+<!-- BEGIN switch_auth_user -->
+<p class="bts-resident__admin">{L_ADMINISTRATE_USER} : <strong>{ADMINISTRATE_USER}{BAN_USER}</strong></p>
+<!-- END switch_auth_user -->
+
+<!-- BEGIN switch_admin_user_comment_active -->
+<form class="bts-resident__note panel" action="{S_PROFILE_ACTION}" method="post" name="post">
+	<label for="bts-note-staff">{L_COMMENTS} <span class="italic">({L_MODS_AND_ADMINS})</span></label>
+	<textarea class="inputbox" id="bts-note-staff" name="admin_user_comment_text" rows="6" cols="30">{ADMIN_USER_COMMENT}</textarea>
+	<input type="hidden" value="update_admin_user_comment" name="mode" />
+	<input type="hidden" value="{USER_ID}" name="userid" />
+	<input type="submit" class="button2" name="user_comment_maj" value="{L_UPDATE}" />
+</form>
+<!-- END switch_admin_user_comment_active -->
+
+<!-- BEGIN switch_rpg -->
+<section class="panel bts-resident__rpg">
+	<h2>{L_VIEWING_RPG}</h2>
+	<p>{RPG_IMAGE}</p>
+	<!-- BEGIN rpg_fields_left -->
+	<dl class="details"><dt>{switch_rpg.rpg_fields_left.F_NAME}</dt><dd>{switch_rpg.rpg_fields_left.F_VALUE_NEW}</dd></dl>
+	<!-- END rpg_fields_left -->
+	<!-- BEGIN rpg_fields -->
+	<dl class="details"><dt>{switch_rpg.rpg_fields.F_NAME}</dt><dd>{switch_rpg.rpg_fields.F_VALUE_NEW}</dd></dl>
+	<!-- END rpg_fields -->
+	<div class="submit-buttons">{U_ADMIN_RPG_NEW}</div>
+</section>
+<!-- END switch_rpg -->
+
+<script src="{JQUERY_ROOT}json/jquery.json-1.3.min.js"></script>
+<script charset="{S_CONTENT_ENCODING}">
+	$(document).ready(function () {
+		$('[id^=field_id]').each(function () {
+			if ($(this).find('.field_editable').is('span, div')) {
+				$(this).hover(function () {
+					if ($(this).find('.field_editable.invisible').is('span, div')) {
+						$(this).find('.field_editable').prev().addClass('ajax-profil_hover').parent().addClass('ajax-profil_parent').append('<div class="ajax-profil_edit"><img src="{AJAX_EDIT_IMG}" /></div>');
+						$(this).find('.ajax-profil_edit').attr({
+							alt: "{L_FIELD_EDIT_VALUE}",
+							title: "{L_FIELD_EDIT_VALUE}"
+						}).click(function () {
+							$(this).prev().prev().removeClass('ajax-profil_hover').addClass('invisible').next().removeClass('invisible').append('<img src="{AJAX_VALID_IMG}" class="ajax-profil_valid" />').find('input,select');
+							$(this).prev().find('.ajax-profil_valid').attr({
+								alt: "{L_VALIDATE}",
+								title: "{L_VALIDATE}"
+							}).click(function () {
+								var content = new Array();
+								$(this).parent().find('[name]').each(function () {
+									var type_special = $(this).is('input[type=radio],input[type=checkbox]');
+									if ((type_special && $(this).is(':checked')) || !type_special) {
+										content.push(new Array($(this).attr('name'), $(this).attr('value')));
+									}
+								});
+								var id_name = $(this).parents('[id^=field_id]').attr('id');
+								var id = id_name.substring(8, id_name.length);
+								$.post(
+									"{U_AJAX_PROFILE}",
+									{id: id, user: "{CUR_USER_ID}", active: "{CUR_USER_ACTIVE}", content: $.toJSON(content), tid: "{TID}"},
+									function (data) {
+										$.each(data, function (i, item) {
+											if (item.startsWith('error : ')) {
+												let present_err = document.getElementById('field_id' + i + "_err");
+												if (!present_err) {
+													let err = document.createElement('div');
+													err.id = 'field_id' + i + "_err";
+													err.classList.add("form-error");
+													err.textContent = item.substring(8);
+													document.getElementById('field_id' + i).querySelector('.field_editable input').after(err);
+												} else {
+													present_err.innerText = item.substring(8);
+												}
+											} else {
+												let err = document.getElementById('field_id' + i + "_err");
+												if (err) err.remove();
+												$('[id=field_id' + i + ']').find('.field_uneditable').html(item).end().find('.ajax-profil_valid').remove().end().find('.field_editable').addClass('invisible').end().find('.field_uneditable').removeClass('invisible');
+											}
+										});
+									},
+									"json"
+								);
+							});
+							$(this).remove();
+						});
+					}
+				}, function () {
+					if ($(this).find('.field_editable.invisible').is('span, div')) {
+						$(this).find('.field_editable').prev().removeClass('ajax-profil_hover');
+						$(this).find('.ajax-profil_edit').remove();
+					}
+				});
+			}
+		});
+	});
+</script>

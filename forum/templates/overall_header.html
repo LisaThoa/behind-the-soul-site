@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="{L_LANG_HTML}" dir="{S_CONTENT_DIRECTION}" class="fal" {NAMESPACE_FB_LIKE} {NAMESPACE_FB} {NAMESPACE_BBCODE}>
+<head>
+	<meta charset="{S_CONTENT_ENCODING}" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>{SITENAME_TITLE}{PAGE_TITLE}</title>
+
+	<!-- Jour / nuit : pose data-fal-mode et data-fal-rendu sur html avant l'affichage. -->
+	<script>
+		(function () {
+			var racine = document.documentElement;
+			var sombre = window.matchMedia('(prefers-color-scheme: dark)');
+			var mode = 'auto';
+			try { mode = localStorage.getItem('fal-mode') || 'auto'; } catch (e) { void e; }
+			function appliquer() {
+				racine.setAttribute('data-fal-mode', mode);
+				racine.setAttribute('data-fal-rendu', mode === 'auto' ? (sombre.matches ? 'nuit' : 'jour') : mode);
+				var boutons = document.querySelectorAll('[data-fal-choix]');
+				for (var i = 0; i < boutons.length; i++) {
+					boutons[i].setAttribute('aria-pressed', String(boutons[i].getAttribute('data-fal-choix') === mode));
+				}
+			}
+			window.falMode = function (choix) {
+				mode = choix;
+				try { localStorage.setItem('fal-mode', choix); } catch (e) { void e; }
+				appliquer();
+			};
+			window.falModeActualiser = appliquer;
+			if (sombre.addEventListener) sombre.addEventListener('change', appliquer);
+			appliquer();
+		})();
+	</script>
+
+	<!-- BEGIN switch_canonical_url -->
+	<link rel="canonical" href="{switch_canonical_url.CANONICAL_URL}" />
+	<!-- END switch_canonical_url -->
+	{META_FAVICO}
+	{META}
+	{META_FB_LIKE}
+	<meta name="title" content="{SITENAME_TITLE}{PAGE_TITLE}" />
+
+	<!-- La base, avant la variable CSS pour que les réglages du forum passent après : -->
+	<!-- Behind the Soul : la base fa-lab puis le thème Séoul 2001, servis par jsDelivr (trop lourds pour le panneau). -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/LisaThoa/fa-lab@0.1.0/fa-lab.css" />
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/LisaThoa/behind-the-soul-site@ff9381477e6fcfe536d8cdeb1246f6248f6980cb/forum/seoul-2001.css" />
+	{T_HEAD_STYLESHEET}
+	{CSS}
+
+	<link rel="search" type="application/opensearchdescription+xml" href="/improvedsearch.xml" title="{SITENAME}" />
+	<link rel="search" type="application/opensearchdescription+xml" href="{URL_BOARD_DIRECTORY}/search/improvedsearch.xml" title="{SEARCH_FORUMS}" />
+
+	<script src="{JQUERY_PATH}"></script>
+	<!-- BEGIN switch_recent_jquery -->
+	<script src="{JS_DIR}jquery1.9/jquery-migrate-1.4.1.js"></script>
+	<script src="{JQUERY_DIR}browser/v1.0/jquery.browser.min.js"></script>
+	<script src="{JQUERY_DIR}support/jquery.support.js"></script>
+	<!-- END switch_recent_jquery -->
+	<script src="{JS_DIR}{L_LANG}.js"></script>
+	{RICH_SNIPPET_GOOGLE}
+
+	<!-- BEGIN switch_fb_login -->
+	<script src="https://connect.facebook.net/{switch_fb_login.FB_LOCAL}/all.js"></script>
+	<script src="{switch_fb_login.JS_FB_LOGIN}"></script>
+	<!-- END switch_fb_login -->
+
+	<!-- BEGIN switch_ticker -->
+	<link rel="stylesheet" href="{JQUERY_DIR}ticker/ticker.css" />
+	<script src="{JQUERY_DIR}ticker/ticker.js"></script>
+	<!-- END switch_ticker -->
+
+	<script>
+		$(function () {
+			<!-- BEGIN switch_enable_pm_popup -->
+			var pm = window.open('{U_PRIVATEMSGS_POPUP}', '_faprivmsg', 'HEIGHT=225,resizable=yes,WIDTH=400');
+			if (pm) pm.focus();
+			<!-- END switch_enable_pm_popup -->
+			<!-- BEGIN switch_report_popup -->
+			var report = window.open('{switch_report_popup.U_REPORT_POPUP}', '_phpbbreport', 'HEIGHT={switch_report_popup.S_HEIGHT},resizable=yes,scrollbars=no,WIDTH={switch_report_popup.S_WIDTH}');
+			if (report) report.focus();
+			<!-- END switch_report_popup -->
+			<!-- BEGIN switch_ticker -->
+			Ticker.start({
+				height: {switch_ticker.HEIGHT},
+				spacing: {switch_ticker.SPACING},
+				speed: {switch_ticker.SPEED},
+				direction: '{switch_ticker.DIRECTION}',
+				pause: {switch_ticker.STOP_TIME}
+			});
+			<!-- END switch_ticker -->
+		});
+		<!-- BEGIN switch_login_popup -->
+		var logInPopUpLeft, logInPopUpTop, logInPopUpWidth = {LOGIN_POPUP_WIDTH},
+			logInPopUpHeight = {LOGIN_POPUP_HEIGHT}, logInBackgroundResize = true, logInBackgroundClass = false;
+		<!-- END switch_login_popup -->
+	</script>
+
+	{GREETING_POPUP}
+
+	<!-- Exigé par Forumactif. -->
+	<style>
+		#page-footer, div.navbar, div.navbar ul.linklist { display: block !important; }
+		ul.linklist li.rightside, ul.linklist li.rightside a.copyright { display: inline !important; }
+	</style>
+
+	{HOSTING_JS}
+
+	<!-- BEGIN google_analytics_code -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id={G_ANALYTICS_ID}"></script>
+	<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag(){dataLayer.push(arguments);}
+		gtag('js', new Date());
+		gtag('config', '{G_ANALYTICS_ID}', {'anonymize_ip': true, 'store_gac': false, 'cookie_expires': 13 * 30 * 24 * 60 * 60});
+		<!-- BEGIN google_analytics_code_bis -->
+		gtag('config', '{G_ANALYTICS_ID_BIS}', {'anonymize_ip': true, 'store_gac': false, 'cookie_expires': 13 * 30 * 24 * 60 * 60});
+		<!-- END google_analytics_code_bis -->
+	</script>
+	<!-- END google_analytics_code -->
+
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css" />
+
+	<!-- Le filtre : bloquer des gens ou ne voir que des gens choisis, une personne = tous ses comptes (bottin /h1-bottin).
+	     Messages et sujets attendent la décision avant de s afficher, pour ne rien laisser voir par éclair. -->
+	<script src="https://cdn.jsdelivr.net/gh/LisaThoa/behind-the-soul-site@ff9381477e6fcfe536d8cdeb1246f6248f6980cb/forum/filtre/filtre.js"></script>
+	<script>
+		(function () {
+			var u = window._userdata;
+			if (!u || !Number(u.session_logged_in) || !window.BTSFiltre || !window.crypto || !window.crypto.subtle) return;
+			document.documentElement.classList.add("bts-filtre-attente");
+			window.BTSFiltre.demarrer({ moi: u.user_id, pseudo: u.username, bottin: "/h1-bottin" });
+		})();
+	</script>
+
+	<!-- Les scènes à jouer : le formulaire de la section f4, le préremplissage du sujet ou du MP, et le billet. -->
+	<script src="https://cdn.jsdelivr.net/gh/LisaThoa/behind-the-soul-site@ff9381477e6fcfe536d8cdeb1246f6248f6980cb/forum/scenes/scenes.js"></script>
+	<script>
+		if (window.BTSScenes) window.BTSScenes.demarrer({ forum: 4, config: "https://cdn.jsdelivr.net/gh/LisaThoa/behind-the-soul-site@ff9381477e6fcfe536d8cdeb1246f6248f6980cb/carte/config/quartiers.json" });
+	</script>
+</head>
+
+<body id="modernbb" class="fal-corps">
+<!-- BEGIN hitskin_preview -->
+<div id="hitskin_preview" class="fal-bandeau">
+	<p>
+		{hitskin_preview.L_THEME_SITE_PREVIEW}
+		<span>{hitskin_preview.U_INSTALL_THEME}<a href="https://{hitskin_preview.U_RETURN_THEME}">{hitskin_preview.L_RETURN_THEME}</a></span>
+	</p>
+</div>
+<!-- END hitskin_preview -->
+
+<!-- BEGIN inactive_users_modal -->
+<div id="inactive_popup" class="fal-fenetre" role="dialog">
+	<div class="fal-fenetre__titre">{inactive_users_modal.L_MODAL_TITLE}</div>
+	<div id="inactive_popup_message">{inactive_users_modal.L_MODAL_BODY}</div>
+	<div id="inactive_popup_buttons" class="fal-fenetre__boutons">
+		<button id="inactive_popup_url" class="button1">{inactive_users_modal.L_MODAL_BUTTON}</button>
+		<button id="inactive_popup_close" class="button2">{inactive_users_modal.L_CLOSE}</button>
+	</div>
+</div>
+<script>
+	$('#inactive_popup_close').on('mouseup', function () {
+		document.cookie = "modal_require_activation_closed=1; max-age=86400*15; path=/;";
+		$('#inactive_popup').hide(50);
+	});
+	$('#inactive_popup_url').on('mouseup', function () {
+		document.cookie = "modal_require_activation_closed=1; max-age=86400*15; path=/;";
+		location.href = '{inactive_users_modal.U_MODAL}';
+	});
+</script>
+<!-- END inactive_users_modal -->
+
+<!-- BEGIN switch_login_popup -->
+<div id="login_popup" class="fal-fenetre" role="dialog">
+	<div class="fal-fenetre__titre">{SITENAME}</div>
+	<div id="login_popup_message">{LOGIN_POPUP_MSG}</div>
+	<!-- BEGIN switch_quick_login -->
+	<div class="fal-fenetre__titre">{switch_login_popup.switch_quick_login.L_QUICK_CONNECT}</div>
+	<div class="social_btn">
+		<!-- BEGIN fb_quick_connect -->
+		<div class="fb-login-button"></div>
+		<!-- END fb_quick_connect -->
+		<!-- BEGIN topicit_quick_connect -->
+		<div class="ti-connect"></div>
+		<!-- END topicit_quick_connect -->
+	</div>
+	<!-- END switch_quick_login -->
+	<form id="login_popup_buttons" class="fal-fenetre__boutons" action="{S_LOGIN_ACTION}" method="get">
+		<input type="submit" class="button1" value="{L_LOGIN}" />
+		<input type="button" class="button1" value="{L_REGISTER}" onclick="parent.location='{U_REGISTER}';" />
+		<input id="login_popup_close" type="button" class="button2" value="{L_DONT_DISPLAY_AGAIN}" />
+	</form>
+</div>
+<!-- END switch_login_popup -->
+
+<!-- BEGIN switch_like_popup -->
+<div id="like_popup" class="fal-fenetre" role="dialog">
+	<div class="fal-fenetre__titre">{SITENAME}</div>
+	<div id="like_popup_message">{LIKE_POPUP_MSG}</div>
+	<form id="like_popup_buttons" class="fal-fenetre__boutons" action="{S_LOGIN_ACTION}" method="get">
+		<input type="submit" class="button1" value="{L_LOGIN}" />
+		<input type="button" class="button1" value="{L_REGISTER}" onclick="parent.location='{U_REGISTER}';" />
+		<input id="like_popup_close" type="button" class="button2" value="{L_LIKE_CLOSE}" />
+	</form>
+</div>
+<!-- END switch_like_popup -->
+
+<a id="top" name="top" accesskey="t"></a>
+<a class="fal-evitement" href="#main-content">Aller au contenu</a>
+{JAVASCRIPT}
+
+<header id="page-header" class="fal-entete">
+	<div class="fal-cadre fal-entete__titre">
+
+		<div class="fal-entete__outils">
+			<div class="fal-apparence" role="group" aria-label="Apparence">
+				<button type="button" data-fal-choix="auto" title="suit le réglage de ton appareil" onclick="falMode('auto')">auto</button>
+				<button type="button" data-fal-choix="jour" onclick="falMode('jour')">jour</button>
+				<button type="button" data-fal-choix="nuit" onclick="falMode('nuit')">nuit</button>
+			</div>
+			<script>falModeActualiser();</script>
+		</div>
+		<!-- La bannière : le logo du PA (Affichage, Images et couleurs, Gestion des images), au format conseillé 1200 x 300.
+		     Tant qu il n y en a pas, une bannière provisoire. data-nuit : l adresse d une version nuit, facultative. -->
+		<a href="{U_INDEX}" id="logo" class="fal-logo bts-banniere" data-nuit=""><img class="bts-banniere__jour" src="{LOGO}" alt="Behind The Soul · Séoul, 2001 · accueil" /></a>
+		<script>
+			(function () {
+				var lien = document.getElementById("logo");
+				var jour = lien && lien.querySelector(".bts-banniere__jour");
+				if (!jour) return;
+				var src = jour.getAttribute("src") || "";
+				if (!src || /2img\.net\/i\/fa\/.*logo/.test(src)) {
+					jour.setAttribute("src", "https://cdn.jsdelivr.net/gh/LisaThoa/behind-the-soul-site@ff9381477e6fcfe536d8cdeb1246f6248f6980cb/forum/images/banniere-provisoire.svg");
+				}
+				var nuit = lien.getAttribute("data-nuit");
+				if (nuit) {
+					var img = document.createElement("img");
+					img.className = "bts-banniere__nuit";
+					img.setAttribute("src", nuit);
+					img.setAttribute("alt", "");
+					lien.appendChild(img);
+				}
+			})();
+		</script>
+		<!-- BEGIN switch_h1 -->
+		<div id="site-title" class="fal-titre-site bts-masque-visuel"><a href="{U_INDEX}">{switch_h1.MAIN_SITENAME}</a></div>
+		<!-- END switch_h1 -->
+		<!-- BEGIN switch_desc -->
+		<p class="fal-description-site bts-masque-visuel">{switch_desc.SITE_DESCRIPTION}</p>
+		<!-- END switch_desc -->
+	</div>
+
+	<nav class="fal-nav" aria-label="Navigation principale">
+		<div class="fal-cadre">
+			<input type="checkbox" id="fal-nav-bascule" class="fal-nav__bascule" />
+			<label for="fal-nav-bascule" class="fal-nav__bouton">Menu</label>
+			<ul id="modernbb-nav-menu" class="fal-nav__liens navbar navlinks{NAVBAR_BORDERLESS}">
+				<li>{GENERATED_NAV_BAR}</li>
+			</ul>
+			<!-- Le compte et les notifications de la barre d'outils Forumactif viennent ici (overall_footer_end). -->
+			<div class="fal-compte" id="fal-compte"></div>
+		</div>
+	</nav>
+	<!-- La ligne de métro : les liens de navigation deviennent des stations (la page en cours est marquée) ;
+	     la messagerie, l inscription et la connexion vont du côté du compte. -->
+	<script>
+		(function () {
+			var liste = document.getElementById("modernbb-nav-menu");
+			var compte = document.getElementById("fal-compte");
+			if (!liste || !compte) return;
+			var ici = location.pathname;
+			var premier = compte.firstChild;
+			[].slice.call(liste.children).forEach(function (li) {
+				var a = li.querySelector("a.mainmenu");
+				if (!a) return;
+				var href = a.getAttribute("href") || "";
+				if (/^\/(privmsg|register)/.test(href) || /^\/login(\?(?!logout)|$)/.test(href)) {
+					a.classList.add("fal-compte__lien");
+					compte.insertBefore(a, premier);
+					liste.removeChild(li);
+					return;
+				}
+				li.classList.add("fal-station");
+				if (href.split("?")[0] === ici) {
+					li.classList.add("fal-station--ici");
+					a.setAttribute("aria-current", "page");
+				}
+			});
+		})();
+	</script>
+	<!-- Le quai : le menu est une barre fixe en bas de l écran. Le choix jour / nuit et les boutons
+	     haut / bas de page le rejoignent ; la page garde en bas la place qu il occupe. -->
+	<script>
+		(function () {
+			var nav = document.querySelector(".fal-nav");
+			var cadre = nav && nav.querySelector(".fal-cadre");
+			if (!cadre) return;
+			var outils = document.createElement("div");
+			outils.className = "bts-quai__outils";
+			var apparence = document.querySelector(".fal-apparence");
+			if (apparence) {
+				outils.appendChild(apparence);
+				var icones = { auto: ["◐", "Apparence automatique"], jour: ["☀︎", "Mode jour"], nuit: ["☾", "Mode nuit"] };
+				[].forEach.call(apparence.querySelectorAll("button"), function (b) {
+					var i = icones[b.getAttribute("data-fal-choix") || b.textContent.trim()];
+					if (!i) return;
+					b.setAttribute("aria-label", i[1]);
+					b.title = i[1];
+					b.textContent = "";
+					var span = document.createElement("span");
+					span.setAttribute("aria-hidden", "true");
+					span.textContent = i[0];
+					b.appendChild(span);
+				});
+			}
+			var page = document.createElement("div");
+			page.className = "bts-quai__page";
+			var doux = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth";
+			[["bts-quai__haut", "Haut de page", "↑", function () { return 0; }],
+				["bts-quai__bas", "Bas de page", "↓", function () { return document.documentElement.scrollHeight; }]].forEach(function (b) {
+				var bouton = document.createElement("button");
+				bouton.type = "button";
+				bouton.className = "bts-quai__bouton " + b[0];
+				bouton.setAttribute("aria-label", b[1]);
+				bouton.title = b[1];
+				bouton.textContent = b[2];
+				bouton.addEventListener("click", function () { window.scrollTo({ top: b[3](), behavior: doux }); });
+				page.appendChild(bouton);
+			});
+			cadre.appendChild(outils);
+			cadre.appendChild(page);
+			function place() {
+				document.documentElement.style.setProperty("--bts-quai", nav.offsetHeight + "px");
+			}
+			place();
+			window.addEventListener("resize", place);
+			window.addEventListener("load", place);
+		})();
+	</script>
+	<!-- À toi de jouer : la liste privée des RP où quelqu un a posté après toi, dans le quai. -->
+	<script src="https://cdn.jsdelivr.net/gh/LisaThoa/behind-the-soul-site@ff9381477e6fcfe536d8cdeb1246f6248f6980cb/forum/tour/tour.js"></script>
+	<script>
+		(function () {
+			var u = window._userdata;
+			if (!u || !Number(u.session_logged_in) || !window.BTSTour || !window.fetch) return;
+			window.fetch("https://cdn.jsdelivr.net/gh/LisaThoa/behind-the-soul-site@ff9381477e6fcfe536d8cdeb1246f6248f6980cb/carte/config/quartiers.json")
+				.then(function (r) { return r.json(); })
+				.then(function (config) { return window.BTSTour.demarrer({ config: config }); })
+				.catch(function () { return false; });
+		})();
+	</script>
+	<!-- Scène terminée : le bouton dans les RP, le titre prérempli à l édition, et le rangement automatique côté staff. -->
+	<script src="https://cdn.jsdelivr.net/gh/LisaThoa/behind-the-soul-site@ff9381477e6fcfe536d8cdeb1246f6248f6980cb/forum/fin/fin.js"></script>
+	<script>
+		(function () {
+			var u = window._userdata;
+			if (!u || !Number(u.session_logged_in) || !window.BTSFin || !window.fetch) return;
+			window.fetch("https://cdn.jsdelivr.net/gh/LisaThoa/behind-the-soul-site@ff9381477e6fcfe536d8cdeb1246f6248f6980cb/carte/config/quartiers.json")
+				.then(function (r) { return r.json(); })
+				.then(function (config) {
+					function lancer() { window.BTSFin.demarrer({ config: config }); }
+					if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", lancer);
+					else lancer();
+				})
+				.catch(function () { return false; });
+		})();
+	</script>
+
+	<!-- BEGIN switch_ticker_new -->
+	<div id="fa_ticker_blockD" class="fal-cadre fal-defilant">
+		<ul id="fa_ticker_content">
+			<!-- BEGIN ticker_row -->
+			<li>{switch_ticker.ticker_row.ELEMENT}</li>
+			<!-- END ticker_row -->
+		</ul>
+	</div>
+	<!-- END switch_ticker_new -->
+</header>
+
+<div id="wrap" class="fal-page">
+	<div id="page-body" class="fal-cadre">
+
+		<!-- BEGIN switch_ticker -->
+		<div id="fa_ticker_block" class="fal-defilant">
+			<div id="fa_ticker_container">
+				<div id="fa_ticker" style="height:{switch_ticker.HEIGHT}px;">
+					<div class="fa_ticker_content">
+						<!-- BEGIN ticker_row -->
+						<div>{switch_ticker.ticker_row.ELEMENT}</div>
+						<!-- END ticker_row -->
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- END switch_ticker -->
+
+		<div id="{ID_CONTENT_CONTAINER}"{CLASS_CONTENT_CONTAINER}>
+			<div class="fal-disposition">
+				<aside id="{ID_LEFT}" class="fal-widgets fal-widgets--gauche">
+					<!-- BEGIN giefmod_index1 -->
+					{giefmod_index1.MODVAR}
+					<!-- BEGIN saut -->
+					<div class="fal-widgets__saut" style="height:{SPACE_ROW}px"></div>
+					<!-- END saut -->
+					<!-- END giefmod_index1 -->
+				</aside>
+
+				<main id="main-content" class="fal-contenu">

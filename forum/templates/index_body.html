@@ -1,0 +1,129 @@
+{JAVASCRIPT}
+
+<!-- BEGIN switch_user_login_form_header -->
+<form class="fal-connexion" action="{S_LOGIN_ACTION}" method="post" name="form_login">
+	<input class="inputbox" type="text" name="username" placeholder="{L_USERNAME}" autocomplete="username" />
+	<input class="inputbox" type="password" name="password" placeholder="{L_PASSWORD}" autocomplete="current-password" />
+	<label class="fal-connexion__auto"><input type="checkbox" name="autologin" {AUTOLOGIN_CHECKED} /> {L_AUTO_LOGIN}</label>
+	{S_HIDDEN_FIELDS}<input class="button1" type="submit" name="login" value="{L_LOGIN}" />
+	<!-- BEGIN switch_social_login -->
+	<div class="social_btn">
+		<!-- BEGIN fb_connect -->
+		<div class="fb-login-button"></div>
+		<!-- END fb_connect -->
+		<!-- BEGIN topicit_connect -->
+		<div class="ti-connect"></div>
+		<!-- END topicit_connect -->
+	</div>
+	<!-- END switch_social_login -->
+</form>
+<!-- END switch_user_login_form_header -->
+
+<div class="fal-accueil">
+	<div class="fal-accueil__principal">
+		<!-- BEGIN message_admin_index -->
+		<section class="fal-edito introduction">
+			<!-- BEGIN message_admin_titre -->
+			<h2 class="fal-edito__titre">{message_admin_index.message_admin_titre.MES_TITRE}</h2>
+			<!-- END message_admin_titre -->
+			<!-- BEGIN message_admin_txt -->
+			<div class="fal-edito__texte">{message_admin_index.message_admin_txt.MES_TXT}</div>
+			<!-- END message_admin_txt -->
+		</section>
+		<!-- END message_admin_index -->
+
+		{CHATBOX_TOP}
+
+		<!-- Behind the Soul : le plan de Séoul remplace les catégories des quartiers. Elles restent dans la page pour qui n'a pas JavaScript. -->
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/LisaThoa/behind-the-soul-site@ff9381477e6fcfe536d8cdeb1246f6248f6980cb/carte/src/carte-interactive.css" />
+		<section class="fal-bloc bts-accueil" aria-labelledby="bts-accueil-titre">
+			<h2 class="fal-bloc__titre" id="bts-accueil-titre">Le plan de Séoul</h2>
+			<div id="bts-carte" data-carte="https://cdn.jsdelivr.net/gh/LisaThoa/behind-the-soul-site@ff9381477e6fcfe536d8cdeb1246f6248f6980cb/carte/dist/carte.svg">
+				<p class="bts-carte__attente">Chargement du plan…</p>
+			</div>
+		</section>
+
+		{BOARD_INDEX}
+	</div>
+</div>
+
+<!-- BEGIN disable_viewonline -->
+<!-- Les libellés des chiffres et des listes se changent dans data-libelle. -->
+<section class="fal-enligne">
+	<header class="fal-enligne__entete">
+		<!-- BEGIN switch_viewonline_link -->
+		<h2 class="fal-enligne__titre"><a href="{U_VIEWONLINE}" rel="nofollow">{L_WHO_IS_ONLINE}</a></h2>
+		<!-- END switch_viewonline_link -->
+		<!-- BEGIN switch_viewonline_nolink -->
+		<h2 class="fal-enligne__titre">{L_WHO_IS_ONLINE}</h2>
+		<!-- END switch_viewonline_nolink -->
+	</header>
+
+	<div class="fal-enligne__chiffres">
+		<div class="fal-stat" data-libelle="en ligne">{TOTAL_USERS_ONLINE}</div>
+		<div class="fal-stat" data-libelle="record">{RECORD_USERS}</div>
+		<div class="fal-stat" data-libelle="messages">{TOTAL_POSTS}</div>
+		<div class="fal-stat" data-libelle="membres">{TOTAL_USERS}</div>
+		<div class="fal-stat fal-stat--nom" data-libelle="dernier inscrit">{NEWEST_USER}</div>
+	</div>
+
+	<div class="fal-enligne__listes">
+		<div class="fal-liste" data-libelle="en ce moment" data-vide="personne">{LOGGED_IN_USER_LIST}</div>
+		<div class="fal-liste" data-libelle="dernières 24 h" data-vide="personne">{L_CONNECTED_MEMBERS}</div>
+		<div class="fal-liste fal-liste--texte">{L_ONLINE_USERS}</div>
+		<div class="fal-liste fal-liste--texte fal-enligne__anniversaires">{L_WHOSBIRTHDAY_TODAY}{L_WHOSBIRTHDAY_WEEK}</div>
+		<!-- BEGIN switch_group_legend -->
+		<div class="fal-liste fal-liste--groupes" data-libelle="{LEGEND}">{GROUP_LEGEND}</div>
+		<!-- END switch_group_legend -->
+	</div>
+</section>
+
+<!-- BEGIN switch_chatbox_activate -->
+<section class="fal-bloc fal-chatbox">
+	<h2 class="fal-bloc__titre">
+		<a href="{S_JOIN_CHAT}" target="ChatBox">{CHATBOX_NAME}</a>
+		<!-- BEGIN switch_chatbox_popup -->
+		<span id="chatbox_popup"></span>
+		<script>
+			insertChatBoxPopup('{disable_viewonline.switch_chatbox_activate.switch_chatbox_popup.U_FRAME_CHATBOX}', '{L_CLICK_TO_JOIN_CHAT}');
+		</script>
+		<!-- END switch_chatbox_popup -->
+	</h2>
+	<p>{TOTAL_CHATTERS_ONLINE} : {CHATTERS_LIST}</p>
+</section>
+<!-- END switch_chatbox_activate -->
+<!-- END disable_viewonline -->
+
+{CHATBOX_BOTTOM}
+
+<!-- BEGIN switch_user_login_form_footer -->
+<form class="fal-connexion" action="{S_LOGIN_ACTION}" method="post" name="form_login">
+	<input class="inputbox" type="text" name="username" placeholder="{L_USERNAME}" autocomplete="username" />
+	<input class="inputbox" type="password" name="password" placeholder="{L_PASSWORD}" autocomplete="current-password" />
+	<label class="fal-connexion__auto"><input type="checkbox" name="autologin" {AUTOLOGIN_CHECKED} /> {L_AUTO_LOGIN}</label>
+	{S_HIDDEN_FIELDS}<input class="button1" type="submit" name="login" value="{L_LOGIN}" />
+	<!-- BEGIN switch_social_login -->
+	<div class="social_btn">
+		<!-- BEGIN fb_connect -->
+		<div class="fb-login-button"></div>
+		<!-- END fb_connect -->
+		<!-- BEGIN topicit_connect -->
+		<div class="ti-connect"></div>
+		<!-- END topicit_connect -->
+	</div>
+	<!-- END switch_social_login -->
+</form>
+<!-- END switch_user_login_form_footer -->
+
+<!-- BEGIN switch_legend -->
+<ul id="picture_legend" class="fal-legende">
+	<li><img src="{FORUM_NEW_IMG}" alt="" loading="lazy" />{L_NEW_POSTS}</li>
+	<li><img src="{FORUM_IMG}" alt="" loading="lazy" />{L_NO_NEW_POSTS}</li>
+	<li><img src="{FORUM_LOCKED_IMG}" alt="" loading="lazy" />{L_FORUM_LOCKED}</li>
+</ul>
+<!-- END switch_legend -->
+
+{AUTO_DST}
+
+<script src="https://cdn.jsdelivr.net/gh/LisaThoa/behind-the-soul-site@ff9381477e6fcfe536d8cdeb1246f6248f6980cb/carte/dist/config.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/LisaThoa/behind-the-soul-site@ff9381477e6fcfe536d8cdeb1246f6248f6980cb/carte/src/carte-interactive.js"></script>

@@ -1,0 +1,488 @@
+<!-- BEGIN switch_plus_menu -->
+<script>
+	var multiquote_img_off = '{JS_MULTIQUOTE_IMG_OFF}', multiquote_img_on = '{JS_MULTIQUOTE_IMG_ON}';
+</script>
+<!-- END switch_plus_menu -->
+<script>
+	var hiddenMsgLabel = { visible: '{JS_HIDE_HIDDEN_MESSAGE}', hidden: '{JS_SHOW_HIDDEN_MESSAGE}' };
+	showHiddenMessage = function (id) {
+		var n = parseInt(id, 10);
+		if (n > 0) {
+			$('.post--' + id).toggle(0, function () {
+				$('#hidden-title--' + id).html($(this).is(':visible') ? hiddenMsgLabel.visible : hiddenMsgLabel.hidden);
+			});
+		}
+		return false;
+	};
+</script>
+
+<!-- BEGIN switch_push_direct_send -->
+<div id="push-answer" class="jqmWindow"></div>
+<script src="{JQUERY_DIR}jqmodal/jqmodal.js"></script>
+<script>
+	$(function () {
+		$('#push-answer').jqm({ toTop: true });
+		$('#push-bell').click(function () {
+			$.get('/ajax_push.php?topicID={TOPIC_ID}').done(function (data) {
+				$('#push-answer').html(data).jqmShow();
+			});
+			return false;
+		});
+	});
+</script>
+<!-- END switch_push_direct_send -->
+
+<header class="fal-titre-page sub-header bts-entete-sujet">
+	<nav class="fal-fil sub-header-path" aria-label="Fil d'Ariane">
+		<a class="nav" href="{U_INDEX}"><span>{L_INDEX}</span></a>
+		{NAV_CAT_DESC}
+	</nav>
+	<h1 class="fal-titre-page__titre page-title">
+		<a href="{TOPIC_URL}">{TOPIC_TITLE}</a>
+		<!-- BEGIN switch_push_direct_send --><button type="button" id="push-bell" class="fal-cloche" title="{switch_push_direct_send.L_PUSH_SEND}"><span class="ion-android-notifications"></span></button><!-- END switch_push_direct_send -->
+	</h1>
+	<div class="fal-titre-page__participants">{POSTERS_LIST}</div>
+
+	<div class="fal-actions sub-header-buttons">
+		<!-- BEGIN switch_user_authpost -->
+		<a href="{U_POST_NEW_TOPIC}" rel="nofollow" {S_POST_NEW_TOPIC} title="{T_POST_NEW_TOPIC}" class="fal-bouton fal-bouton--discret ion-{I_POST_NEW_TOPIC} button1">{L_POST_NEW_TOPIC}</a>
+		<!-- END switch_user_authpost -->
+		<!-- BEGIN switch_user_authreply -->
+		<a href="{U_POST_REPLY_TOPIC}" {S_POST_REPLY_TOPIC} title="{T_POST_REPLY_TOPIC}" class="fal-bouton ion-{I_POST_REPLY_TOPIC} button1">{L_POST_REPLY_TOPIC}</a>
+		<!-- END switch_user_authreply -->
+		<!-- BEGIN switch_user_authnoreply -->
+		<a href="{U_LOGIN_REPLY_TOPIC}" title="{T_LOGIN_REPLY_TOPIC}" class="fal-bouton login-for button1">{L_LOGIN_REPLY_TOPIC}</a>
+		<!-- END switch_user_authnoreply -->
+	</div>
+</header>
+
+<!-- Le tableau de scène : dans les sujets RP, les fiches de préférences de tous les auteurs, croisées.
+     Rempli par scene.js pour les membres connectés ; caché sinon. -->
+<section class="bts-scene-place" aria-label="Préférences de la scène" hidden></section>
+
+<div class="fal-barre topic-actions">
+	<!-- BEGIN topicpagination -->
+	<div class="pagination">{PAGINATION}</div>
+	<!-- END topicpagination -->
+	<div class="fal-barre__outils topic-actions-buttons">
+		<!-- BEGIN switch_plus_menu -->
+		<details id="addthis-toolbar" class="fal-partage">
+			<summary>{L_SHARE}</summary>
+			<div class="addthis-toolbar-btn">{switch_plus_menu.SOCIAL_BUTTONS}</div>
+		</details>
+		{switch_plus_menu.JS_SOCIAL_BUTTONS}
+		<script>
+			var url_favourite = '{U_FAVOURITE_JS_PLUS_MENU}';
+			var url_newposts = '{U_NEWPOSTS_JS_PLUS_MENU}';
+			var url_egosearch = '{U_EGOSEARCH_JS_PLUS_MENU}';
+			var url_unanswered = '{U_UNANSWERED_JS_PLUS_MENU}';
+			var url_watchsearch = '{U_WATCHSEARCH_JS_PLUS_MENU}';
+			insert_plus_menu_new('f{FORUM_ID}&amp;t={TOPIC_ID}', '{JS_SESSION_ID}', {JS_AUTH_FAVOURITES});
+		</script>
+		<!-- END switch_plus_menu -->
+	</div>
+</div>
+
+<nav class="fal-voisins quick-nav-topics" aria-label="Sujets voisins">
+	<!-- BEGIN switch_isconnect -->
+	<a class="fal-voisins__precedent" href="{U_VIEW_OLDER_TOPIC}">{L_VIEW_PREVIOUS_TOPIC}</a>
+	<!-- END switch_isconnect -->
+	<a class="fal-voisins__saut" href="#bottom">{L_GOTO_DOWN}</a>
+	<!-- BEGIN switch_isconnect -->
+	<a class="fal-voisins__suivant" href="{U_VIEW_NEWER_TOPIC}">{L_VIEW_NEXT_TOPIC}</a>
+	<!-- END switch_isconnect -->
+</nav>
+
+{POLL_DISPLAY}
+
+<div class="fal-messages">
+<!-- BEGIN postrow -->
+	<!-- BEGIN hidden -->
+	<div class="fal-message fal-message--masque post {postrow.hidden.ROW_COUNT}">
+		<p>{postrow.hidden.MESSAGE}</p>
+	</div>
+	<!-- END hidden -->
+
+	<!-- BEGIN displayed -->
+	<article id="p{postrow.displayed.U_POST_ID}" class="fal-message post {postrow.displayed.ROW_COUNT}{postrow.displayed.ONLINE_IMG_NEW} post--{postrow.displayed.U_POST_ID} {postrow.displayed.GROUP}"{postrow.displayed.THANK_BGCOLOR} style="{postrow.displayed.DISPLAYABLE_STATE}">
+		<span class="fal-ancre" id="{postrow.displayed.U_POST_ID}"></span>
+
+		<!-- Behind the Soul : une carte de résident miniature. Le nom au-dessus de l'avatar ; le script plus bas range les champs. -->
+		<aside class="fal-profil postprofile bts-mini" id="profile{postrow.displayed.U_POST_ID}">
+			<div class="fal-profil__nom postprofile-name bts-mini__nom">{postrow.displayed.POSTER_NAME}</div>
+			<div class="fal-profil__avatar postprofile-avatar bts-mini__photo" data-id="{postrow.displayed.POSTER_ID}"><div class="bts-mini__avatar">{postrow.displayed.POSTER_AVATAR}</div></div>
+			<div class="fal-profil__rang postprofile-rank">
+				{postrow.displayed.POSTER_RANK_NEW}{postrow.displayed.RANK_IMAGE}
+				<div {postrow.displayed.AWARDS_SHOW} class="dd_award {postrow.displayed.PROFILE_POSITION}">{postrow.displayed.AWARDS}</div>
+				<div class="award_more"></div>
+			</div>
+			<div class="fal-profil__champs postprofile-info bts-mini__champs">
+				<!-- BEGIN profile_field -->
+				<div class="bts-mini__champ">{postrow.displayed.profile_field.LABEL}{postrow.displayed.profile_field.CONTENT}</div>
+				<!-- END profile_field -->
+				{postrow.displayed.POSTER_RPG}
+			</div>
+			<div class="fal-profil__contact postprofile-contact">
+				{postrow.displayed.PROFILE_IMG}
+				{postrow.displayed.PM_IMG}
+				<!-- BEGIN contact_field -->
+				{postrow.displayed.contact_field.CONTENT}
+				<!-- END contact_field -->
+			</div>
+		</aside>
+
+		<div class="fal-message__corps">
+			<header class="fal-message__entete post-head">
+				<h2 class="fal-message__titre topic-title">{postrow.displayed.ICON} <a href="{postrow.displayed.POST_URL}">{postrow.displayed.POST_SUBJECT}</a></h2>
+				<div class="fal-message__date topic-date">
+					{postrow.displayed.POST_DATE_NEW}
+					<!-- BEGIN switch_vote_active -->
+					<div class="fal-vote vote">
+						<!-- BEGIN switch_vote -->
+						<a href="{postrow.displayed.switch_vote_active.switch_vote.U_VOTE_PLUS}" class="ion-plus-circled" aria-label="+1"></a>
+						<!-- END switch_vote -->
+						<!-- BEGIN switch_vote -->
+						<a href="{postrow.displayed.switch_vote_active.switch_vote.U_VOTE_MINUS}" class="ion-minus-circled" aria-label="-1"></a>
+						<!-- END switch_vote -->
+						<!-- BEGIN switch_bar -->
+						<div class="vote-bar" title="{postrow.displayed.switch_vote_active.L_VOTE_TITLE}">
+							<div class="vote-bar-desc">{postrow.displayed.switch_vote_active.L_VOTE_TITLE}</div>
+							<div class="vote-bars">
+								<!-- BEGIN switch_vote_plus -->
+								<div class="vote-bar-plus" style="width:{postrow.displayed.switch_vote_active.switch_bar.switch_vote_plus.HEIGHT_PLUS}px;"></div>
+								<!-- END switch_vote_plus -->
+								<!-- BEGIN switch_vote_minus -->
+								<div class="vote-bar-minus" style="width:{postrow.displayed.switch_vote_active.switch_bar.switch_vote_minus.HEIGHT_MINUS}px;"></div>
+								<!-- END switch_vote_minus -->
+							</div>
+						</div>
+						<!-- END switch_bar -->
+						<!-- BEGIN switch_no_bar -->
+						<div title="{postrow.displayed.switch_vote_active.L_VOTE_TITLE}" class="vote-bar-empty"></div>
+						<!-- END switch_no_bar -->
+					</div>
+					<!-- END switch_vote_active -->
+				</div>
+
+				<ul class="fal-outils profile-icons">
+					<li class="btn-quote"><a href="{postrow.displayed.QUOTE_URL}">Citer</a></li>
+					<li class="btn-quote-multi"><span onclick="{postrow.displayed.MULTIQUOTE_URL}" id="post_mq{TOPIC_ID}_{postrow.displayed.U_POST_ID}" role="button" tabindex="0">Citation multiple</span></li>
+					<li class="btn-thank"><a href="{postrow.displayed.THANK_URL}">Remercier</a></li>
+					<li class="btn-edit"><a href="{postrow.displayed.EDIT_URL}">Éditer</a></li>
+					<li class="btn-delete"><a href="{postrow.displayed.DELETE_URL}">Supprimer</a></li>
+					<li class="btn-ip"><a href="{postrow.displayed.IP_URL}">IP</a></li>
+					<li class="btn-report">{postrow.displayed.REPORT_IMG}</li>
+				</ul>
+			</header>
+
+			<div class="fal-message__texte postbody">
+				<div class="content">
+					<div>{postrow.displayed.MESSAGE}</div>
+					<!-- BEGIN switch_attachments -->
+					<dl class="fal-pieces attachbox">
+						<dt>{postrow.displayed.switch_attachments.L_ATTACHMENTS}</dt>
+						<dd class="attachments">
+							<!-- BEGIN switch_post_attachments -->
+							<dl class="file">
+								<dt><img src="{postrow.displayed.switch_attachments.switch_post_attachments.U_IMG}" alt="" /></dt>
+								<dd>
+									<!-- BEGIN switch_dl_att -->
+									<span><a class="postlink" href="{postrow.displayed.switch_attachments.switch_post_attachments.switch_dl_att.U_ATTACHMENT}">{postrow.displayed.switch_attachments.switch_post_attachments.switch_dl_att.ATTACHMENT}</a> {postrow.displayed.switch_attachments.switch_post_attachments.switch_dl_att.ATTACHMENT_DEL}</span>
+									<!-- END switch_dl_att -->
+									<!-- BEGIN switch_no_dl_att -->
+									<span>{postrow.displayed.switch_attachments.switch_post_attachments.switch_no_dl_att.ATTACHMENT} {postrow.displayed.switch_attachments.switch_post_attachments.switch_no_dl_att.ATTACHMENT_DEL}</span>
+									<!-- END switch_no_dl_att -->
+									<!-- BEGIN switch_no_comment -->
+									<span>{postrow.displayed.switch_attachments.switch_post_attachments.switch_no_comment.ATTACHMENT_COMMENT}</span>
+									<!-- END switch_no_comment -->
+									<!-- BEGIN switch_no_dl_att -->
+									<span><strong>{postrow.displayed.switch_attachments.switch_post_attachments.switch_no_dl_att.TEXT_NO_DL}</strong></span>
+									<!-- END switch_no_dl_att -->
+									<span>({postrow.displayed.switch_attachments.switch_post_attachments.FILE_SIZE}) {postrow.displayed.switch_attachments.switch_post_attachments.NB_DL}</span>
+								</dd>
+							</dl>
+							<!-- END switch_post_attachments -->
+						</dd>
+					</dl>
+					<!-- END switch_attachments -->
+				</div>
+				<div class="fal-message__edition edited-message">{postrow.displayed.EDITED_MESSAGE}</div>
+				<!-- BEGIN switch_signature -->
+				<div class="fal-message__signature signature_div" id="sig{postrow.displayed.U_POST_ID}">{postrow.displayed.SIGNATURE_NEW}</div>
+				<!-- END switch_signature -->
+			</div>
+
+			<!-- BEGIN switch_likes_active -->
+			<div class="fal-reactions fa_like_div">
+				<button class="rep-button {postrow.displayed.switch_likes_active.C_VOTE_LIKE}" data-href="{postrow.displayed.switch_likes_active.U_VOTE_LIKE}" data-href-rm="{postrow.displayed.switch_likes_active.U_VOTE_RM_LIKE}">
+					<i class="ion-thumbsup"></i>
+					<span>{postrow.displayed.switch_likes_active.L_LIKE}</span>{postrow.displayed.switch_likes_active.COUNT_VOTE_LIKE}
+				</button>
+				<!-- BEGIN switch_dislike_button -->
+				<button class="rep-button {postrow.displayed.switch_likes_active.switch_dislike_button.C_VOTE_DISLIKE}" data-href="{postrow.displayed.switch_likes_active.switch_dislike_button.U_VOTE_DISLIKE}" data-href-rm="{postrow.displayed.switch_likes_active.switch_dislike_button.U_VOTE_RM_LIKE}">
+					<i class="ion-thumbsdown"></i>
+					<span>{postrow.displayed.switch_likes_active.switch_dislike_button.L_DISLIKE}</span>{postrow.displayed.switch_likes_active.switch_dislike_button.COUNT_VOTE_DISLIKE}
+				</button>
+				<!-- END switch_dislike_button -->
+				<!-- BEGIN switch_like_list -->
+				{postrow.displayed.switch_likes_active.switch_like_list.D_LIKE_LIST}
+				<!-- END switch_like_list -->
+				<!-- BEGIN switch_dislike_list -->
+				{postrow.displayed.switch_likes_active.switch_dislike_list.D_DISLIKE_LIST}
+				<!-- END switch_dislike_list -->
+			</div>
+			<!-- END switch_likes_active -->
+		</div>
+	</article>
+	<!-- BEGIN first_post_br -->
+	<hr id="first-post-br" class="fal-separateur" />
+	<!-- END first_post_br -->
+	<!-- END displayed -->
+<!-- END postrow -->
+</div>
+
+<a name="bottomtitle"></a>
+
+<nav class="fal-voisins fal-voisins--bas quick-nav-topics bottom" aria-label="Sujets voisins">
+	<!-- BEGIN switch_isconnect -->
+	<a class="fal-voisins__precedent" href="{U_VIEW_OLDER_TOPIC}">{L_VIEW_PREVIOUS_TOPIC}</a>
+	<!-- END switch_isconnect -->
+	<a class="fal-voisins__saut" href="#top">{L_BACK_TO_TOP}</a>
+	<!-- BEGIN switch_isconnect -->
+	<a class="fal-voisins__suivant" href="{U_VIEW_NEWER_TOPIC}">{L_VIEW_NEXT_TOPIC}</a>
+	<!-- END switch_isconnect -->
+</nav>
+
+<div class="fal-barre fal-barre--bas topic-actions bottom">
+	<!-- BEGIN topicpagination -->
+	<div class="pagination">{PAGINATION}</div>
+	<!-- END topicpagination -->
+	<div class="fal-barre__outils topic-actions-buttons">
+		<!-- BEGIN switch_user_logged_in -->
+		<!-- BEGIN watchtopic -->
+		{S_WATCH_TOPIC}
+		<!-- END watchtopic -->
+		<!-- END switch_user_logged_in -->
+		<!-- BEGIN switch_user_authreply -->
+		<a href="{U_POST_REPLY_TOPIC}" title="{T_POST_REPLY_TOPIC}" {S_POST_REPLY_TOPIC} class="fal-bouton ion-{I_POST_REPLY_TOPIC} button1">{L_POST_REPLY_TOPIC}</a>
+		<!-- END switch_user_authreply -->
+		<!-- BEGIN switch_user_authnoreply -->
+		<a href="{U_LOGIN_REPLY_TOPIC}" title="{T_LOGIN_REPLY_TOPIC}" class="fal-bouton login-for button1">{L_LOGIN_REPLY_TOPIC}</a>
+		<!-- END switch_user_authnoreply -->
+	</div>
+</div>
+
+<!-- BEGIN promot_trafic -->
+<section class="fal-bloc fal-promotion" id="ptrafic_open">
+	<h2 class="fal-bloc__titre">{PROMOT_TRAFIC_TITLE}</h2>
+	<ul class="ptrafic">
+		<!-- BEGIN link -->
+		<li><a href="{promot_trafic.link.U_HREF}" title="{promot_trafic.link.TITLE}">{promot_trafic.link.TITLE}</a></li>
+		<!-- END link -->
+	</ul>
+</section>
+<!-- END promot_trafic -->
+
+<!-- BEGIN switch_forum_rules -->
+<section class="fal-bloc fal-reglement post row1" id="forum_rules">
+	<h2 class="fal-bloc__titre">{L_FORUM_RULES}</h2>
+	<div class="fal-reglement__corps">
+		<!-- BEGIN switch_forum_rule_image -->
+		<img class="fal-reglement__image" src="{RULE_IMG_URL}" alt="" />
+		<!-- END switch_forum_rule_image -->
+		<div class="rules content">{RULE_MSG}</div>
+	</div>
+</section>
+<!-- END switch_forum_rules -->
+
+<!-- BEGIN switch_user_logged_in -->
+<a name="quickreply"></a>
+<div class="fal-reponse-rapide">{QUICK_REPLY_FORM}</div>
+<!-- END switch_user_logged_in -->
+
+<!-- Behind the Soul : pas de « Sauter vers » ni de bloc des permissions. Les outils du staff sont repliés. -->
+<!-- BEGIN viewtopic_bottom -->
+<details class="fal-volet bts-moderation">
+	<summary>{L_MOD_TOOLS}</summary>
+	<div class="bts-moderation__corps">
+		<form class="fal-moderation" method="get" action="{S_FORM_MOD_ACTION}">
+			<input type="hidden" name="t" value="{TOPIC_ID}" />
+			<input type="hidden" name="{SECURE_ID_NAME}" value="{SECURE_ID_VALUE}" />
+			<label>{L_MOD_TOOLS} : {S_SELECT_MOD}</label>
+			<input class="button2" type="submit" value="{L_GO}" />
+		</form>
+		<p class="fal-moderation__admin">{S_TOPIC_ADMIN}</p>
+	</div>
+</details>
+<!-- END viewtopic_bottom -->
+
+<!-- BEGIN switch_image_resize -->
+<script>
+	$(resize_images({ 'selector': '.postbody .content', 'max_width': {switch_image_resize.IMG_RESIZE_WIDTH}, 'max_height': {switch_image_resize.IMG_RESIZE_HEIGHT} }));
+</script>
+<!-- END switch_image_resize -->
+
+<script>
+
+(function () {
+	/* Les blocs seulement, pas le code en ligne. Forumactif y écrit les retours à la ligne en br,
+	   que highlight.js 11 perd en relisant le texte : on les remet en vrais retours avant. */
+	var blocs = document.querySelectorAll('.postbody .codebox code, .postbody pre');
+	if (!blocs.length) return;
+	var s = document.createElement('script');
+	s.src = 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js';
+	s.onload = function () {
+		blocs.forEach(function (b) {
+			b.querySelectorAll('br').forEach(function (br) { br.replaceWith('\n'); });
+			window.hljs.highlightElement(b);
+		});
+	};
+	document.head.appendChild(s);
+})();
+</script>
+
+<!-- Les absences : le champ « Absence » devient la pastille « En pause » de la mini-carte. -->
+<script src="https://cdn.jsdelivr.net/gh/LisaThoa/behind-the-soul-site@ff9381477e6fcfe536d8cdeb1246f6248f6980cb/forum/absences/absences.js"></script>
+
+<!-- Behind the Soul : range les champs de chaque carte miniature, d'après leur libellé.
+     Statistiques et champs vides : retirés. Faceclaim : pastille sur l'avatar. GIF : sous l'avatar, visible au survol.
+     Pseudo et pronoms : une ligne « joué par » ; crédits et multicomptes dessous, avec le joueur.
+     Les autres valeurs sont enveloppées (.bts-mini__valeur) pour défiler si elles sont longues. -->
+<script>
+	(function () {
+		var RETIRES = ["messages", "points", "date d'inscription"];
+		var JOUEUR = ["pseudo", "pronoms irl"];
+		var JOUEUR_EN_PLUS = ["crédits", "multicomptes"];
+		var connecte = !!(window._userdata && Number(window._userdata.session_logged_in));
+		function nettoie(texte) {
+			return texte.replace(/\s+/g, " ").replace(/[\s:*]+$/, "").trim().toLowerCase();
+		}
+		[].forEach.call(document.querySelectorAll(".bts-mini"), function (carte) {
+			var photo = carte.querySelector(".bts-mini__photo");
+			var joueur = [];
+			var enPlus = [];
+			[].forEach.call(carte.querySelectorAll(".bts-mini__champ"), function (champ) {
+				var label = champ.querySelector(".label");
+				var nom = label ? nettoie(label.textContent) : "";
+				var valeur = (label ? champ.textContent.replace(label.textContent, "") : champ.textContent).trim();
+				var image = champ.querySelector("img");
+				if (RETIRES.indexOf(nom) !== -1 || (!image && (valeur === "" || valeur === "-"))) {
+					champ.parentNode.removeChild(champ);
+				} else if (nom === "absence") {
+					var brut = champ.cloneNode(true);
+					var etiquette = brut.querySelector(".label");
+					if (etiquette) etiquette.parentNode.removeChild(etiquette);
+					[].forEach.call(brut.querySelectorAll("br"), function (br) { br.parentNode.replaceChild(document.createTextNode("\n"), br); });
+					carte.setAttribute("data-bts-absence", brut.textContent);
+					if (window.BTSAbsences && window.BTSAbsences.pauseDans(brut.textContent)) {
+						var pause = document.createElement("span");
+						pause.className = "bts-pause";
+						pause.textContent = "En pause";
+						var nomCarte = carte.querySelector(".bts-mini__nom");
+						if (nomCarte) nomCarte.appendChild(pause);
+					}
+					champ.parentNode.removeChild(champ);
+				} else if (nom === "faceclaim" && photo) {
+					var fc = document.createElement("span");
+					fc.className = "bts-mini__fc";
+					fc.textContent = "fc · " + valeur;
+					photo.appendChild(fc);
+					champ.parentNode.removeChild(champ);
+				} else if (nom === "gif" && image && photo) {
+					var calque = document.createElement("div");
+					calque.className = "bts-mini__gif";
+					calque.setAttribute("aria-hidden", "true");
+					var copie = image.cloneNode(false);
+					copie.alt = "";
+					calque.appendChild(copie);
+					photo.insertBefore(calque, photo.firstChild);
+					photo.classList.add("bts-mini__photo--gif");
+					champ.parentNode.removeChild(champ);
+				} else if (JOUEUR.indexOf(nom) !== -1) {
+					joueur.push(valeur);
+					champ.parentNode.removeChild(champ);
+				} else if (JOUEUR_EN_PLUS.indexOf(nom) !== -1) {
+					enPlus.push(nom + " : " + valeur);
+					champ.parentNode.removeChild(champ);
+				} else {
+					if (nom === "content warning") champ.classList.add("bts-mini__cw");
+					var enveloppe = document.createElement("div");
+					enveloppe.className = "bts-mini__valeur";
+					[].slice.call(champ.childNodes).forEach(function (noeud) {
+						if (noeud !== label) enveloppe.appendChild(noeud);
+					});
+					champ.appendChild(enveloppe);
+				}
+			});
+			var profil = carte.querySelector(".bts-mini__nom a[href]");
+			var prefs = connecte && profil ? profil.getAttribute("href") : "";
+			if (joueur.length || enPlus.length || prefs) {
+				var bloc = document.createElement("div");
+				bloc.className = "bts-mini__joueur";
+				if (joueur.length) enPlus.unshift("joué par " + joueur.join(" · "));
+				enPlus.forEach(function (texte) {
+					var ligne = document.createElement("p");
+					ligne.textContent = texte;
+					bloc.appendChild(ligne);
+				});
+				if (prefs) {
+					var lien = document.createElement("a");
+					lien.className = "bts-mini__prefs";
+					lien.href = prefs.split("#")[0] + "#bts-preferences";
+					lien.textContent = "Préférences RP";
+					var p = document.createElement("p");
+					p.appendChild(lien);
+					bloc.appendChild(p);
+				}
+				carte.insertBefore(bloc, carte.querySelector(".fal-profil__contact"));
+			}
+		});
+	})();
+</script>
+
+<!-- Multicomptes : une pause déclarée sur un autre compte de la même personne (d après le bottin) vaut pour celui-ci. -->
+<script>
+	(function () {
+		if (!window.BTSAbsences || !window.fetch) return;
+		[].forEach.call(document.querySelectorAll(".bts-mini"), function (carte) {
+			var nom = carte.querySelector(".bts-mini__nom a");
+			if (!nom || carte.querySelector(".bts-pause")) return;
+			window.BTSAbsences.pausePersonne(nom.textContent.trim(), {
+				bottin: "/h1-bottin", texte: carte.getAttribute("data-bts-absence") || ""
+			}).then(function (pause) {
+				if (!pause || carte.querySelector(".bts-pause")) return;
+				var p = document.createElement("span");
+				p.className = "bts-pause";
+				p.textContent = "En pause";
+				nom.parentNode.appendChild(p);
+			});
+		});
+	})();
+</script>
+
+<!-- Le tableau de scène : la config des quartiers dit quelles sections sont des scènes RP. -->
+<script src="https://cdn.jsdelivr.net/gh/LisaThoa/behind-the-soul-site@ff9381477e6fcfe536d8cdeb1246f6248f6980cb/forum/preferences/preferences.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/LisaThoa/behind-the-soul-site@ff9381477e6fcfe536d8cdeb1246f6248f6980cb/forum/preferences/scene.js"></script>
+<script>
+	(function () {
+		var connecte = window._userdata && Number(window._userdata.session_logged_in);
+		if (!connecte || !window.BTSScene || !window.fetch) return;
+		window.fetch("https://cdn.jsdelivr.net/gh/LisaThoa/behind-the-soul-site@ff9381477e6fcfe536d8cdeb1246f6248f6980cb/carte/config/quartiers.json")
+			.then(function (r) { return r.json(); })
+			.then(function (config) { return window.BTSScene.demarrer({ config: config }); })
+			.catch(function () { return false; });
+	})();
+</script>
+
+<!-- Signaler : le signalement de Forumactif, en toutes lettres, avec ce qu il faut savoir avant de cliquer. -->
+<p id="bts-signaler-aide" hidden>Signaler au staff. La personne n'est pas prévenue ; seul le staff voit qui a signalé, pour pouvoir t'aider.</p>
+<script>
+	(function () {
+		var aide = document.getElementById("bts-signaler-aide");
+		if (!aide) return;
+		[].forEach.call(document.querySelectorAll(".btn-report a[href*=\"mode=report\"]"), function (a) {
+			a.setAttribute("aria-describedby", "bts-signaler-aide");
+			a.setAttribute("title", aide.textContent);
+		});
+	})();
+</script>
