@@ -1209,3 +1209,18 @@ html.bts-ondes--sms .bts-ondes__message, html.bts-ondes--chat .bts-ondes__messag
 .bts-ondes__envoi textarea:focus-visible, .bts-ondes__envoyer:focus-visible { outline: 3px solid var(--fal-accent); outline-offset: 2px; }
 /* La réponse rapide de Forumactif reste là, mais la zone d envoi des ondes la remplace à l écran. */
 html.bts-ondes--sms .fal-reponse-rapide, html.bts-ondes--chat .fal-reponse-rapide { display: none; }
+
+/* Messagerie : les dossiers en onglets ; le dossier ouvert (sans lien) est plein */
+#privmsgs-menu { display: flex; flex-wrap: wrap; gap: 6px; list-style: none; margin: 0 0 1rem; padding: 0; font-family: var(--fal-police-interface); font-size: var(--fal-taille-petite); }
+#privmsgs-menu li { display: flex; align-items: center; gap: .4em; border: 2px solid var(--s01-cadre); padding: 0; }
+#privmsgs-menu li:not(:has(a)) { background: var(--fal-accent); color: var(--fal-accent-contraste); padding: .35em .75em; }
+#privmsgs-menu li:has(a) i { padding-left: .75em; }
+#privmsgs-menu li:has(a) a { padding-left: 0; }
+#privmsgs-menu a { display: flex; align-items: center; gap: .4em; padding: .35em .75em; color: var(--fal-texte); text-decoration: none; }
+#privmsgs-menu a:hover { color: var(--fal-lien-survol); }
+#privmsgs-menu a:focus-visible { outline: 2px solid var(--fal-accent); outline-offset: 2px; }
+#privmsgs-menu .active { display: none; }
+.pm-actions .button-round { display: inline-flex; align-items: center; gap: .4em; border: 2px solid var(--s01-cadre); padding: .35em .75em; font-family: var(--fal-police-interface); font-size: var(--fal-taille-petite); color: var(--fal-texte); text-decoration: none; }
+.pm-actions .button-round::after { content: "Nouveau message"; font-family: var(--fal-police-interface); }
+.pm-actions .button-round:hover { color: var(--fal-lien-survol); }
+.pm-actions .button-round:focus-visible { outline: 2px solid var(--fal-accent); outline-offset: 2px; }
