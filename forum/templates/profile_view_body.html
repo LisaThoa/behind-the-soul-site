@@ -211,7 +211,7 @@
 	<h2 class="bts-absence__titre" id="bts-absence-titre">Absence · faire une pause</h2>
 	<div class="bts-absence__corps"></div>
 </section>
-<script src="https://cdn.jsdelivr.net/gh/LisaThoa/behind-the-soul-site@ff9381477e6fcfe536d8cdeb1246f6248f6980cb/forum/absences/absences.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/LisaThoa/behind-the-soul-site@67ff9e62475a0e1a74743a2e640868765a163c5c/forum/absences/absences.js"></script>
 <script>
 	(function () {
 		var section = document.getElementById("bts-absence");
@@ -226,7 +226,7 @@
 			section.appendChild(champ);
 		}
 		var numero = location.pathname.match(/^\/u(\d+)/);
-		window.fetch("https://cdn.jsdelivr.net/gh/LisaThoa/behind-the-soul-site@ff9381477e6fcfe536d8cdeb1246f6248f6980cb/carte/config/quartiers.json")
+		window.fetch("https://cdn.jsdelivr.net/gh/LisaThoa/behind-the-soul-site@67ff9e62475a0e1a74743a2e640868765a163c5c/carte/config/quartiers.json")
 			.then(function (r) { return r.json(); })
 			.then(function (config) {
 				return window.BTSAbsences.profil({

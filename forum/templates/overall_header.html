@@ -42,7 +42,7 @@
 	<!-- La base, avant la variable CSS pour que les réglages du forum passent après : -->
 	<!-- Behind the Soul : la base fa-lab puis le thème Séoul 2001, servis par jsDelivr (trop lourds pour le panneau). -->
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/LisaThoa/fa-lab@0.1.0/fa-lab.css" />
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/LisaThoa/behind-the-soul-site@8314caf1fbfeb8d3e29036b5e79d7f93af9b3435/forum/seoul-2001.css" />
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/LisaThoa/behind-the-soul-site@67ff9e62475a0e1a74743a2e640868765a163c5c/forum/seoul-2001.css" />
 	{T_HEAD_STYLESHEET}
 	{CSS}
 
@@ -134,7 +134,7 @@
 	<!-- Les scènes à jouer : le formulaire de la section f4, le préremplissage du sujet ou du MP, et le billet. -->
 	<script src="https://cdn.jsdelivr.net/gh/LisaThoa/behind-the-soul-site@ff9381477e6fcfe536d8cdeb1246f6248f6980cb/forum/scenes/scenes.js"></script>
 	<script>
-		if (window.BTSScenes) window.BTSScenes.demarrer({ forum: 4, config: "https://cdn.jsdelivr.net/gh/LisaThoa/behind-the-soul-site@ff9381477e6fcfe536d8cdeb1246f6248f6980cb/carte/config/quartiers.json" });
+		if (window.BTSScenes) window.BTSScenes.demarrer({ forum: 4, config: "https://cdn.jsdelivr.net/gh/LisaThoa/behind-the-soul-site@67ff9e62475a0e1a74743a2e640868765a163c5c/carte/config/quartiers.json" });
 	</script>
 </head>
 
@@ -337,12 +337,12 @@
 		})();
 	</script>
 	<!-- À toi de jouer : la liste privée des RP où quelqu un a posté après toi, dans le quai. -->
-	<script src="https://cdn.jsdelivr.net/gh/LisaThoa/behind-the-soul-site@ff9381477e6fcfe536d8cdeb1246f6248f6980cb/forum/tour/tour.js"></script>
+	<script src="https://cdn.jsdelivr.net/gh/LisaThoa/behind-the-soul-site@67ff9e62475a0e1a74743a2e640868765a163c5c/forum/tour/tour.js"></script>
 	<script>
 		(function () {
 			var u = window._userdata;
 			if (!u || !Number(u.session_logged_in) || !window.BTSTour || !window.fetch) return;
-			window.fetch("https://cdn.jsdelivr.net/gh/LisaThoa/behind-the-soul-site@ff9381477e6fcfe536d8cdeb1246f6248f6980cb/carte/config/quartiers.json")
+			window.fetch("https://cdn.jsdelivr.net/gh/LisaThoa/behind-the-soul-site@67ff9e62475a0e1a74743a2e640868765a163c5c/carte/config/quartiers.json")
 				.then(function (r) { return r.json(); })
 				.then(function (config) { return window.BTSTour.demarrer({ config: config }); })
 				.catch(function () { return false; });
@@ -354,12 +354,12 @@
 		if (window.BTSComptes) window.BTSComptes.demarrer({ bottin: "/h1-bottin" });
 	</script>
 	<!-- Scène terminée : le bouton dans les RP, le titre prérempli à l édition, et le rangement automatique côté staff. -->
-	<script src="https://cdn.jsdelivr.net/gh/LisaThoa/behind-the-soul-site@ff9381477e6fcfe536d8cdeb1246f6248f6980cb/forum/fin/fin.js"></script>
+	<script src="https://cdn.jsdelivr.net/gh/LisaThoa/behind-the-soul-site@67ff9e62475a0e1a74743a2e640868765a163c5c/forum/fin/fin.js"></script>
 	<script>
 		(function () {
 			var u = window._userdata;
 			if (!u || !Number(u.session_logged_in) || !window.BTSFin || !window.fetch) return;
-			window.fetch("https://cdn.jsdelivr.net/gh/LisaThoa/behind-the-soul-site@ff9381477e6fcfe536d8cdeb1246f6248f6980cb/carte/config/quartiers.json")
+			window.fetch("https://cdn.jsdelivr.net/gh/LisaThoa/behind-the-soul-site@67ff9e62475a0e1a74743a2e640868765a163c5c/carte/config/quartiers.json")
 				.then(function (r) { return r.json(); })
 				.then(function (config) {
 					function lancer() { window.BTSFin.demarrer({ config: config }); }

@@ -342,7 +342,7 @@
 </script>
 
 <!-- Les absences : le champ « Absence » devient la pastille « En pause » de la mini-carte. -->
-<script src="https://cdn.jsdelivr.net/gh/LisaThoa/behind-the-soul-site@ff9381477e6fcfe536d8cdeb1246f6248f6980cb/forum/absences/absences.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/LisaThoa/behind-the-soul-site@67ff9e62475a0e1a74743a2e640868765a163c5c/forum/absences/absences.js"></script>
 
 <!-- Behind the Soul : range les champs de chaque carte miniature, d'après leur libellé.
      Statistiques et champs vides : retirés. Faceclaim : pastille sur l'avatar. GIF : sous l'avatar, visible au survol.
@@ -462,14 +462,26 @@
 
 <!-- Le tableau de scène : la config des quartiers dit quelles sections sont des scènes RP. -->
 <script src="https://cdn.jsdelivr.net/gh/LisaThoa/behind-the-soul-site@ff9381477e6fcfe536d8cdeb1246f6248f6980cb/forum/preferences/preferences.js"></script>
-<script src="https://cdn.jsdelivr.net/gh/LisaThoa/behind-the-soul-site@ff9381477e6fcfe536d8cdeb1246f6248f6980cb/forum/preferences/scene.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/LisaThoa/behind-the-soul-site@67ff9e62475a0e1a74743a2e640868765a163c5c/forum/preferences/scene.js"></script>
 <script>
 	(function () {
 		var connecte = window._userdata && Number(window._userdata.session_logged_in);
 		if (!connecte || !window.BTSScene || !window.fetch) return;
-		window.fetch("https://cdn.jsdelivr.net/gh/LisaThoa/behind-the-soul-site@ff9381477e6fcfe536d8cdeb1246f6248f6980cb/carte/config/quartiers.json")
+		window.fetch("https://cdn.jsdelivr.net/gh/LisaThoa/behind-the-soul-site@67ff9e62475a0e1a74743a2e640868765a163c5c/carte/config/quartiers.json")
 			.then(function (r) { return r.json(); })
 			.then(function (config) { return window.BTSScene.demarrer({ config: config }); })
+			.catch(function () { return false; });
+	})();
+</script>
+
+<!-- Les ondes : dans les sections Téléphones et Chatrooms, le sujet s affiche en écran de portable ou en salon. -->
+<script src="https://cdn.jsdelivr.net/gh/LisaThoa/behind-the-soul-site@67ff9e62475a0e1a74743a2e640868765a163c5c/forum/ondes/ondes.js"></script>
+<script>
+	(function () {
+		if (!window.BTSOndes || !window.fetch) return;
+		window.fetch("https://cdn.jsdelivr.net/gh/LisaThoa/behind-the-soul-site@67ff9e62475a0e1a74743a2e640868765a163c5c/carte/config/quartiers.json")
+			.then(function (r) { return r.json(); })
+			.then(function (config) { return window.BTSOndes.demarrer({ config: config }); })
 			.catch(function () { return false; });
 	})();
 </script>
