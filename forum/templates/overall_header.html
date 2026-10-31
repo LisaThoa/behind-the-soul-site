@@ -42,7 +42,7 @@
 	<!-- La base, avant la variable CSS pour que les réglages du forum passent après : -->
 	<!-- Behind the Soul : la base fa-lab puis le thème Séoul 2001, servis par jsDelivr (trop lourds pour le panneau). -->
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/LisaThoa/fa-lab@0.1.0/fa-lab.css" />
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/LisaThoa/behind-the-soul-site@e347ea0bc285e9ce2a7ccd70007bb8cd7bc5a826/forum/seoul-2001.css" />
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/LisaThoa/behind-the-soul-site@8314caf1fbfeb8d3e29036b5e79d7f93af9b3435/forum/seoul-2001.css" />
 	{T_HEAD_STYLESHEET}
 	{CSS}
 
@@ -347,6 +347,11 @@
 				.then(function (config) { return window.BTSTour.demarrer({ config: config }); })
 				.catch(function () { return false; });
 		})();
+	</script>
+	<!-- Les comptes : changer de compte depuis le quai ; mots de passe chiffrés avec un code, dans ce navigateur seulement. -->
+	<script src="https://cdn.jsdelivr.net/gh/LisaThoa/behind-the-soul-site@8314caf1fbfeb8d3e29036b5e79d7f93af9b3435/forum/comptes/comptes.js"></script>
+	<script>
+		if (window.BTSComptes) window.BTSComptes.demarrer({ bottin: "/h1-bottin" });
 	</script>
 	<!-- Scène terminée : le bouton dans les RP, le titre prérempli à l édition, et le rangement automatique côté staff. -->
 	<script src="https://cdn.jsdelivr.net/gh/LisaThoa/behind-the-soul-site@ff9381477e6fcfe536d8cdeb1246f6248f6980cb/forum/fin/fin.js"></script>
