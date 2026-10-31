@@ -1,0 +1,88 @@
+{
+  "note": "forum : numéro du forum Forumactif (/f12- → 12), relevés sur behind-the-soul.forumactif.com le 29/10/2026.",
+  "quartiers": [
+    {
+      "gu": "Yongsan-gu",
+      "nom": "Yongsan",
+      "forum": 17,
+      "lieux": [
+        { "id": "marche-yongsan", "nom": "Marché électronique de Yongsan", "forum": 28, "lon": 126.964, "lat": 37.532, "nomKo": "용산전자상가" },
+        { "id": "itaewon", "nom": "Rue principale d'Itaewon", "forum": 27, "lon": 126.9946, "lat": 37.5345, "nomKo": "이태원" },
+        { "id": "haebangchon", "nom": "Haebangchon", "forum": 26, "lon": 126.987, "lat": 37.543, "nomKo": "해방촌" },
+        { "id": "base-us", "nom": "Entrée de la base américaine", "forum": 25, "lon": 126.98, "lat": 37.537, "nomKo": "용산 미군기지" },
+        { "id": "hannam", "nom": "Hannam-dong", "forum": 24, "lon": 127.006, "lat": 37.534, "nomKo": "한남동" }
+      ],
+      "nomKo": "용산구"
+    },
+    {
+      "gu": "Jung-gu",
+      "nom": "Jung-gu",
+      "forum": 18,
+      "lieux": [
+        { "id": "gare-seoul", "nom": "Gare de Séoul et sa place", "forum": 29, "lon": 126.9707, "lat": 37.5547, "guAdmis": [ "Jung-gu", "Yongsan-gu" ], "nomKo": "서울역" },
+        { "id": "myeongdong", "nom": "Myeong-dong", "forum": 30, "lon": 126.985, "lat": 37.5636, "nomKo": "명동" },
+        { "id": "namdaemun", "nom": "Marché de Namdaemun", "forum": 31, "lon": 126.9776, "lat": 37.5592, "nomKo": "남대문시장" },
+        { "id": "namsan", "nom": "Tour de Namsan", "forum": 32, "lon": 126.986, "lat": 37.556, "nomKo": "남산타워" },
+        { "id": "dongdaemun", "nom": "Marchés de nuit de Dongdaemun", "forum": 33, "lon": 127.009, "lat": 37.5655, "nomKo": "동대문시장" }
+      ],
+      "nomKo": "중구"
+    },
+    {
+      "gu": "Jongno-gu",
+      "nom": "Jongno",
+      "forum": 19,
+      "lieux": [
+        { "id": "pcbang-jonggak", "nom": "PC bang de Jonggak", "forum": 34, "lon": 126.9829, "lat": 37.5702, "nomKo": "종각 PC방" },
+        { "id": "insadong", "nom": "Insadong", "forum": 35, "lon": 126.985, "lat": 37.574, "nomKo": "인사동" },
+        { "id": "cheonggyecheon", "nom": "Chantier du Cheonggyecheon", "forum": 36, "lon": 126.993, "lat": 37.57, "guAdmis": [ "Jongno-gu", "Jung-gu" ], "nomKo": "청계천" },
+        { "id": "daehangno", "nom": "Daehangno et ses théâtres", "forum": 37, "lon": 127.002, "lat": 37.5822, "nomKo": "대학로" },
+        { "id": "tapgol", "nom": "Parc de Tapgol", "forum": 38, "lon": 126.9886, "lat": 37.5711, "nomKo": "탑골공원" }
+      ],
+      "nomKo": "종로구"
+    },
+    {
+      "gu": "Mapo-gu",
+      "nom": "Mapo",
+      "forum": 20,
+      "lieux": [
+        { "id": "dongmun", "nom": "Ahyeon et l'immeuble Dongmun", "forum": 39, "lon": 126.9555, "lat": 37.552, "fermee": true, "nomKo": "아현동" },
+        { "id": "hongdae", "nom": "Clubs de Hongdae", "forum": 40, "lon": 126.9235, "lat": 37.556, "nomKo": "홍대" },
+        { "id": "sinchon", "nom": "Sinchon", "forum": 41, "lon": 126.936, "lat": 37.553, "nomKo": "신촌" }
+      ],
+      "nomKo": "마포구"
+    },
+    {
+      "gu": "Gangnam-gu",
+      "nom": "Gangnam",
+      "forum": 21,
+      "lieux": [
+        { "id": "gare-gangnam", "nom": "Gare de Gangnam", "forum": 42, "lon": 127.0276, "lat": 37.4979, "guAdmis": [ "Gangnam-gu", "Seocho-gu" ], "nomKo": "강남역" },
+        { "id": "apgujeong", "nom": "Apgujeong et la rue Rodeo", "forum": 43, "lon": 127.0389, "lat": 37.5273, "nomKo": "압구정 로데오" },
+        { "id": "teheran-ro", "nom": "Teheran-ro", "forum": 44, "lon": 127.049, "lat": 37.5045, "nomKo": "테헤란로" },
+        { "id": "coex", "nom": "COEX", "forum": 45, "lon": 127.0595, "lat": 37.5115, "nomKo": "코엑스" },
+        { "id": "guryong", "nom": "Village de Guryong", "forum": 46, "lon": 127.056, "lat": 37.4695, "nomKo": "구룡마을" }
+      ],
+      "nomKo": "강남구"
+    },
+    {
+      "gu": "Seocho-gu",
+      "nom": "Seocho",
+      "forum": 22,
+      "lieux": [
+        { "id": "parquet", "nom": "Parquet suprême", "forum": 47, "lon": 127.0072, "lat": 37.4925, "nomKo": "대검찰청" },
+        { "id": "gare-routiere", "nom": "Gare routière express", "forum": 48, "lon": 127.0049, "lat": 37.5049, "nomKo": "고속버스터미널" }
+      ],
+      "nomKo": "서초구"
+    },
+    {
+      "gu": "Yeongdeungpo-gu",
+      "nom": "Yeongdeungpo",
+      "forum": 23,
+      "lieux": [
+        { "id": "assemblee", "nom": "Yeouido et l'Assemblée nationale", "forum": 49, "lon": 126.9145, "lat": 37.5317, "nomKo": "여의도 국회의사당" },
+        { "id": "gare-yeongdeungpo", "nom": "Gare de Yeongdeungpo", "forum": 50, "lon": 126.9076, "lat": 37.5155, "nomKo": "영등포역" }
+      ],
+      "nomKo": "영등포구"
+    }
+  ]
+}

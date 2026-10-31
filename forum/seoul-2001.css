@@ -1,0 +1,1117 @@
+/* Behind the Soul — thème fa-lab « Séoul 2001 ».
+   Jour : la signalétique du métro (carrelage blanc, bandeaux noirs). Nuit : les néons d'Itaewon.
+   En pixels, façon 2001 : fenêtres biseautées, bandeaux de station en barres de titre, bipeur LCD.
+   À charger après fa-lab.css. Ses réglages propres sont les variables --s01-*, une fois par mode.
+   Contrastes AA vérifiés par test/forum.test.mjs, dans les deux modes. */
+
+@import url("https://cdn.jsdelivr.net/npm/galmuri@2.40.3/dist/galmuri.css");
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap");
+
+:root {
+  --fal-fond: #F7F6F2;
+  --fal-texte: #1D1D1B;
+  --fal-accent: #0052A4;
+  --fal-accent-contraste: #FFFFFF;
+  --fal-lien: #0052A4;
+  --fal-lien-survol: #B3261E;
+  --fal-texte-doux: #55534E;
+
+  --fal-police-texte: "Noto Sans KR", system-ui, sans-serif;
+  --fal-police-interface: "Galmuri11", "Noto Sans KR", monospace;
+  --fal-police-titres: "Galmuri11", "Noto Sans KR", monospace;
+  --fal-taille-texte: 1rem;
+  --fal-interligne: 1.7;
+  --fal-taille-petite: .8125rem;
+  --fal-graisse-titres: 400;
+  --fal-taille-titre-site: clamp(2.25rem, 1.4rem + 3.5vw, 3.75rem);
+  --fal-taille-titre-page: clamp(1.6rem, 1.2rem + 2vw, 2.4rem);
+  --fal-taille-titre-section: 1.05rem;
+  --fal-taille-titre-forum: 1.2rem;
+  --fal-taille-stat: 1.75rem;
+
+  --fal-arrondi: 0;
+  --fal-arrondi-petit: 0;
+  --fal-trait: 2px;
+  --fal-avatar-dernier-arrondi: 0;
+  --fal-illustration-arrondi: 0;
+  --fal-sous-forum-signe: "\25B8 ";
+
+  --s01-carrelage: #ECEAE3;
+  --s01-fenetre: #FFFFFF;
+  --s01-cadre: #1D1D1B;
+  --s01-barre: #1D1D1B;
+  --s01-barre-texte: #FFFFFF;
+  --s01-biseau-clair: #FFFFFF;
+  --s01-biseau-sombre: #8A867B;
+  --s01-ombre: 4px 4px 0 #1D1D1B;
+  --s01-ombre-bouton: 2px 2px 0 #1D1D1B;
+  --s01-puce: #ECEAE3;
+  --s01-champ: #FFFFFF;
+  --s01-filet: #D3D1C7;
+  --s01-titre: #1D1D1B;
+  --s01-bipeur: #C8D8A8;
+  --s01-bipeur-texte: #1F2A12;
+  --s01-bipeur-cadre: #1D1D1B;
+  /* Les panneaux de sortie du métro (hors-jeu) : bandeau noir, numéro jaune. */
+  --s01-panneau: #1D1D1B;
+  --s01-panneau-texte: #FFFFFF;
+  --s01-sortie: #FFC20E;
+  --s01-sortie-texte: #1D1D1B;
+  --s01-sortie-cadre: #FFC20E;
+  /* La carte de résident (profil) : bleu pâle, bande bleue. */
+  --s01-carte: #E8EEF4;
+  --s01-carte-bande: #0052A4;
+  --s01-carte-bande-texte: #FFFFFF;
+  --s01-marge: 1.25rem;
+  --s01-barre-hauteur: 2.1rem;
+  --s01-taille-barre: .95rem;
+  /* Le carrelage des couloirs du métro : des joints fins sur fond clair. */
+  --s01-fond-page:
+    linear-gradient(var(--s01-carrelage) 2px, transparent 2px) 0 0 / 32px 32px,
+    linear-gradient(90deg, var(--s01-carrelage) 2px, transparent 2px) 0 0 / 32px 32px,
+    var(--fal-fond);
+}
+
+:root[data-fal-rendu="nuit"] {
+  --fal-fond: #17131F;
+  --fal-texte: #EDE8F5;
+  --fal-accent: #FF8FC3;
+  --fal-accent-contraste: #17131F;
+  --fal-lien: #8FE3CF;
+  --fal-lien-survol: #FF8FC3;
+  --fal-texte-doux: #B9B2C8;
+
+  --s01-carrelage: #1D1828;
+  --s01-fenetre: #1C1726;
+  --s01-cadre: #FF8FC3;
+  --s01-barre: #0B0910;
+  --s01-barre-texte: #FFB3D6;
+  --s01-biseau-clair: #4A3F60;
+  --s01-biseau-sombre: #05040A;
+  --s01-ombre: 4px 4px 0 #05040A;
+  --s01-ombre-bouton: 2px 2px 0 #05040A;
+  --s01-puce: #261F33;
+  --s01-champ: #120E19;
+  --s01-filet: #3A3249;
+  --s01-titre: #FFB3D6;
+  --s01-bipeur: #0F1F1B;
+  --s01-bipeur-texte: #8FE3CF;
+  --s01-bipeur-cadre: #8FE3CF;
+  --s01-panneau: #0B0910;
+  --s01-panneau-texte: #FFD166;
+  --s01-sortie: #0B0910;
+  --s01-sortie-texte: #FFD166;
+  --s01-sortie-cadre: #FFD166;
+  --s01-carte: #221C2E;
+  --s01-carte-bande: #0B0910;
+  --s01-carte-bande-texte: #8FE3CF;
+}
+
+body.fal-corps { background: var(--s01-fond-page); padding-bottom: var(--bts-quai, 4.5rem); }
+::selection { background: var(--fal-accent); color: var(--fal-accent-contraste); }
+
+/* Les liens se repèrent sans la couleur : soulignés dans les messages. */
+.postbody .content a, .fal-message__signature a { text-decoration: underline; text-underline-offset: .2em; }
+:focus-visible { outline: 3px solid var(--fal-accent); outline-offset: 2px; }
+
+h1, h2, h3, .fal-titre-site { color: var(--s01-titre); }
+
+/* ---------- Les fenêtres ---------- */
+.fal-entete, .fal-titre-page, .fal-categorie, .fal-sujets, .fal-message, .fal-bloc,
+.fal-enligne, .fal-fiche__portrait.module, .fal-fiche__contenu, .fal-redaction__principal.panel,
+.fal-volet, .panel, .forumbg:not(.fal-sujets), .module {
+  background: var(--s01-fenetre);
+  border: 2px solid var(--s01-cadre);
+  border-radius: 0;
+  box-shadow: inset -2px -2px 0 var(--s01-biseau-sombre), inset 2px 2px 0 var(--s01-biseau-clair), var(--s01-ombre);
+}
+
+/* La barre de titre de chaque fenêtre est un bandeau de station. */
+.fal-categorie__entete, .fal-sujets__entete, .fal-bloc__titre, .fal-enligne__entete,
+.fal-message__entete, .fal-titre-page::before, .fal-entete::before, .fal-fiche__portrait::before,
+.fal-fiche__contenu::before, .fal-volet > summary {
+  display: flex; align-items: center; gap: .75em;
+  min-height: var(--s01-barre-hauteur);
+  margin: 0;
+  padding: .2rem .75rem;
+  border: 0;
+  border-bottom: 2px solid var(--s01-cadre);
+  background: var(--s01-barre);
+  color: var(--s01-barre-texte);
+  font: 400 var(--s01-taille-barre) / 1.25 var(--fal-police-titres);
+  text-transform: none;
+  letter-spacing: .02em;
+  text-shadow: none;
+}
+/* Les trois boutons de fenêtre, dessinés en pixels à droite de la barre. */
+.fal-categorie__entete::after, .fal-sujets__entete::after, .fal-bloc__titre::after,
+.fal-enligne__entete::after, .fal-titre-page::before, .fal-entete::before,
+.fal-fiche__portrait::before, .fal-fiche__contenu::before {
+  background-image:
+    linear-gradient(var(--s01-barre-texte), var(--s01-barre-texte)),
+    linear-gradient(var(--s01-barre-texte), var(--s01-barre-texte)),
+    linear-gradient(var(--s01-barre-texte), var(--s01-barre-texte));
+  background-size: 12px 12px, 12px 2px, 12px 2px;
+  background-position: right .75rem center, right 2rem bottom .55rem, right 3.25rem bottom .55rem;
+  background-repeat: no-repeat;
+}
+.fal-categorie__entete::after, .fal-sujets__entete::after, .fal-bloc__titre::after, .fal-enligne__entete::after {
+  content: ""; flex: 1; align-self: stretch; margin-right: -.75rem;
+}
+.fal-titre-page::before, .fal-entete::before, .fal-fiche__portrait::before, .fal-fiche__contenu::before { content: ""; }
+.fal-categorie__entete :is(h1, h2, h3), .fal-sujets__entete :is(h1, h2, h3), .fal-bloc__titre :is(h1, h2, h3, a),
+.fal-enligne__entete :is(h1, h2, h3, a), .fal-message__entete :is(h1, h2, h3, a) { color: inherit; text-shadow: none; }
+
+/* ---------- En-tête du site ---------- */
+.fal-entete {
+  max-width: calc(var(--fal-largeur-page) - 2 * var(--fal-marge));
+  margin: var(--fal-marge) auto 0;
+  box-sizing: border-box;
+}
+@media (max-width: 47.99rem) { .fal-entete { margin-inline: var(--fal-marge); } }
+.fal-entete__titre { padding-block: 1.5rem 1.25rem; text-align: left; }
+.fal-titre-site { letter-spacing: 0; }
+
+/* ---------- La bannière : une composition graphique à la place du titre ----------
+   Le logo du PA, sur toute la largeur du cadre ; une version nuit facultative. Le titre et la
+   description restent pour les lecteurs d'écran et les moteurs, sans s'afficher. Les boutons
+   auto / jour / nuit passent au-dessus de l'image, sur leur propre ligne, pour ne pas la couvrir. */
+.bts-masque-visuel {
+  position: absolute !important; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden;
+  clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
+}
+.fal-entete__titre:has(.bts-banniere) { padding-block: 10px 12px; }
+.fal-entete__titre:has(.bts-banniere) .fal-entete__outils { position: static; display: flex; justify-content: flex-end; margin: 0 0 10px; }
+.fal-logo.bts-banniere { display: block; margin: 0; border: 2px solid var(--s01-cadre); }
+.bts-banniere img { display: block; width: 100%; height: auto; max-height: 22rem; object-fit: cover; margin: 0; }
+.bts-banniere:focus-visible { outline: 3px solid var(--fal-accent); outline-offset: 3px; }
+:root[data-fal-rendu="nuit"] .bts-banniere:has(.bts-banniere__nuit) .bts-banniere__jour { display: none; }
+:root:not([data-fal-rendu="nuit"]) .bts-banniere__nuit { display: none; }
+/* Hors fenêtre : ni cadre, ni barre de titre, de bord à bord. */
+.fal-entete:has(.bts-banniere) { max-width: none; margin: 0; border: 0; box-shadow: none; background: none; }
+.fal-entete:has(.bts-banniere)::before { display: none; }
+.fal-entete:has(.bts-banniere) .fal-entete__titre { max-width: none; padding: 0; }
+.fal-entete:has(.bts-banniere) .fal-logo.bts-banniere { border: 0; border-bottom: 3px solid var(--fal-accent); }
+.fal-entete__outils:empty, .fal-entete__outils:not(:has(.fal-apparence)) { display: none; }
+
+/* ---------- Le quai : le menu fixe en bas ---------- */
+.fal-nav .fal-station > a.mainmenu, .fal-nav .fal-compte a, .fal-nav .fal-compte #fa_notifications { color: var(--s01-barre-texte); }
+.fal-nav .fal-station::before { background: var(--s01-barre); }
+.fal-nav .fal-station--ici::before { background: var(--fal-accent); }
+.fal-nav .fal-compte .fal-compte__lien { border-color: var(--s01-barre-texte); }
+.fal-nav .fal-compte .fal-compte__lien:hover { background: var(--fal-accent); color: var(--fal-accent-contraste); }
+.fal-nav .fal-compte #fa_menulist, .fal-nav .fal-compte #notif_list { top: auto; bottom: calc(100% + .5rem); }
+.fal-nav #search_menu .overview { top: auto !important; bottom: calc(100% + .5rem); left: 0 !important; right: auto !important; margin: 0 !important; max-width: calc(100vw - 2rem) !important; font-size: .875rem; color: var(--fal-texte); background: var(--s01-fenetre); border: 2px solid var(--s01-cadre); }
+.bts-quai__outils { display: flex; align-items: center; gap: 6px; }
+.bts-quai__outils .fal-apparence { border-color: var(--s01-barre-texte); }
+.fal-nav .bts-quai__outils .fal-apparence button { min-width: 2rem; min-height: 2rem; padding: 0 .3rem; color: var(--s01-barre-texte); background: transparent; font: 1rem/1 var(--fal-police-interface); }
+.fal-nav .bts-quai__outils .fal-apparence button[aria-pressed="true"] { background: var(--fal-accent); color: var(--fal-accent-contraste); }
+.bts-quai__outils .fal-apparence button + button { border-left-color: var(--s01-barre-texte); }
+.bts-quai__bouton {
+  min-width: 2.25rem; min-height: 2.25rem; padding: 0 .5rem; cursor: pointer; border: 2px solid var(--s01-barre-texte);
+  border-radius: 0; background: transparent; color: var(--s01-barre-texte); font: 1rem/1 var(--fal-police-interface);
+}
+.bts-quai__bouton:hover { background: var(--fal-accent); color: var(--fal-accent-contraste); }
+.bts-quai__bouton:focus-visible, .bts-quai__outils .fal-apparence button:focus-visible { outline: 3px solid var(--fal-accent); outline-offset: 2px; }
+.bts-quai__page { display: flex; gap: 6px; }
+/* À toi de jouer (forum/tour/tour.js) : un bouton du quai, un point s'il y a quelque chose, une liste vers le haut. */
+.bts-tour { position: relative; }
+.bts-tour__bouton {
+  position: relative; padding: .35em .75em; cursor: pointer; border: 2px solid var(--s01-barre-texte); border-radius: 0;
+  background: transparent; color: var(--s01-barre-texte); font: var(--s01-taille-barre)/1.2 var(--fal-police-interface);
+}
+.bts-tour__bouton:hover, .bts-tour__bouton[aria-expanded="true"] { background: var(--fal-accent); color: var(--fal-accent-contraste); }
+.bts-tour__bouton:focus-visible { outline: 3px solid var(--fal-accent); outline-offset: 2px; }
+.bts-tour__point {
+  position: absolute; top: -5px; right: -5px; width: 10px; height: 10px; border-radius: 50%;
+  background: var(--s01-sortie); border: 2px solid var(--s01-barre);
+}
+.bts-tour__liste {
+  position: absolute; left: 0; bottom: calc(100% + .5rem); z-index: 9000; width: min(20rem, calc(100vw - 2rem));
+  padding: 10px 12px; background: var(--s01-fenetre); color: var(--fal-texte); border: 2px solid var(--s01-cadre); box-shadow: var(--s01-ombre);
+  font: .875rem/1.4 var(--fal-police-texte, inherit);
+}
+.bts-tour__liste[hidden] { display: none; }
+.bts-tour__titre { margin: 0 0 6px; font: .8125rem/1.4 var(--fal-police-interface); color: var(--fal-texte-doux); }
+.bts-tour__liste ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.fal-nav .fal-compte .bts-tour__liste li a { color: var(--fal-texte); text-decoration: underline; }
+.bts-tour__meta { display: block; font-size: var(--fal-taille-petite); color: var(--fal-texte-doux); }
+.bts-tour__vide, .bts-tour__aide { margin: 6px 0 0; font-size: var(--fal-taille-petite); color: var(--fal-texte-doux); }
+/* Le quai sur mobile : deux rangées compactes. En haut les stations et haut / bas de page ;
+   en bas le compte (libellés courts) et jour / nuit. */
+@media (max-width: 640px) {
+  .fal-nav .fal-cadre { gap: 4px 8px; padding-block: 4px; }
+  .fal-nav__liens { order: 1; flex: 1 1 auto; padding-top: 4px; }
+  .bts-quai__page { order: 2; margin-left: auto; }
+  .fal-nav .fal-compte { order: 3; width: auto; margin-left: 0; gap: 4px 6px; }
+  .bts-quai__outils { order: 4; margin-left: auto; }
+  .fal-nav .fal-compte .fal-compte__lien, .fal-nav .fal-compte #fa_welcome, .fal-nav .fal-compte #fa_notifications { padding: .2em .45em; }
+  .bts-quai__bouton, .bts-quai__outils .fal-apparence button { min-width: 2rem; min-height: 2rem; padding: 0 .35rem; }
+  .fal-nav .fal-compte #fa_welcome { font-size: 0; }
+  .fal-nav .fal-compte #fa_welcome::after { content: "Compte"; font-size: var(--s01-taille-barre); }
+  .fal-nav .fal-compte .fal-compte__lien[href^="/privmsg"] { font-size: 0; }
+  .fal-nav .fal-compte .fal-compte__lien[href^="/privmsg"]::after { content: "MP"; font-size: var(--s01-taille-barre); }
+  .fal-nav .fal-compte #fa_notifications { font-size: 0; }
+  .fal-nav .fal-compte #fa_notifications::before { content: "Notifs"; font-size: var(--s01-taille-barre); }
+  .fal-nav .fal-compte #notif_unread { font-size: .75rem; }
+}
+.fal-description-site { color: var(--fal-texte-doux); }
+
+.fal-nav {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 8000;
+  border-top: 3px solid var(--fal-accent); background: var(--s01-barre); color: var(--s01-barre-texte);
+}
+.fal-nav__liens a.mainmenu {
+  padding: .35em .75em;
+  border: 2px solid transparent;
+  font-family: var(--fal-police-interface);
+  font-size: var(--s01-taille-barre);
+  text-transform: none; letter-spacing: 0;
+}
+.fal-nav__liens a.mainmenu:hover { border-color: var(--s01-cadre); background: var(--s01-puce); color: var(--fal-texte); }
+.fal-compte #fa_welcome, .fal-compte #fa_notifications {
+  display: inline-block; padding: .35em .75em;
+  border: 2px solid transparent;
+  font-family: var(--fal-police-interface); font-size: var(--s01-taille-barre); font-weight: 400;
+}
+.fal-compte #fa_welcome:hover, .fal-compte #fa_notifications:hover,
+.fal-compte[data-ouvert="compte"] #fa_welcome, .fal-compte[data-ouvert="notifications"] #fa_notifications {
+  border-color: var(--s01-cadre); background: var(--s01-puce); color: var(--fal-texte);
+}
+.fal-compte #notif_unread:not(:empty) { border-radius: 0; }
+
+/* ---------- Le menu : une ligne de métro ----------
+   Deux stations (Accueil, Rechercher) sur une ligne, alignées à gauche ; le compte à droite
+   (messagerie, carte « Bienvenue… », notifications). Les liens inutiles sont masqués :
+   ils restent dans le menu du compte ou n'ont pas leur place ici. */
+.fal-nav__bouton { display: none !important; }
+.fal-nav .fal-cadre { align-items: center; gap: 8px 16px; padding-block: 8px; }
+.fal-nav__liens, .fal-nav__bascule:checked ~ .fal-nav__liens {
+  display: flex; flex: 0 1 auto; order: 0; justify-content: flex-start; align-items: flex-end; flex-wrap: nowrap;
+  gap: 0; margin: 0; padding: 6px 4px 2px; position: relative; max-width: 100%; overflow: visible;
+}
+.fal-nav__liens > li:has(> a[href="/calendar"]),
+.fal-nav__liens > li:has(> a[href="/images"]),
+.fal-nav__liens > li:has(> a[href="/faq"]),
+.fal-nav__liens > li:has(> a[href="/memberlist"]),
+.fal-nav__liens > li:has(> a[href="/groups"]),
+.fal-nav__liens > li:has(> a[href^="/profile?mode=editprofile"]),
+.fal-nav__liens > li:has(> a[href^="/login?logout"]) { display: none; }
+.fal-nav__liens::before { content: ""; position: absolute; left: 1.6em; right: 1.6em; top: 12px; height: 4px; background: var(--fal-accent); }
+.fal-station { position: relative; display: grid; justify-items: center; gap: 2px; padding: 0 10px; font-size: 0; }
+.fal-station::before {
+  content: ""; position: relative; z-index: 1; width: 14px; height: 14px; box-sizing: border-box;
+  border: 3px solid var(--fal-accent); border-radius: 50%; background: var(--s01-fenetre);
+}
+.fal-station--ici::before { background: var(--fal-accent); }
+.fal-station > a.mainmenu { font-size: var(--s01-taille-barre); white-space: nowrap; }
+.fal-station > a.mainmenu:focus-visible { outline: 3px solid var(--fal-accent); outline-offset: 2px; }
+.fal-compte { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; margin-left: auto; }
+.fal-compte .fal-compte__lien {
+  display: inline-block; padding: .35em .75em; border: 2px solid var(--s01-cadre); color: var(--fal-texte); text-decoration: none;
+  font-family: var(--fal-police-interface); font-size: var(--s01-taille-barre);
+}
+.fal-compte .fal-compte__lien img { display: none; }
+.fal-compte .fal-compte__lien:hover { background: var(--s01-puce); }
+.fal-compte .fal-compte__lien:focus-visible { outline: 3px solid var(--fal-accent); outline-offset: 2px; }
+.fal-compte #fa_welcome { background: var(--s01-sortie); color: var(--s01-sortie-texte); border-color: var(--s01-cadre); }
+@media (max-width: 640px) {
+  .fal-compte { margin-left: 0; width: 100%; }
+}
+
+.fal-apparence { border: 2px solid var(--s01-cadre); }
+.fal-apparence button { min-height: 2.75rem; font-family: var(--fal-police-interface); font-size: var(--s01-taille-barre); }
+.fal-apparence button + button { border-left: 2px solid var(--s01-cadre); }
+.fal-apparence button:hover { background: var(--s01-puce); }
+
+/* ---------- Boutons biseautés et champs ---------- */
+.fal-bouton, .button1, .button2, input[type="submit"], input[type="button"], button.button1, button.button2, .btn {
+  border: 2px solid var(--s01-cadre);
+  border-radius: 0;
+  background: var(--s01-puce);
+  color: var(--fal-texte);
+  box-shadow: inset -2px -2px 0 var(--s01-biseau-sombre), inset 2px 2px 0 var(--s01-biseau-clair);
+  font-family: var(--fal-police-interface);
+  font-size: var(--s01-taille-barre);
+  font-weight: 400;
+  text-transform: none; letter-spacing: 0;
+  min-height: 2.75rem;
+}
+.fal-bouton:active, .button1:active, .button2:active, input[type="submit"]:active {
+  box-shadow: inset 2px 2px 0 var(--s01-biseau-sombre), inset -2px -2px 0 var(--s01-biseau-clair);
+}
+.inputbox, input[type="text"], input[type="search"], input[type="password"], input[type="email"],
+input[type="url"], input[type="number"], select, textarea {
+  border: 2px solid var(--s01-cadre);
+  border-radius: 0;
+  background: var(--s01-champ);
+  color: var(--fal-texte);
+  box-shadow: inset 2px 2px 0 var(--s01-biseau-sombre);
+}
+
+.pagination strong { background: var(--fal-accent); color: var(--fal-accent-contraste); }
+.pagination a, .pagination strong { border-radius: 0; font-family: var(--fal-police-interface); font-size: var(--s01-taille-barre); }
+
+/* ---------- Titre de page, catégories, sections ---------- */
+.fal-titre-page { padding: 0; gap: 0; }
+.fal-titre-page > * { margin-inline: var(--s01-marge); }
+.fal-titre-page > :last-child { margin-bottom: var(--s01-marge); }
+.fal-titre-page__titre { margin-block: .35rem; }
+.fal-fil { color: var(--fal-texte-doux); font-family: var(--fal-police-interface); text-transform: none; letter-spacing: 0; }
+.fal-titre-page .fal-actions { margin-top: .75rem; }
+
+/* En-têtes de page (section, sujet, rédaction) : le fil d'Ariane devient la barre de titre,
+   un panneau de sortie du métro. Dans un sujet, le titre est à gauche et les boutons à droite. */
+.bts-entete-sujet {
+  display: grid; grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-areas: "fil fil" "titre actions";
+  align-items: center; column-gap: 1rem;
+}
+.fal-titre-page:has(> .fal-fil)::before { display: none; }
+.fal-titre-page > .fal-fil {
+  display: flex; flex-wrap: wrap; align-items: center; gap: .25em .5em;
+  min-height: var(--s01-barre-hauteur); margin: 0; padding: 6px 4.5rem 6px 8px;
+  background-color: var(--s01-panneau); color: var(--s01-panneau-texte);
+  border-bottom: 2px solid var(--s01-cadre);
+  background-image:
+    linear-gradient(var(--s01-panneau-texte), var(--s01-panneau-texte)),
+    linear-gradient(var(--s01-panneau-texte), var(--s01-panneau-texte)),
+    linear-gradient(var(--s01-panneau-texte), var(--s01-panneau-texte));
+  background-size: 12px 12px, 12px 2px, 12px 2px;
+  background-position: right .75rem top 15px, right 2rem top 25px, right 3.25rem top 25px;
+  background-repeat: no-repeat;
+  font-size: var(--s01-taille-barre);
+}
+.fal-titre-page > .fal-fil a { color: inherit; }
+/* Le panneau de sortie : la flèche dans le carré jaune, puis « 출구 · Exit » devant le chemin. */
+.fal-titre-page > .fal-fil::before {
+  content: "\2196" / ""; flex: none; box-sizing: border-box; width: 30px; height: 30px; margin-right: 4px;
+  display: grid; place-items: center;
+  background: var(--s01-sortie); color: var(--s01-sortie-texte); border: 2px solid var(--s01-sortie-cadre);
+  font: 17px/1 var(--fal-police-titres);
+}
+.fal-titre-page > .fal-fil > a:first-child::before { content: "\CD9C\AD6C  \00B7  Exit  " / ""; display: inline-block; margin-right: .5em; opacity: .85; text-decoration: none; }
+.bts-entete-sujet > .fal-fil { grid-area: fil; }
+.bts-entete-sujet > .fal-titre-page__titre { grid-area: titre; margin: var(--s01-marge) var(--s01-marge) var(--s01-marge); }
+.bts-entete-sujet > .fal-actions { grid-area: actions; flex-wrap: wrap; justify-content: flex-end; margin: 0 var(--s01-marge); }
+.bts-entete-sujet > .fal-titre-page__participants:empty { display: none; }
+@media (max-width: 60rem) {
+  .bts-entete-sujet { grid-template-columns: minmax(0, 1fr); grid-template-areas: "fil" "titre" "actions"; }
+  .bts-entete-sujet > .fal-titre-page__titre { margin-bottom: .5rem; }
+  .bts-entete-sujet > .fal-actions { justify-content: flex-start; margin-bottom: var(--s01-marge); }
+}
+/* Pas de classements ni de course à l'activité : on retire ces raccourcis de l'accueil. */
+.fal-raccourcis li:has(a[href*="search_id=activetopics"]),
+.fal-raccourcis li:has(a[href*="mode=today_posters"]),
+.fal-raccourcis li:has(a[href*="mode=overall_posters"]) { display: none; }
+/* Pas de partage vers les réseaux sociaux : le forum reste entre ses membres. */
+.fal-partage { display: none; }
+/* Ni le lien « Plus ! » qui ouvrait le menu d options de Forumactif (et son saut de ligne). */
+.fal-barre__outils a[href*="plus_menu"] { display: none; }
+.fal-barre__outils a[href*="plus_menu"] + br { display: none; }
+
+.fal-categorie { margin-bottom: 2rem; }
+.fal-categorie__titre, .fal-sujets__titre { font: inherit; color: inherit; flex: none; }
+.fal-categorie__titre::before { display: none; }
+.fal-categorie__plier {
+  order: 2; width: 1.5rem; height: 1.5rem;
+  border: 2px solid var(--s01-barre-texte); border-radius: 0;
+  background: transparent; color: var(--s01-barre-texte);
+  font: inherit; line-height: 1;
+}
+.fal-categorie .fal-forums { padding-inline: var(--s01-marge); }
+.fal-forum { border-bottom: 2px dotted var(--s01-filet); }
+.fal-forum:last-child { border-bottom: 0; }
+.fal-forum__illustration { border: 2px solid var(--s01-cadre); box-sizing: border-box; image-rendering: pixelated; }
+.fal-forum__titre::before, .fal-sujet__statut { border-radius: 0; border: 2px solid var(--s01-cadre); width: .75rem; height: .75rem; }
+.fal-forum__sous-forums a { border: 2px solid var(--s01-cadre); border-radius: 0; background: var(--s01-puce); }
+.fal-chiffre dd { font-family: var(--fal-police-titres); font-size: 1.3rem; font-weight: 400; line-height: 1.1; }
+.fal-chiffre dt { text-transform: none; letter-spacing: 0; }
+.lastpost-avatar img { border: 2px solid var(--s01-cadre); box-sizing: border-box; }
+.fal-forum__dernier, .fal-sujet__dernier { text-transform: none; letter-spacing: 0; }
+.fal-forum__dernier-sujet { font-weight: 500; font-size: .875rem; color: var(--fal-lien); }
+.fal-raccourcis, .fal-barre, .fal-voisins { text-transform: none; letter-spacing: 0; }
+
+.fal-sujets { padding: 0; }
+.fal-sujets__liste { padding-inline: var(--s01-marge); }
+.fal-sujet { border-bottom: 2px dotted var(--s01-filet); }
+.fal-sujet:last-child { border-bottom: 0; }
+.fal-sujet[data-fal-postit] { background: var(--s01-puce); }
+
+/* ---------- « Qui est en ligne » : l'écran du bipeur ---------- */
+.fal-enligne {
+  --fal-fond: var(--s01-bipeur);
+  --fal-texte: var(--s01-bipeur-texte);
+  --fal-texte-doux: var(--s01-bipeur-texte);
+  --s01-titre: var(--s01-bipeur-texte);
+  margin-top: 2.5rem;
+  padding: 0 0 var(--s01-marge);
+  border-color: var(--s01-bipeur-cadre);
+  background: var(--s01-bipeur);
+  color: var(--s01-bipeur-texte);
+  font-family: var(--fal-police-interface);
+}
+.fal-enligne > :not(.fal-enligne__entete) { margin-inline: var(--s01-marge); }
+.fal-enligne__entete { margin-bottom: var(--s01-marge); }
+.fal-enligne__titre { font: inherit; color: inherit; margin: 0; }
+.fal-enligne__chiffres::before { content: "\266A  PAGER \2014  2001" / ""; grid-column: 1 / -1; font-size: var(--fal-taille-petite); }
+.fal-stat strong { color: var(--s01-bipeur-texte); font-weight: 400; }
+.fal-stat::after, .fal-liste[data-libelle]::before { text-transform: none; letter-spacing: 0; }
+.fal-liste a { border: 2px solid var(--s01-bipeur-texte); border-radius: 0; background: transparent; }
+.fal-liste a span[style*="color"] { color: var(--s01-bipeur-texte) !important; }
+
+/* ---------- Les messages : chaque message est une fenêtre ---------- */
+.fal-messages { gap: 1.75rem; }
+.fal-separateur { display: none; }
+.fal-message {
+  padding: 0; gap: 0;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-areas: "barre" "profil" "texte" "reactions";
+}
+.fal-message__corps { display: contents; }
+.fal-message__entete { grid-area: barre; flex-wrap: wrap; row-gap: 0; }
+.fal-message__titre { flex: 0 1 auto; font: inherit; }
+.fal-message__titre a { color: inherit; }
+.fal-message__date { order: 3; margin-left: auto; font-family: var(--fal-police-interface); font-size: var(--fal-taille-petite); color: inherit; text-transform: none; letter-spacing: 0; }
+.fal-message .fal-outils { margin: 0 0 0 auto; order: 2; }
+.fal-message .fal-outils + .fal-message__date, .fal-message__date:has(~ .fal-outils) { margin-left: 0; }
+.fal-message .fal-outils a, .fal-message .fal-outils span[onclick] { color: var(--s01-barre-texte); }
+.fal-profil { grid-area: profil; padding: var(--s01-marge) var(--s01-marge) 0; }
+.fal-message__texte { grid-area: texte; padding: var(--s01-marge) var(--s01-marge) .5rem; }
+.fal-reactions { grid-area: reactions; margin: 0; padding: 0 var(--s01-marge) var(--s01-marge); }
+.fal-message > .fal-ancre { grid-area: barre; }
+@media (min-width: 48rem) {
+  .fal-message {
+    grid-template-columns: var(--fal-profil) minmax(0, 1fr);
+    grid-template-areas: "barre barre" "profil texte" "profil reactions";
+  }
+  .fal-profil { padding-bottom: var(--s01-marge); border-right: 2px dotted var(--s01-filet); position: static; }
+  .fal-reactions { align-self: end; }
+}
+.fal-profil__avatar img { border: 2px solid var(--s01-cadre); border-radius: 0; box-sizing: content-box; }
+.fal-profil__nom { font-family: var(--fal-police-titres); font-size: 1.2rem; }
+.fal-profil__rang { text-transform: none; letter-spacing: 0; font-family: var(--fal-police-interface); font-size: var(--fal-taille-petite); }
+
+/* ---------- La carte de résident miniature, à côté de chaque message ----------
+   Template : forum/templates/viewtopic_body.html (son script range les champs d'après leur libellé). */
+.fal-message:has(.bts-mini) { --fal-profil: 248px; }
+.bts-mini { background: var(--s01-carte); gap: 10px; }
+.bts-mini__nom { margin: 0; font: 400 1.2rem/1.2 var(--fal-police-titres); color: var(--fal-texte); }
+.bts-mini__nom * { font: inherit; color: inherit !important; text-decoration: none; }
+.bts-mini .fal-profil__rang { display: none; }
+.bts-mini__photo {
+  position: relative; flex: none; align-self: flex-start;
+  box-sizing: content-box; width: 200px; height: 320px;
+  border: 2px solid var(--s01-cadre); background: var(--s01-puce);
+}
+.bts-mini__photo img { display: block; width: 200px; height: 320px; object-fit: cover; border: 0; border-radius: 0; box-shadow: none; }
+.bts-mini__avatar { position: relative; z-index: 1; transition: opacity .2s; }
+.bts-mini__gif { position: absolute; inset: 0; }
+.bts-mini__photo:hover .bts-mini__avatar { opacity: 0; }
+.bts-mini__photo:focus-within .bts-mini__avatar { opacity: 0; }
+@media (prefers-reduced-motion: reduce) { .bts-mini__avatar { transition: none; } }
+.bts-mini__fc {
+  position: absolute; left: 8px; bottom: 8px; z-index: 2;
+  max-width: calc(100% - 16px); padding: 1px 7px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;
+  background: var(--s01-carte-bande); color: var(--s01-carte-bande-texte); border: 2px solid var(--s01-carte-bande-texte);
+  font: .6875rem/1.4 var(--fal-police-interface);
+}
+/* Tous les champs du personnage dans une seule zone qui défile, de la hauteur de l'avatar. */
+.bts-mini__champs {
+  display: grid; gap: 10px; align-content: start; align-self: stretch;
+  max-height: 22rem; overflow-y: auto; padding-right: 6px;
+  scrollbar-width: thin; scrollbar-color: var(--s01-cadre) transparent;
+  font-size: .875rem; color: var(--fal-texte);
+}
+/* Un texte coupé se lit en entier au survol, ou quand la photo a le focus. */
+.bts-mini__fc:hover { white-space: normal; overflow: visible; text-overflow: clip; }
+.bts-mini__photo:focus-within .bts-mini__fc { white-space: normal; overflow: visible; text-overflow: clip; }
+.bts-mini__champ .label { display: block; font: .6875rem/1.4 var(--fal-police-interface); color: var(--fal-texte-doux); letter-spacing: .04em; }
+.bts-mini__cw { padding: 4px 8px; border: 2px solid var(--fal-lien-survol); }
+.bts-mini__cw .label { color: var(--fal-lien-survol); }
+.bts-mini__joueur {
+  align-self: stretch; margin: 2px 0 0; padding-top: 8px; border-top: 2px dotted var(--s01-filet);
+  font: .75rem/1.4 var(--fal-police-interface); color: var(--fal-texte-doux);
+}
+.bts-mini__joueur p { margin: 0; }
+
+/* Textes longs (carte miniature, carte de résident, bandeau joueur) : une petite zone qui défile,
+   avec une barre fine aux couleurs du thème. Sur le profil, c'est la valeur affichée qui défile,
+   pas le champ d'édition. */
+.bts-mini__valeur { overflow-wrap: anywhere; }
+.bts-resident__champ .field_uneditable { max-height: 9em; overflow-y: auto; padding-right: 6px; scrollbar-width: thin; scrollbar-color: var(--s01-cadre) transparent; }
+.bts-joueur .field_uneditable { max-height: 4.5em; overflow-y: auto; padding-right: 6px; scrollbar-width: thin; scrollbar-color: var(--s01-cadre) transparent; }
+.bts-resident #field_id-11 .field_uneditable,
+.bts-resident__photo #field_id-11 .field_uneditable { max-height: none; overflow: visible; padding-right: 0; }
+
+/* Téléphone : la photo à moitié taille, le nom et les champs à côté. */
+@media (max-width: 47.99rem) {
+  .bts-mini { display: grid; grid-template-columns: 104px minmax(0, 1fr); grid-template-areas: "photo nom" "photo champs" "photo joueur"; column-gap: 14px; align-items: start; }
+  .bts-mini__photo { grid-area: photo; width: 100px; height: 160px; }
+  .bts-mini__photo img { width: 100px; height: 160px; }
+  .bts-mini__nom { grid-area: nom; }
+  .bts-mini__champs { grid-area: champs; display: grid; }
+  .bts-mini__joueur { grid-area: joueur; }
+  .bts-mini__fc { left: 4px; bottom: 4px; }
+}
+
+.postbody blockquote { border-left: 4px solid var(--fal-accent); border-radius: 0; background: var(--s01-puce); }
+.postbody blockquote cite { color: var(--fal-texte); font-family: var(--fal-police-interface); }
+.postbody .codebox, .postbody pre {
+  border: 2px solid var(--s01-bipeur-cadre); border-radius: 0;
+  background: var(--s01-bipeur); color: var(--s01-bipeur-texte);
+  font-family: var(--fal-police-interface);
+}
+.rep-button { border: 2px solid var(--s01-cadre); border-radius: 0; background: var(--s01-puce); color: var(--fal-texte); }
+.rep-button.active, .rep-button.voted { background: var(--fal-accent); color: var(--fal-accent-contraste); }
+
+.fal-reponse-rapide {
+  background: var(--s01-fenetre); border: 2px solid var(--s01-cadre);
+  box-shadow: inset -2px -2px 0 var(--s01-biseau-sombre), inset 2px 2px 0 var(--s01-biseau-clair), var(--s01-ombre);
+}
+.fal-reponse-rapide > .h3 {
+  margin: 0; padding: .2rem .75rem; min-height: var(--s01-barre-hauteur);
+  display: flex; align-items: center;
+  background: var(--s01-barre); color: var(--s01-barre-texte);
+  border-bottom: 2px solid var(--s01-cadre);
+  font: 400 var(--s01-taille-barre) / 1.25 var(--fal-police-titres);
+}
+.fal-reponse-rapide form { padding: var(--s01-marge); }
+/* Les boutons d'envoi à droite, comme sur la page de rédaction. */
+.fal-reponse-rapide div:has(> input[type="submit"]) { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 8px; margin-top: 12px; }
+/* Les outils du staff : un volet replié, discret, sous la réponse rapide. */
+.bts-moderation { margin-top: 1.75rem; }
+.bts-moderation__corps { display: grid; gap: 10px; padding: 12px var(--s01-marge) var(--s01-marge); }
+.bts-moderation__corps .fal-moderation { margin: 0; }
+.bts-moderation__corps .fal-moderation__admin { margin: 0; }
+
+/* ---------- Hors-jeu : les panneaux de sortie du métro ----------
+   Sur l'accueil, chaque catégorie autre que les quartiers (masqués par le plan) devient une grille
+   de sorties numérotées : bandeau « 출구 · Exit », numéro jaune, pas de compteurs. */
+.fal-accueil .fal-categorie:not(.bts-categorie--sur-la-carte) .fal-forums {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr)); gap: 14px;
+  padding: var(--s01-marge); counter-reset: sortie;
+}
+.fal-accueil .fal-categorie:not(.bts-categorie--sur-la-carte) .fal-forum {
+  position: relative; counter-increment: sortie;
+  grid-template-columns: minmax(0, 1fr); grid-template-areas: "bandeau" "infos" "dernier";
+  /* Les tuiles d'une rangée ont la même hauteur : le surplus va sous le texte, pas dans le bandeau. */
+  grid-template-rows: 42px auto 1fr; align-content: start;
+  gap: 0; padding: 0; border: 2px solid var(--s01-cadre); background: var(--s01-fenetre);
+}
+.fal-accueil .fal-categorie:not(.bts-categorie--sur-la-carte) .fal-forum::before {
+  grid-area: bandeau; display: block; content: "\CD9C\AD6C  \00B7  Exit" / "";
+  box-sizing: border-box; height: 42px; margin: 0; white-space: nowrap; overflow: hidden;
+  padding: 6px 36px 6px 48px; background: var(--s01-panneau); color: var(--s01-panneau-texte);
+  font: 13px/30px var(--fal-police-interface);
+}
+.fal-accueil .fal-categorie:not(.bts-categorie--sur-la-carte) .fal-forum::after {
+  content: counter(sortie) / ""; position: absolute; top: 6px; left: 8px;
+  box-sizing: border-box; width: 30px; height: 30px; display: grid; place-items: center;
+  background: var(--s01-sortie); color: var(--s01-sortie-texte); border: 2px solid var(--s01-sortie-cadre);
+  font: 18px/1 var(--fal-police-titres);
+}
+.fal-accueil .fal-categorie:not(.bts-categorie--sur-la-carte) .fal-forum__illustration {
+  grid-area: bandeau; justify-self: end; align-self: stretch; display: flex; align-items: center;
+  width: auto; height: auto; aspect-ratio: auto; margin: 0 10px 0 0; background: none; border: 0; box-shadow: none;
+  color: var(--s01-panneau-texte); text-decoration: none; font: 16px/1 var(--fal-police-interface);
+}
+.fal-accueil .fal-categorie:not(.bts-categorie--sur-la-carte) .fal-forum__illustration::before { content: "\2197" / ""; }
+.fal-accueil .fal-categorie:not(.bts-categorie--sur-la-carte) .fal-forum__infos { padding: 10px 12px 12px; }
+.fal-accueil .fal-categorie:not(.bts-categorie--sur-la-carte) .fal-forum__chiffres { display: none; }
+.fal-accueil .fal-categorie:not(.bts-categorie--sur-la-carte) .fal-forum__dernier { margin-top: -6px; padding: 0 12px 12px; font-size: var(--fal-taille-petite); color: var(--fal-texte-doux); }
+.fal-accueil .fal-categorie:not(.bts-categorie--sur-la-carte) .fal-forum__dernier:not(:has(a[href]:not([href=""]))) { display: none; }
+.fal-accueil .fal-categorie:not(.bts-categorie--sur-la-carte) .fal-forum__dernier .lastpost-avatar { display: none; }
+.fal-accueil .fal-categorie:not(.bts-categorie--sur-la-carte) .fal-forum__dernier a { position: relative; z-index: 1; }
+/* Toute la tuile mène à la section, par le lien du titre (un seul arrêt au clavier). */
+.fal-accueil .fal-categorie:not(.bts-categorie--sur-la-carte) .forumtitle::after { content: ""; position: absolute; inset: 0; }
+.fal-accueil .fal-categorie:not(.bts-categorie--sur-la-carte) .fal-forum:hover { background: var(--s01-puce); }
+.fal-accueil .fal-categorie:not(.bts-categorie--sur-la-carte) .fal-forum:focus-within { outline: 3px solid var(--fal-accent); outline-offset: 2px; }
+
+/* La Corbeille : un simple lien discret en bas, ni fenêtre ni panneau de sortie.
+   Repérée par l'adresse de sa section (/fN-corbeille), qui suit son nom. */
+.fal-accueil .fal-categorie:has(.fal-forum[data-lien*="-corbeille"]) { border: 0; background: none; box-shadow: none; }
+.fal-accueil .fal-categorie:has(.fal-forum[data-lien*="-corbeille"]) .fal-categorie__entete { display: none; }
+.fal-accueil .fal-categorie:has(.fal-forum[data-lien*="-corbeille"]) .fal-forums { display: flex; justify-content: flex-end; padding: 0; }
+.fal-accueil .fal-categorie:has(.fal-forum[data-lien*="-corbeille"]) .fal-forum {
+  display: block; position: static; padding: 0; border: 0; background: none;
+}
+.fal-accueil .fal-categorie:has(.fal-forum[data-lien*="-corbeille"]) .fal-forum::before { content: none; }
+.fal-accueil .fal-categorie:has(.fal-forum[data-lien*="-corbeille"]) .fal-forum::after { content: none; }
+.fal-accueil .fal-categorie:has(.fal-forum[data-lien*="-corbeille"]) .fal-forum:hover { background: none; }
+.fal-accueil .fal-categorie:has(.fal-forum[data-lien*="-corbeille"]) .fal-forum__illustration,
+.fal-accueil .fal-categorie:has(.fal-forum[data-lien*="-corbeille"]) .fal-forum__description,
+.fal-accueil .fal-categorie:has(.fal-forum[data-lien*="-corbeille"]) .fal-forum__dernier,
+.fal-accueil .fal-categorie:has(.fal-forum[data-lien*="-corbeille"]) .fal-forum__titre::before { display: none; }
+.fal-accueil .fal-categorie:has(.fal-forum[data-lien*="-corbeille"]) .fal-forum__infos { padding: 0; }
+.fal-accueil .fal-categorie:has(.fal-forum[data-lien*="-corbeille"]) .fal-forum__titre { font-size: var(--fal-taille-petite); }
+.fal-accueil .fal-categorie:has(.fal-forum[data-lien*="-corbeille"]) .forumtitle { color: var(--fal-texte-doux); text-decoration: underline; text-underline-offset: .2em; }
+.fal-accueil .fal-categorie:has(.fal-forum[data-lien*="-corbeille"]) .forumtitle::before { content: "\25B8  " / ""; }
+.fal-accueil .fal-categorie:has(.fal-forum[data-lien*="-corbeille"]) .forumtitle::after { content: none; }
+
+/* ---------- Profil : la carte de résident (주민등록증) ----------
+   Recto : photo 200 x 320, nom, puis les champs du personnage ; dos : le joueur.
+   Les champs se placent par leur numéro Forumactif (#field_idN), dans l'ordre de la carte.
+   Template : forum/templates/profile_view_body.html (profil simple). */
+/* Les marges sont celles de la carte (--bts-carte-marge) : la bande les annule pour aller d'un bord à l'autre. */
+.bts-resident {
+  --bts-carte-marge: 24px;
+  display: grid; grid-template-columns: minmax(0, 1fr); gap: 20px;
+  max-width: 48rem; margin-inline: auto; padding: 0 var(--bts-carte-marge) var(--bts-carte-marge); overflow: hidden;
+  background: var(--s01-carte); border: 2px solid var(--s01-cadre); box-shadow: var(--s01-ombre);
+}
+.bts-resident__bande {
+  display: flex; justify-content: space-between; gap: 12px;
+  margin: 0 calc(var(--bts-carte-marge) * -1); padding: 8px var(--bts-carte-marge);
+  background: var(--s01-carte-bande); color: var(--s01-carte-bande-texte);
+  font: .8125rem/1.4 var(--fal-police-interface);
+}
+.bts-resident__photo {
+  position: relative; box-sizing: content-box; width: 200px; height: 320px; margin: 0 auto;
+  border: 2px solid var(--s01-cadre); background: var(--s01-puce);
+}
+/* Le GIF (champ 1) est glissé sous l'avatar par le template : l'avatar s'efface au survol. */
+.bts-resident__avatar { position: relative; z-index: 1; transition: opacity .2s; }
+.bts-resident__gif { position: absolute; inset: 0; }
+.bts-resident__gif img { display: block; width: 200px; height: 320px; object-fit: cover; }
+.bts-resident__photo--gif { cursor: pointer; }
+.bts-resident__photo:hover .bts-resident__avatar { opacity: 0; }
+.bts-resident__photo:focus-within .bts-resident__avatar { opacity: 0; }
+@media (prefers-reduced-motion: reduce) { .bts-resident__avatar { transition: none; } }
+.bts-resident__photo img { display: block; width: 200px; height: 320px; object-fit: cover; border: 0; border-radius: 0; box-shadow: none; }
+.bts-resident__identite { min-width: 0; }
+.bts-resident__nom { margin: 0 0 2px; font: 400 1.75rem/1.2 var(--fal-police-titres); color: var(--fal-texte); }
+/* Forumactif colore et graisse le pseudo selon le groupe : sur la carte, c'est un nom, pas un badge. */
+.bts-resident__nom * { font: inherit; color: inherit !important; }
+@media (min-width: 40rem) {
+  .bts-resident { grid-template-columns: 204px minmax(0, 1fr); column-gap: 28px; }
+  .bts-resident__bande { grid-column: 1 / -1; }
+  .bts-resident__photo { margin: 0; }
+}
+.bts-resident__champs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px 24px; margin-top: 16px; }
+.bts-resident__champ { order: 20; margin: 0; display: grid; gap: 2px; grid-column: 1 / -1; padding: 0; border: 0; }
+.bts-resident__champ dt { font: .75rem/1.4 var(--fal-police-interface); color: var(--fal-texte-doux); letter-spacing: .04em; }
+.bts-resident__champ dd { margin: 0; font-size: var(--fal-taille-texte); line-height: 1.5; }
+/* Statistiques : rien. */
+.bts-resident #field_id-6,
+.bts-resident #field_id-13,
+.bts-resident #field_id-4 { display: none; }
+/* Recto. */
+.bts-resident #field_id-11 { order: 1; margin-top: -14px; }
+.bts-resident #field_id-11 dt { display: none; }
+.bts-resident #field_id-11 dd { font: .875rem var(--fal-police-interface); color: var(--fal-texte-doux); }
+.bts-resident #field_id-11 dd::before { content: "faceclaim : "; }
+.bts-resident #field_id-11 .field_uneditable { display: inline; }
+/* Avec JavaScript, le faceclaim devient une pastille posée en bas de l'avatar (au-dessus du GIF aussi). */
+.bts-resident__photo #field_id-11 {
+  position: absolute; left: 8px; bottom: 8px; z-index: 2; margin: 0;
+  max-width: calc(100% - 16px); padding: 2px 8px;
+  background: var(--s01-carte-bande); border: 2px solid var(--s01-carte-bande-texte);
+}
+.bts-resident__photo #field_id-11 dd {
+  font: .75rem/1.4 var(--fal-police-interface); color: var(--s01-carte-bande-texte);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.bts-resident__photo #field_id-11:hover dd { white-space: normal; overflow: visible; text-overflow: clip; }
+.bts-resident__photo:focus-within #field_id-11 dd { white-space: normal; overflow: visible; text-overflow: clip; }
+.bts-resident__photo #field_id-11 dd::before { content: "fc \00B7  "; }
+.bts-resident #field_id4 { order: 2; grid-column: auto; }
+.bts-resident #field_id5 { order: 3; grid-column: auto; }
+.bts-resident #field_id6 { order: 4; grid-column: auto; }
+.bts-resident #field_id-20 { order: 6; padding: 10px 14px; border: 2px solid var(--fal-lien-survol); }
+.bts-resident #field_id-20 dt { color: var(--fal-lien-survol); }
+.bts-resident #field_id1 { display: none; }
+/* La fiche (champ site web) s'affiche en icône : on la remplace par un texte. */
+.bts-resident #field_id-10 dd a::after { content: "Sa fiche"; }
+.bts-resident #field_id8 dd a::after { content: "Bipeur"; }
+.bts-resident__contact#field_id dd a::after { content: "Message priv\00E9"; }
+.bts-resident #field_id9 dd a::after { content: "Moodboard"; }
+/* Le joueur n'est pas le résident : un bandeau à part sous la carte (le template y range ses champs). */
+.bts-joueur {
+  max-width: 48rem; margin-top: 16px; margin-inline: auto;
+  background: var(--s01-fenetre); border: 2px solid var(--s01-cadre); box-shadow: var(--s01-ombre);
+}
+.bts-joueur:not(:has(dl)) { display: none; }
+.bts-joueur__titre {
+  margin: 0; padding: 6px 24px; background: var(--s01-barre); color: var(--s01-barre-texte);
+  font: 400 .875rem/1.4 var(--fal-police-interface);
+}
+.bts-joueur__champs { display: flex; flex-wrap: wrap; align-items: end; gap: 12px 32px; padding: 14px 24px 16px; }
+.bts-joueur .bts-resident__champ { order: 0; display: grid; gap: 2px; margin: 0; }
+.bts-joueur .bts-resident__champ dt { font: .75rem/1.4 var(--fal-police-interface); color: var(--fal-texte-doux); letter-spacing: .04em; }
+.bts-joueur .bts-resident__champ dd { margin: 0; }
+.bts-joueur .bts-resident__contact { order: 1; margin-left: auto; }
+
+/* ---------- La fiche de préférences RP (sous le bandeau joueur) ----------
+   Module : forum/preferences/preferences.js. Le niveau s'écrit toujours en toutes lettres. */
+.bts-preferences {
+  max-width: 48rem; margin: 16px auto 0;
+  background: var(--s01-fenetre); border: 2px solid var(--s01-cadre); box-shadow: var(--s01-ombre);
+}
+.bts-preferences__titre {
+  margin: 0; padding: 6px 24px; background: var(--s01-barre); color: var(--s01-barre-texte);
+  font: 400 .875rem/1.4 var(--fal-police-interface);
+}
+.bts-preferences__corps { padding: 14px 24px 18px; display: grid; gap: 14px; }
+.bts-pref__grille { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(17rem, 1fr)); gap: 6px 24px; }
+li.bts-pref__theme { display: flex; justify-content: space-between; gap: 12px; padding: 4px 0; border-bottom: 2px dotted var(--s01-filet); }
+.bts-pref__nom { font-size: .875rem; }
+.bts-pref__niveau { flex: none; font: .8125rem/1.6 var(--fal-police-interface); color: var(--fal-texte-doux); }
+.bts-pref__theme--ok .bts-pref__niveau { color: var(--fal-texte); }
+.bts-pref__theme--non .bts-pref__niveau { color: var(--fal-lien-survol); }
+fieldset.bts-pref__theme { margin: 0; padding: 4px 0 8px; border: 0; border-bottom: 2px dotted var(--s01-filet); }
+fieldset.bts-pref__theme legend { padding: 0; margin-bottom: 4px; font-size: .875rem; }
+.bts-pref__choix { display: flex; flex-wrap: wrap; gap: 4px; }
+.bts-pref__option {
+  position: relative; display: inline-flex; align-items: center; gap: .3em; padding: 2px 8px;
+  border: 2px solid var(--s01-cadre); background: var(--s01-puce); color: var(--fal-texte);
+  font: .8125rem/1.5 var(--fal-police-interface); cursor: pointer;
+}
+.bts-pref__option input { position: absolute; opacity: 0; width: 1px; height: 1px; margin: 0; }
+.bts-pref__option:has(input:checked) { background: var(--fal-accent); color: var(--fal-accent-contraste); }
+.bts-pref__option:has(input:focus-visible) { outline: 3px solid var(--fal-accent); outline-offset: 2px; }
+.bts-pref__titre { margin: 0 0 4px; font: .75rem/1.4 var(--fal-police-interface); color: var(--fal-texte-doux); letter-spacing: .04em; }
+.bts-pref__limites textarea, .bts-pref__jeu textarea { box-sizing: border-box; width: 100%; border: 2px solid var(--s01-cadre); border-radius: 0; background: var(--s01-champ); color: var(--fal-texte); font: inherit; padding: 8px 10px; }
+.bts-pref__texte { margin: 0; white-space: pre-line; }
+.bts-pref__pied { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; }
+.bts-pref__statut { margin: 0; font-size: var(--fal-taille-petite); color: var(--fal-texte-doux); }
+.bts-pref__statut:empty { display: none; }
+
+/* ---------- Le tableau de scène (en tête des sujets RP) ----------
+   Module : forum/preferences/scene.js. Repliable, fermé par défaut ; jamais qui a répondu quoi. */
+.bts-scene-place { margin: 0 0 16px; }
+.bts-scene { background: var(--s01-fenetre); border: 2px solid var(--s01-cadre); box-shadow: var(--s01-ombre); }
+.bts-scene__titre {
+  cursor: pointer; list-style: none; display: flex; gap: 10px; align-items: center;
+  padding: 6px 16px; background: var(--s01-barre); color: var(--s01-barre-texte);
+  font: 400 .875rem/1.4 var(--fal-police-interface);
+}
+.bts-scene__titre::-webkit-details-marker { display: none; }
+.bts-scene__titre::before { content: "\25B8" / ""; }
+.bts-scene[open] > .bts-scene__titre::before { content: "\25BE" / ""; }
+.bts-scene__titre:focus-visible { outline: 3px solid var(--fal-accent); outline-offset: 2px; }
+.bts-scene__colonnes { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px 20px; padding: 14px 16px 4px; }
+@media (max-width: 640px) {
+  .bts-scene__colonnes { grid-template-columns: 1fr; }
+}
+.bts-scene__niveau { margin: 0 0 6px; font: 400 .875rem/1.4 var(--fal-police-interface); }
+.bts-scene__themes { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; }
+.bts-scene__themes li { padding: 1px 8px; border: 2px solid var(--s01-cadre); background: var(--s01-puce); font-size: .8125rem; }
+.bts-scene__colonne--non li { background: var(--fal-accent); color: var(--fal-accent-contraste); }
+.bts-scene__aucun, .bts-scene__vide, .bts-scene__note { margin: 0; font-size: var(--fal-taille-petite); color: var(--fal-texte-doux); }
+.bts-scene__vide, .bts-scene__note { padding: 8px 16px 0; }
+.bts-scene > :last-child { padding-bottom: 14px; }
+
+/* ---------- Les liens : le répertoire du bipeur (sous la carte de résident) ----------
+   Module : forum/liens/liens.js. Le contact choisi s'affiche sur l'écran ; survol, focus et flèches aussi. */
+.bts-liens {
+  max-width: 48rem; margin: 16px auto 0;
+  background: var(--s01-fenetre); border: 2px solid var(--s01-cadre); box-shadow: var(--s01-ombre);
+}
+.bts-liens__titre {
+  margin: 0; padding: 6px 24px; background: var(--s01-barre); color: var(--s01-barre-texte);
+  font: 400 .875rem/1.4 var(--fal-police-interface);
+}
+.bts-liens__corps { padding: 16px 24px 18px; display: grid; gap: 14px; }
+.bts-liens__bipeur {
+  width: 100%; max-width: 30rem; margin: 0 auto; padding: 16px 16px 12px;
+  background: var(--s01-puce); border: 2px solid var(--s01-cadre); border-radius: 18px;
+  box-shadow: inset -3px -3px 0 var(--s01-biseau-sombre), inset 3px 3px 0 var(--s01-biseau-clair);
+}
+.bts-liens__ecran {
+  padding: 8px 10px; border: 3px solid var(--s01-bipeur-cadre); border-radius: 6px;
+  background: var(--s01-bipeur); color: var(--s01-bipeur-texte);
+  font: .875rem/1.6 var(--fal-police-interface);
+}
+.bts-liens__contacts { list-style: none; margin: 0; padding: 0; max-height: 9.6em; overflow-y: auto; }
+.bts-liens__contact {
+  display: flex; width: 100%; gap: .5em; padding: 0 4px; border: 0; border-radius: 0;
+  background: transparent; color: inherit; font: inherit; text-align: left; cursor: pointer;
+}
+.bts-liens__contact[aria-pressed="true"] { background: var(--s01-bipeur-texte); color: var(--s01-bipeur); }
+.bts-liens__contact:focus-visible { outline: 2px dashed var(--s01-bipeur-texte); outline-offset: 2px; }
+.bts-liens__marque { margin-left: auto; }
+.bts-liens__contact--attente, .bts-liens__contact--introuvable { opacity: .75; }
+.bts-liens__message { margin: 6px 0 0; padding-top: 6px; border-top: 2px dashed currentColor; min-height: 1.6em; }
+.bts-liens__message a { color: inherit; }
+.bts-liens__vide { margin: 0; }
+.bts-liens__touches { display: flex; justify-content: center; gap: 10px; margin-top: 10px; }
+.bts-liens__touches span { width: 44px; height: 16px; border: 2px solid var(--s01-cadre); border-radius: 8px; background: var(--s01-fenetre); }
+.bts-liens__edition summary { cursor: pointer; font: .875rem/1.4 var(--fal-police-interface); }
+.bts-liens__edition summary:focus-visible { outline: 3px solid var(--fal-accent); outline-offset: 2px; }
+.bts-liens__lignes { display: grid; gap: 8px; margin: 10px 0; }
+.bts-liens__ligne { display: grid; grid-template-columns: 1fr 1.6fr auto; gap: 8px; align-items: end; }
+.bts-liens__champ { display: grid; gap: 2px; }
+.bts-liens__champ label { font: .75rem/1.4 var(--fal-police-interface); color: var(--fal-texte-doux); }
+.bts-liens__champ input { box-sizing: border-box; width: 100%; border: 2px solid var(--s01-cadre); border-radius: 0; background: var(--s01-champ); color: var(--fal-texte); font: inherit; padding: 4px 8px; }
+.bts-liens__retirer, .bts-liens__ajouter {
+  padding: 4px 10px; border: 2px solid var(--s01-cadre); border-radius: 0; background: var(--s01-puce); color: var(--fal-texte);
+  font: .8125rem/1.3 var(--fal-police-interface); cursor: pointer;
+}
+.bts-liens__pied { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; }
+.bts-liens__statut { margin: 0; font-size: var(--fal-taille-petite); color: var(--fal-texte-doux); }
+.bts-liens__statut:empty { display: none; }
+.bts-liens__aide { margin: 8px 0 0; font-size: var(--fal-taille-petite); color: var(--fal-texte-doux); }
+@media (max-width: 640px) {
+  .bts-liens__ligne { grid-template-columns: 1fr; }
+}
+
+/* ---------- Les envies discrètes (après le bandeau hors-jeu) ----------
+   Module : forum/envies/envies.js. Réciproques ou rien : aucun signal tant que l'envie n'est pas partagée. */
+.bts-envies {
+  max-width: 48rem; margin: 16px auto 0;
+  background: var(--s01-fenetre); border: 2px solid var(--s01-cadre); box-shadow: var(--s01-ombre);
+}
+.bts-envies__titre {
+  margin: 0; padding: 6px 24px; background: var(--s01-barre); color: var(--s01-barre-texte);
+  font: 400 .875rem/1.4 var(--fal-police-interface);
+}
+.bts-envies__corps { padding: 14px 24px 18px; display: grid; gap: 10px; }
+.bts-envies__choix { margin: 0; padding: 0; border: 0; display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.bts-envies__choix legend { float: left; margin-right: 8px; padding: 0; font-size: .9375rem; }
+.bts-envies__case {
+  position: relative; display: inline-flex; align-items: center; gap: .35em; padding: 3px 10px; cursor: pointer;
+  border: 2px solid var(--s01-cadre); background: var(--s01-puce); font: .8125rem/1.4 var(--fal-police-interface);
+}
+.bts-envies__case input { margin: 0; accent-color: var(--fal-accent); }
+.bts-envies__case:has(input:checked) { background: var(--fal-accent); color: var(--fal-accent-contraste); }
+.bts-envies__case:has(input:focus-visible) { outline: 3px solid var(--fal-accent); outline-offset: 2px; }
+.bts-envies__aide, .bts-envies__statut { margin: 0; font-size: var(--fal-taille-petite); color: var(--fal-texte-doux); }
+.bts-envies__statut:empty { display: none; }
+.bts-envies__partage { margin: 0; padding: 6px 10px; border-left: 6px solid var(--fal-accent); background: var(--s01-puce); }
+.bts-envies__liste { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
+
+/* ---------- Les absences (forum/absences/absences.js) ----------
+   « En pause » : du texte dans un cadre, pas seulement une couleur ; aucune date affichée aux autres. */
+.bts-pause {
+  display: inline-block; margin: 4px 0 8px; padding: 1px 10px;
+  border: 2px solid var(--s01-cadre); background: var(--s01-sortie); color: var(--s01-sortie-texte);
+  font: .8125rem/1.5 var(--fal-police-interface); letter-spacing: .04em;
+}
+.bts-absence {
+  max-width: 48rem; margin: 16px auto 0;
+  background: var(--s01-fenetre); border: 2px solid var(--s01-cadre); box-shadow: var(--s01-ombre);
+}
+.bts-absence__titre {
+  margin: 0; padding: 6px 24px; background: var(--s01-barre); color: var(--s01-barre-texte);
+  font: 400 .875rem/1.4 var(--fal-police-interface);
+}
+.bts-absence__corps { padding: 14px 24px 18px; display: grid; gap: 10px; }
+.bts-absence__etat { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; }
+.bts-absence__phrase { margin: 0; flex-basis: 100%; }
+.bts-absence__aide, .bts-absence__statut { margin: 0; font-size: var(--fal-taille-petite); color: var(--fal-texte-doux); }
+.bts-absence__statut:empty { display: none; }
+.bts-absence__staff { margin-top: 8px; padding-top: 10px; border-top: 2px dotted var(--s01-filet); display: grid; gap: 8px; }
+.bts-absence__titre-staff { margin: 0; font: 400 .875rem/1.4 var(--fal-police-interface); }
+.bts-absence__chercher { justify-self: start; }
+.bts-absence__fantomes { margin: 0; padding-left: 1.2em; }
+
+/* ---------- Les scènes à jouer (forum/scenes/scenes.js) : le billet de métro ----------
+   Talon jaune « sortie » détachable ; en colonne sur mobile. Le texte brut du message reste pour les lecteurs sans script. */
+.bts-billet { display: grid; grid-template-columns: 1fr 10rem; margin: 0 0 16px; background: var(--s01-fenetre); border: 2px solid var(--s01-cadre); box-shadow: var(--s01-ombre); }
+.bts-billet__gauche { padding: 16px 20px; display: grid; gap: 6px; align-content: start; }
+.bts-billet__ligne { justify-self: start; padding: 1px 8px; background: var(--fal-accent); color: var(--fal-accent-contraste); font: .75rem/1.5 var(--fal-police-interface); }
+.bts-billet__titre { margin: 0; font: 400 1.25rem/1.25 var(--fal-police-titre, var(--fal-police-interface)); }
+.bts-billet__meta, .bts-billet__aide { margin: 0; font-size: var(--fal-taille-petite); color: var(--fal-texte-doux); }
+.bts-billet__idee { margin: 0; white-space: pre-line; }
+.bts-billet__talon {
+  display: grid; align-content: space-between; justify-items: center; gap: 12px; padding: 16px 12px; text-align: center;
+  border-left: 3px dashed var(--s01-cadre); background: var(--s01-sortie); color: var(--s01-sortie-texte);
+  font: .8125rem/1.4 var(--fal-police-interface);
+}
+.bts-billet__tente {
+  padding: 6px 12px; border: 2px solid var(--s01-sortie-texte); background: var(--s01-fenetre); color: var(--fal-texte);
+  text-decoration: none; font: .875rem/1.3 var(--fal-police-interface);
+}
+.bts-billet__tente:focus-visible { outline: 3px solid var(--fal-accent); outline-offset: 2px; }
+.bts-billet__brut { display: none; }
+/* La liste « Scènes à jouer » : chaque proposition devient un billet ; les anciennes se remontrent d'un bouton. */
+.fal-sujet.bts-sujet--billet { display: block; padding: 0; border: 0; background: none; box-shadow: none; }
+.bts-sujet--billet > :not(.bts-billet):not(.bts-filtre__deplier) { display: none; }
+.bts-billet--liste { margin: 0 0 12px; }
+.bts-billet--liste .bts-billet__titre a { color: inherit; }
+.bts-scenes__anciennes {
+  margin: 4px 0 16px; padding: 6px 14px; cursor: pointer; border: 2px dashed var(--fal-texte-doux); border-radius: 0;
+  background: transparent; color: var(--fal-texte-doux); font: .8125rem/1.4 var(--fal-police-interface);
+}
+.bts-scenes__anciennes:focus-visible { outline: 3px solid var(--fal-accent); outline-offset: 2px; }
+@media (max-width: 640px) {
+  .bts-billet { grid-template-columns: 1fr; }
+  .bts-billet__talon { border-left: 0; border-top: 3px dashed var(--s01-cadre); }
+}
+.bts-proposer { margin: 0 0 16px; background: var(--s01-fenetre); border: 2px solid var(--s01-cadre); box-shadow: var(--s01-ombre); }
+.bts-proposer__titre {
+  cursor: pointer; list-style: none; padding: 6px 16px; background: var(--s01-barre); color: var(--s01-barre-texte);
+  font: 400 .875rem/1.4 var(--fal-police-interface);
+}
+.bts-proposer__titre::-webkit-details-marker { display: none; }
+.bts-proposer__titre::before { content: "\25B8  " / ""; }
+.bts-proposer[open] > .bts-proposer__titre::before { content: "\25BE  " / ""; }
+.bts-proposer__titre:focus-visible { outline: 3px solid var(--fal-accent); outline-offset: 2px; }
+.bts-proposer__corps { padding: 16px; display: grid; gap: 12px; }
+.bts-proposer__deux { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.bts-proposer__champ, .bts-proposer__invites { display: grid; gap: 4px; }
+.bts-proposer__invites[hidden] { display: none; }
+.bts-proposer__champ label, .bts-proposer__invites label, .bts-proposer__acces legend { font: .75rem/1.4 var(--fal-police-interface); color: var(--fal-texte-doux); }
+.bts-proposer__corps input[type="text"], .bts-proposer__corps select, .bts-proposer__corps textarea {
+  box-sizing: border-box; width: 100%; border: 2px solid var(--s01-cadre); border-radius: 0; background: var(--s01-champ); color: var(--fal-texte); font: inherit; padding: 6px 8px;
+}
+.bts-proposer__acces { margin: 0; padding: 0; border: 0; display: flex; flex-wrap: wrap; gap: 6px 16px; }
+.bts-proposer__acces legend { flex-basis: 100%; padding: 0; }
+.bts-proposer__option input { accent-color: var(--fal-accent); }
+.bts-proposer__envoyer { justify-self: start; }
+.bts-proposer__aide, .bts-proposer__statut { margin: 0; font-size: var(--fal-taille-petite); color: var(--fal-texte-doux); }
+.bts-proposer__statut:empty { display: none; }
+@media (max-width: 640px) {
+  .bts-proposer__deux { grid-template-columns: 1fr; }
+}
+
+/* ---------- Le filtre (forum/filtre/filtre.js) ----------
+   Messages et sujets attendent la décision ; un élément replié ne garde que son bouton « afficher ». */
+.bts-filtre-attente .fal-message, .bts-filtre-attente .fal-sujet,
+.bts-filtre-attente .fal-liste, .bts-filtre-attente .fal-forum__dernier, .bts-filtre-attente [data-bts-auteur] { visibility: hidden; }
+.bts-filtre--replie > :not(.bts-filtre__deplier) { display: none !important; }
+[data-bts-filtre="cacher"] { display: none !important; }
+.bts-filtre-verif { visibility: hidden; }
+/* Le profil d'une personne filtrée : tout se replie, sauf la fenêtre « Filtre » (pour changer d'avis). */
+.bts-profil-filtre .bts-resident, .bts-profil-filtre .bts-liens, .bts-profil-filtre .bts-joueur,
+.bts-profil-filtre .bts-envies, .bts-profil-filtre .bts-preferences { display: none !important; }
+.bts-profil-deplier, .bts-profil-note {
+  display: block; box-sizing: border-box; width: 100%; max-width: 48rem; margin: 0 auto 16px; padding: 10px 16px;
+  border: 2px dashed var(--fal-texte-doux); border-radius: 0; background: transparent; color: var(--fal-texte-doux);
+  font: .875rem/1.4 var(--fal-police-interface); text-align: left;
+}
+.bts-profil-deplier { cursor: pointer; }
+.bts-profil-deplier:focus-visible { outline: 3px solid var(--fal-accent); outline-offset: 2px; }
+.bts-filtre--replie { min-height: 0 !important; padding: 0 !important; opacity: .85; }
+.bts-filtre__deplier {
+  display: block; width: 100%; margin: 0; padding: 8px 14px; cursor: pointer; text-align: left;
+  border: 2px dashed var(--fal-texte-doux); border-radius: 0; background: transparent; color: var(--fal-texte-doux);
+  font: .8125rem/1.4 var(--fal-police-interface);
+}
+.bts-filtre__deplier:focus-visible { outline: 3px solid var(--fal-accent); outline-offset: 2px; }
+.bts-filtre__deplier[aria-expanded="true"] { border-style: solid; margin-bottom: 8px; }
+.bts-filtre {
+  max-width: 48rem; margin: 16px auto 0;
+  background: var(--s01-fenetre); border: 2px solid var(--s01-cadre); box-shadow: var(--s01-ombre);
+}
+.bts-filtre__titre {
+  margin: 0; padding: 6px 24px; background: var(--s01-barre); color: var(--s01-barre-texte);
+  font: 400 .875rem/1.4 var(--fal-police-interface);
+}
+.bts-filtre__corps { padding: 14px 24px 18px; display: grid; gap: 12px; }
+.bts-filtre__groupe { margin: 0; padding: 0; border: 0; display: grid; gap: 4px; }
+.bts-filtre__groupe legend { padding: 0; margin-bottom: 4px; font-size: .9375rem; }
+.bts-filtre__option { display: flex; gap: .5em; align-items: baseline; font-size: .875rem; }
+.bts-filtre__option input { accent-color: var(--fal-accent); }
+.bts-filtre__titre-liste { margin: 0 0 4px; font: 400 .875rem/1.4 var(--fal-police-interface); }
+.bts-filtre__liste { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
+.bts-filtre__basculer, .bts-filtre__retirer {
+  justify-self: start; padding: 4px 12px; border: 2px solid var(--s01-cadre); border-radius: 0;
+  background: var(--s01-puce); color: var(--fal-texte); font: .8125rem/1.3 var(--fal-police-interface); cursor: pointer;
+}
+.bts-filtre__basculer[aria-pressed="true"] { background: var(--fal-accent); color: var(--fal-accent-contraste); }
+.bts-filtre__pied { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; }
+.bts-filtre__aide, .bts-filtre__statut { margin: 0; font-size: var(--fal-taille-petite); color: var(--fal-texte-doux); }
+.bts-filtre__statut:empty { display: none; }
+
+/* ---------- Signaler (le rapport d'alerte de Forumactif, sur chaque message) ----------
+   En toutes lettres plutôt qu'une icône ; l'explication est sur le lien (survol, lecteur d'écran). */
+.btn-report img { display: none; }
+.btn-report a[href*="mode=report"]::after { content: "Signaler"; }
+.btn-report a[href*="mode=lock"]::after { content: "Clore les signalements"; }
+/* Contacts : des boutons biseautés ; ni e-mail, ni champ vide. Leur icône laisse place au libellé. */
+.bts-resident__contact:has(a[href*="mode=email"]) { display: none; }
+.bts-resident__contact:not(:has(a)) { display: none; }
+.bts-resident__contact { order: 7; grid-column: auto; }
+.bts-resident__contact dt { display: none; }
+.bts-resident__contact dd a {
+  display: inline-flex; align-items: center; gap: .4em; padding: 6px 12px;
+  border: 2px solid var(--s01-cadre); background: var(--s01-puce); color: var(--fal-texte);
+  box-shadow: inset -2px -2px 0 var(--s01-biseau-sombre), inset 2px 2px 0 var(--s01-biseau-clair);
+  font: .8125rem/1.3 var(--fal-police-interface); text-decoration: none;
+}
+.bts-resident__contact dd img { display: none; }
+.bts-resident__contact dd a::after { content: attr(title); }
+.bts-resident__admin { max-width: 48rem; margin: 18px auto 0; font-size: var(--fal-taille-petite); color: var(--fal-texte-doux); }
+.bts-resident__note { display: grid; gap: 8px; max-width: 48rem; margin: 18px auto 0; padding: var(--s01-marge); }
+
+/* ---------- Rédaction, profil, pied ---------- */
+.fal-redaction__principal.panel { padding: var(--s01-marge); }
+.fal-champ > label, .fal-champ__libelle { text-transform: none; letter-spacing: 0; font-family: var(--fal-police-interface); }
+.fal-envoi { margin-inline: 0; border: 2px solid var(--s01-cadre); background: var(--s01-fenetre); box-shadow: var(--s01-ombre); }
+/* Tous les libellés au-dessus de leur champ : une seule colonne, comme le titre. */
+.fal-corps .fal-champ { grid-template-columns: none; }
+.fal-corps .fal-champ .inputbox { border: 2px solid var(--s01-cadre); border-radius: 0; background: var(--s01-champ); color: var(--fal-texte); }
+
+/* L'éditeur : une fenêtre, sa barre d'outils en boutons biseautés de 2001. */
+/* fa-lab impose sa couleur de bordure en !important : on la remplace de même. */
+.fal-corps .sceditor-container { border: 2px solid var(--s01-cadre) !important; border-radius: 0; background: var(--s01-champ); }
+.fal-corps .sceditor-toolbar {
+  display: flex; flex-wrap: wrap; gap: 6px 10px;
+  padding: 8px; background: var(--s01-puce); border-bottom: 2px solid var(--s01-cadre);
+}
+.fal-corps .sceditor-group {
+  display: flex; gap: 2px; margin: 0; padding: 0;
+  background: none; border: 0; border-radius: 0;
+}
+.fal-corps .sceditor-button {
+  display: grid; place-items: center; box-sizing: border-box;
+  width: 28px; height: 28px; padding: 0; border-radius: 0;
+  background: var(--s01-fenetre);
+  box-shadow: inset -2px -2px 0 var(--s01-biseau-sombre), inset 2px 2px 0 var(--s01-biseau-clair);
+  cursor: pointer;
+}
+.fal-corps .sceditor-button:hover { background: var(--s01-champ); }
+.fal-corps .sceditor-button.active,
+.fal-corps .sceditor-button:active {
+  background: var(--s01-champ);
+  box-shadow: inset 2px 2px 0 var(--s01-biseau-sombre), inset -2px -2px 0 var(--s01-biseau-clair);
+}
+.fal-corps .sceditor-button.disabled { opacity: .45; cursor: default; }
+/* Les icônes d'origine, en niveaux de gris pour ne pas jurer ; éclaircies la nuit. */
+.fal-corps .sceditor-button div { margin: 0; filter: grayscale(1) contrast(1.25); }
+:root[data-fal-rendu="nuit"] .fal-corps .sceditor-button div { filter: grayscale(1) invert(1) brightness(1.15); }
+.fal-corps .sceditor-container textarea {
+  box-sizing: border-box; margin: 0; padding: 12px 14px;
+  background: var(--s01-champ); color: var(--fal-texte);
+  font: var(--fal-taille-texte) / var(--fal-interligne) var(--fal-police-texte);
+}
+
+/* Les options : cases et types de sujet. */
+.fal-corps .fal-volet input[type="checkbox"], .fal-corps .fal-volet input[type="radio"] { accent-color: var(--fal-accent); }
+/* Le template sépare les choix par des espaces insécables : l'écart vient des marges, pas du gap. */
+.fal-corps .fal-type { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 0; margin-top: .5em; }
+.fal-corps .fal-type label { display: inline-flex; align-items: center; gap: .4em; width: auto; margin-right: 14px; }
+.fal-volet > summary { border-bottom-color: transparent; }
+.fal-volet[open] > summary { border-bottom-color: var(--s01-cadre); }
+
+.fal-fiche__portrait.module, .fal-fiche__contenu { padding: 0; }
+.fal-fiche__portrait.module > * { margin-inline: var(--s01-marge); }
+.fal-fiche__avatar { margin-top: var(--s01-marge); }
+.fal-fiche__avatar img { border: 2px solid var(--s01-cadre); border-radius: 0; box-shadow: var(--s01-ombre-bouton); }
+.fal-fiche__portrait.module > :last-child { margin-bottom: var(--s01-marge); }
+.fal-fiche__contenu > * { margin-inline: var(--s01-marge); }
+.fal-fiche__contenu > :last-child { padding-bottom: var(--s01-marge); }
+.fal-onglets { margin-top: var(--s01-marge); border-bottom: 2px solid var(--s01-cadre); }
+.fal-onglets li a {
+  padding: .45em .9em; margin-bottom: -2px;
+  border: 2px solid transparent; border-bottom: 0;
+  font-family: var(--fal-police-interface); font-size: var(--s01-taille-barre);
+  text-transform: none; letter-spacing: 0;
+}
+.fal-onglets li.activetab a { border-color: var(--s01-cadre); background: var(--s01-fenetre); color: var(--s01-titre); }
+.fal-fiche__champ { border-bottom: 2px dotted var(--s01-filet); }
+.fal-fiche__champ dt { text-transform: none; letter-spacing: 0; font-family: var(--fal-police-interface); }
+/* Les réponses de la fiche se lisent comme du texte, pas comme des étiquettes. */
+.fal-fiche__champ dd { font-size: var(--fal-taille-texte); line-height: var(--fal-interligne); }
+.fal-fiche__champ dt { font-size: .875rem; }
+
+.fal-pied { border-top: 2px dotted var(--s01-cadre); text-transform: none; letter-spacing: 0; }
+
+#fa_toolbar {
+  --fal-barre-fond: var(--s01-barre);
+  --fal-barre-texte: var(--s01-barre-texte);
+  border-bottom: 2px solid var(--s01-cadre);
+}
+#fa_menulist, #notif_list { border: 2px solid var(--s01-cadre); border-radius: 0; box-shadow: var(--s01-ombre); background: var(--s01-fenetre); }

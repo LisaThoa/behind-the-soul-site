@@ -1,0 +1,379 @@
+/* Carte interactive de Behind the Soul.
+ * Jour : la signalétique du métro de Séoul. Nuit : les néons d'Itaewon. Les deux en pixels, façon 2001 :
+ * fenêtres biseautées, bipeur LCD, police pixel pour les titres (le texte courant reste en Noto Sans KR).
+ * Tout se règle par les variables ci-dessous ; les deux modes sont testés au contraste AA.
+ * Polices : Galmuri (https://cdn.jsdelivr.net/npm/galmuri@2.40.3/dist/galmuri.css) et Noto Sans KR. */
+
+/* ---------- Jour : signalétique du métro ---------- */
+.bts-carte {
+  --bts-police: "Noto Sans KR", system-ui, sans-serif;
+  --bts-police-pixel: "Galmuri11", "DotGothic16", monospace;
+  --bts-fond: #FFFFFF;
+  --bts-encre: #1D1D1B;
+  --bts-encre-douce: #55534E;
+  --bts-ligne: #D3D1C7;
+  --bts-survol: #ECEAE3;
+  --bts-lien: #0052A4;
+  --bts-focus: #0052A4;
+  --bts-nouveau: #B3261E;
+  --bts-nouveau-fond: #FCEBEB;
+  --bts-station-bandeau: #1D1D1B;
+  --bts-station-texte: #FFFFFF;
+  --bts-station-ko: #FFFFFF;
+  --bts-badge-fond: #B3261E;
+  --bts-badge-texte: #FFFFFF;
+  --bts-bulle-fond: #1D1D1B;
+  --bts-bulle-texte: #FFFFFF;
+  --bts-bipeur-fond: #C8D8A8;
+  --bts-bipeur-texte: #1F2A12;
+  --bts-bipeur-cadre: #1D1D1B;
+  --bts-bouton: #E9E6DD;
+  --bts-bouton-texte: #1D1D1B;
+  --bts-cadre: #1D1D1B;
+  --bts-biseau-clair: #FFFFFF;
+  --bts-biseau-sombre: #8A867B;
+  --bts-gu-fond: #F1EFE8;
+  --bts-gu-trait: #B4B2A9;
+  --bts-gu-actif: #E4E0D3;
+  --bts-gu-nouveau: #FBE3E1;
+  --bts-fleuve: #B5D4F4;
+  --bts-quartier-texte: #1D1D1B;
+  --bts-quartier-halo: #FFFFFF;
+  --bts-plaque-fond: #1D1D1B;
+  --bts-plaque-texte: #FFFFFF;
+  --bts-tramage-opacite: .45;
+  --bts-station-fond: #FFFFFF;
+  --bts-station-trait: #1D1D1B;
+  --bts-credits: #55534E;
+  --bts-fermee: #B3261E;
+  --bts-ligne-opacite: .75;
+  --bts-panneau-largeur: 22rem;
+
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 12px;
+  color: var(--bts-encre);
+  font: 16px/1.5 var(--bts-police);
+}
+
+/* ---------- Nuit : néons ---------- */
+:root[data-fal-rendu="nuit"] .bts-carte {
+  --bts-fond: #17131F;
+  --bts-encre: #EDE8F5;
+  --bts-encre-douce: #B9B2C8;
+  --bts-ligne: #3A3249;
+  --bts-survol: #261F33;
+  --bts-lien: #8FE3CF;
+  --bts-focus: #FFD166;
+  --bts-nouveau: #FF8FC3;
+  --bts-nouveau-fond: #3B1830;
+  --bts-station-bandeau: #0B0910;
+  --bts-station-texte: #FFB3D6;
+  --bts-station-ko: #8FE3CF;
+  --bts-badge-fond: #FF8FC3;
+  --bts-badge-texte: #17131F;
+  --bts-bulle-fond: #EDE8F5;
+  --bts-bulle-texte: #17131F;
+  --bts-bipeur-fond: #0F1F1B;
+  --bts-bipeur-texte: #8FE3CF;
+  --bts-bipeur-cadre: #8FE3CF;
+  --bts-bouton: #221C2E;
+  --bts-bouton-texte: #EDE8F5;
+  --bts-cadre: #FF8FC3;
+  --bts-biseau-clair: #4A3F60;
+  --bts-biseau-sombre: #05040A;
+  --bts-gu-fond: #221C2E;
+  --bts-gu-trait: #3E3550;
+  --bts-gu-actif: #2E2640;
+  --bts-gu-nouveau: #3B1830;
+  --bts-fleuve: #1E2F52;
+  --bts-quartier-texte: #EDE8F5;
+  --bts-quartier-halo: #17131F;
+  --bts-plaque-fond: #0B0910;
+  --bts-plaque-texte: #FFB3D6;
+  --bts-tramage-opacite: .5;
+  --bts-station-fond: #17131F;
+  --bts-station-trait: #EDE8F5;
+  --bts-credits: #B9B2C8;
+  --bts-fermee: #FF6B6B;
+  --bts-ligne-opacite: .95;
+  --bts-faction-baekho: #F0997B;
+  --bts-faction-seorin: #AFA9EC;
+  --bts-faction-police: #85B7EB;
+  --bts-faction-comite: #5DCAA5;
+}
+
+/* Sans fa-lab (pas de bouton jour/nuit) : on suit le réglage de l'appareil. Mêmes valeurs. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-fal-rendu]) .bts-carte {
+    --bts-fond: #17131F;
+    --bts-encre: #EDE8F5;
+    --bts-encre-douce: #B9B2C8;
+    --bts-ligne: #3A3249;
+    --bts-survol: #261F33;
+    --bts-lien: #8FE3CF;
+    --bts-focus: #FFD166;
+    --bts-nouveau: #FF8FC3;
+    --bts-nouveau-fond: #3B1830;
+    --bts-station-bandeau: #0B0910;
+    --bts-station-texte: #FFB3D6;
+    --bts-station-ko: #8FE3CF;
+    --bts-badge-fond: #FF8FC3;
+    --bts-badge-texte: #17131F;
+    --bts-bulle-fond: #EDE8F5;
+    --bts-bulle-texte: #17131F;
+    --bts-bipeur-fond: #0F1F1B;
+    --bts-bipeur-texte: #8FE3CF;
+    --bts-bipeur-cadre: #8FE3CF;
+    --bts-bouton: #221C2E;
+    --bts-bouton-texte: #EDE8F5;
+    --bts-cadre: #FF8FC3;
+    --bts-biseau-clair: #4A3F60;
+    --bts-biseau-sombre: #05040A;
+    --bts-gu-fond: #221C2E;
+    --bts-gu-trait: #3E3550;
+    --bts-gu-actif: #2E2640;
+    --bts-gu-nouveau: #3B1830;
+    --bts-fleuve: #1E2F52;
+    --bts-quartier-texte: #EDE8F5;
+    --bts-quartier-halo: #17131F;
+    --bts-plaque-fond: #0B0910;
+    --bts-plaque-texte: #FFB3D6;
+    --bts-tramage-opacite: .5;
+    --bts-station-fond: #17131F;
+    --bts-station-trait: #EDE8F5;
+    --bts-credits: #B9B2C8;
+    --bts-fermee: #FF6B6B;
+    --bts-ligne-opacite: .95;
+    --bts-faction-baekho: #F0997B;
+    --bts-faction-seorin: #AFA9EC;
+    --bts-faction-police: #85B7EB;
+    --bts-faction-comite: #5DCAA5;
+  }
+}
+
+/* ---------- Mise en page ---------- */
+/* Grand écran : la carte prend toute la largeur, et l'encart (légende ou panneau) se pose
+   dessus, dans le coin en haut à gauche, hors de la ville. Le zoom en tient compte. */
+@media (min-width: 900px) {
+  .bts-carte > svg,
+  .bts-carte__panneau,
+  .bts-carte__accueil { grid-column: 1; grid-row: 2; }
+  .bts-carte__panneau,
+  .bts-carte__accueil {
+    justify-self: start; align-self: start; z-index: 1;
+    width: var(--bts-panneau-largeur); margin: 16px;
+    max-height: calc(100vh - 32px); overflow: auto;
+  }
+}
+.bts-carte--liste > .bts-carte__accueil,
+.bts-carte--liste > .bts-carte__panneau { display: none; }
+
+/* « Voir en liste » : les vrais forums des quartiers, deux par rangée sur grand écran.
+   Hors de .bts-carte : on suit les couleurs du thème du forum (--fal-*). Léger : pas d'illustration,
+   pas de compteurs, les lieux en simples liens, et toujours une ligne pour le dernier RP. */
+.bts-categorie--en-liste .fal-forum {
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-areas: "infos" "dernier";
+  gap: 6px;
+}
+.bts-categorie--en-liste .fal-forum__illustration { display: none; }
+.bts-categorie--en-liste .fal-forum__chiffres { display: none; }
+.bts-categorie--en-liste .fal-forum__description {
+  display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 1; overflow: hidden;
+  font-size: var(--fal-taille-petite);
+}
+/* La description coupée se lit en entier au survol ou au focus de la section. */
+.bts-categorie--en-liste .fal-forum:hover .fal-forum__description { -webkit-line-clamp: unset; display: block; overflow: visible; }
+.bts-categorie--en-liste .fal-forum:focus-within .fal-forum__description { -webkit-line-clamp: unset; display: block; overflow: visible; }
+.bts-categorie--en-liste .fal-forum__sous-forums { gap: 2px 14px; margin-top: 6px; font-size: 0; }
+.bts-categorie--en-liste .fal-forum__sous-forums a {
+  border: 0; padding: 0; background: none; border-radius: 0;
+  font-size: var(--fal-taille-petite); color: var(--fal-lien);
+  text-decoration: underline; text-underline-offset: .2em;
+}
+.bts-categorie--en-liste .fal-forum__sous-forums a:hover { color: var(--fal-lien-survol); }
+.bts-categorie--en-liste .fal-forum__dernier {
+  font-size: var(--fal-taille-petite); color: var(--fal-texte-doux);
+  border-top: 2px dotted var(--s01-filet, currentColor); padding-top: 6px;
+}
+.bts-categorie--en-liste .fal-forum__dernier .lastpost-avatar,
+.bts-categorie--en-liste .fal-forum__dernier br { display: none; }
+.bts-categorie--en-liste .fal-forum__dernier:has(a[href]:not([href=""]))::before { content: "Dernier RP : "; }
+.bts-categorie--en-liste .fal-forum__dernier:not(:has(a[href]:not([href=""])))::before { content: "Pas encore de RP"; }
+.bts-categorie--en-liste .fal-forum__dernier-sujet { margin-right: .5em; }
+@media (min-width: 900px) {
+  .bts-categorie--en-liste .fal-forums { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 24px; }
+}
+
+.bts-carte > svg { width: 100%; height: auto; display: block; border: 2px solid var(--bts-cadre); image-rendering: pixelated; }
+
+/* ---------- Boutons biseautés, façon 2001 ---------- */
+.bts-carte__barre { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+.bts-carte__bascule,
+.bts-carte__cadre,
+.bts-carte__quartier,
+.bts-carte__fermer,
+.bts-carte__retour {
+  font: 14px/1.2 var(--bts-police-pixel);
+  color: var(--bts-bouton-texte);
+  background: var(--bts-bouton);
+  border: 2px solid var(--bts-cadre);
+  border-radius: 0;
+  box-shadow: inset -2px -2px 0 var(--bts-biseau-sombre), inset 2px 2px 0 var(--bts-biseau-clair);
+  padding: 8px 14px;
+  cursor: pointer;
+  min-height: 44px;
+}
+.bts-carte__bascule:hover, .bts-carte__cadre:hover, .bts-carte__quartier:hover,
+.bts-carte__fermer:hover, .bts-carte__retour:hover { background: var(--bts-survol); }
+.bts-carte__bascule:active, .bts-carte__cadre:active, .bts-carte__quartier:active,
+.bts-carte__fermer:active, .bts-carte__retour:active,
+.bts-carte__bascule[aria-pressed="true"], .bts-carte__cadre[aria-pressed="true"] {
+  box-shadow: inset 2px 2px 0 var(--bts-biseau-sombre), inset -2px -2px 0 var(--bts-biseau-clair);
+}
+.bts-carte button:focus-visible,
+.bts-carte a:focus-visible,
+.bts-carte h2:focus-visible { outline: 3px solid var(--bts-focus); outline-offset: 2px; }
+
+/* Le bipeur : les nouveautés s'affichent sur son écran LCD. La note est décorative. */
+.bts-carte__annonce {
+  margin: 0;
+  font: 14px/1.3 var(--bts-police-pixel);
+  letter-spacing: .04em;
+  color: var(--bts-bipeur-texte);
+  background: var(--bts-bipeur-fond);
+  border: 2px solid var(--bts-bipeur-cadre);
+  padding: 8px 12px;
+}
+.bts-carte__annonce::before { content: "\266A  " / ""; }
+.bts-carte__annonce:empty { display: none; }
+
+/* ---------- Quartiers et stations ---------- */
+.bts-carte .gu--actif { cursor: pointer; }
+.bts-carte .gu--actif:hover { fill: var(--bts-gu-actif); }
+.bts-carte .gu--actif:focus { outline: none; }
+.bts-carte .gu--actif:focus-visible { outline: 3px solid var(--bts-focus); outline-offset: 0; }
+.bts-carte .gu--nouveau { fill: var(--bts-gu-nouveau); }
+.bts-carte .territoire,
+.bts-carte .quartiers-noms,
+.bts-carte .metro,
+.bts-carte .fleuve,
+.bts-carte .bts-badges { pointer-events: none; }
+
+/* Les plaques des quartiers gardent la même taille à l'écran quel que soit le zoom. */
+.bts-carte .quartier-plaque,
+.bts-carte .quartier-nom { transform: scale(calc(var(--bts-echelle, 1) * var(--bts-etiquette-taille, 1))); }
+
+/* Les stations gardent la même taille à l'écran quel que soit le zoom (--bts-echelle) :
+   en gros plan, elles se séparent au lieu de grossir. */
+.bts-carte .lieu { cursor: pointer; }
+.bts-carte .lieu rect,
+.bts-carte .lieu__croix { transform: scale(calc(var(--bts-echelle, 1) * var(--bts-station-taille, 1))); }
+.bts-carte .lieu:hover rect { transform: scale(calc(var(--bts-echelle, 1) * var(--bts-station-taille, 1) * 1.4)); }
+.bts-carte .lieu:focus { outline: none; }
+.bts-carte .lieu:focus-visible rect { stroke: var(--bts-focus); stroke-width: 3; transform: scale(calc(var(--bts-echelle, 1) * var(--bts-station-taille, 1) * 1.6)); }
+.bts-carte .lieu--nouveau rect { fill: var(--bts-nouveau); }
+
+.bts-badge rect { fill: var(--bts-badge-fond); stroke: var(--bts-fond); stroke-width: 2; }
+.bts-badge text { fill: var(--bts-badge-texte); font: 14px var(--bts-police-pixel); }
+@media (prefers-reduced-motion: no-preference) {
+  .bts-badge { animation: bts-clignote 1.2s steps(1, end) infinite; }
+  @keyframes bts-clignote { 50% { opacity: .55; } }
+}
+
+/* Recadrage téléphone : le cadre fait environ les deux tiers de la ville, on grossit le texte d'autant. */
+.bts-carte__cadre[hidden] { display: none; }
+.bts-carte--zoom { --bts-etiquette-taille: 1.3; }
+.bts-carte--zoom .bts-badge text { font-size: 17px; }
+
+/* Infobulle (doublon visuel du libellé déjà lu par les lecteurs d'écran) */
+.bts-carte__bulle {
+  position: absolute;
+  transform: translate(-50%, calc(-100% - 8px));
+  background: var(--bts-bulle-fond);
+  color: var(--bts-bulle-texte);
+  border: 2px solid var(--bts-cadre);
+  padding: 6px 10px;
+  font-size: 14px;
+  pointer-events: none;
+  display: grid;
+  max-width: 16rem;
+  z-index: 2;
+}
+.bts-carte__bulle strong { font: 14px var(--bts-police-pixel); }
+.bts-carte__bulle[hidden] { display: none; }
+.bts-carte__bulle-sujet { font-style: italic; }
+
+/* Vue liste */
+.bts-carte--liste > svg { display: none; }
+.bts-carte__liste { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr)); }
+.bts-carte__liste[hidden] { display: none; }
+.bts-carte__quartier { width: 100%; text-align: left; }
+
+/* ---------- Colonne de droite : des fenêtres ---------- */
+.bts-carte__accueil,
+.bts-carte__panneau {
+  background: var(--bts-fond);
+  border: 2px solid var(--bts-cadre);
+  box-shadow: inset -2px -2px 0 var(--bts-biseau-sombre), inset 2px 2px 0 var(--bts-biseau-clair), 4px 4px 0 var(--bts-cadre);
+  padding: 16px;
+}
+.bts-carte__accueil[hidden], .bts-carte__panneau[hidden] { display: none; }
+.bts-carte__accueil h2 { margin: 0; font: 20px/1.3 var(--bts-police-pixel); }
+.bts-carte__accueil h3, .bts-carte__panneau h3 {
+  font: 13px/1.3 var(--bts-police-pixel); letter-spacing: .08em; text-transform: uppercase;
+  margin: 16px 0 6px; color: var(--bts-encre-douce);
+}
+.bts-carte__accueil h3::before, .bts-carte__panneau h3::before { content: "\25B8  " / ""; }
+.bts-carte__accueil p { margin: 8px 0 0; color: var(--bts-encre-douce); }
+.bts-legende { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.bts-legende li { display: flex; align-items: center; gap: 10px; }
+.bts-legende svg { border: 2px solid var(--bts-cadre); flex: none; shape-rendering: crispEdges; background: var(--bts-gu-fond); }
+.bts-legende rect { opacity: var(--bts-tramage-opacite, .45); }
+
+/* La barre de titre de la fenêtre est le bandeau de station : noir le jour, enseigne la nuit. */
+.bts-station {
+  display: flex; align-items: center; gap: 10px;
+  margin: -14px -14px 0; padding: 10px 10px 10px 14px;
+  background: var(--bts-station-bandeau); color: var(--bts-station-texte);
+}
+.bts-station__noms { display: grid; flex: 1; min-width: 0; }
+.bts-station h2 { margin: 0; font: 18px/1.3 var(--bts-police-pixel); color: inherit; }
+.bts-station [lang="ko"] { font: 13px/1.3 var(--bts-police-pixel); color: var(--bts-station-ko); }
+.bts-station .bts-carte__fermer {
+  padding: 0; min-width: 44px; font-size: 18px; line-height: 1;
+}
+.bts-station h2:focus-visible, .bts-station .bts-carte__fermer:focus-visible { outline-color: var(--bts-focus); }
+
+.bts-carte__factions { margin: 12px 0 0; color: var(--bts-encre-douce); }
+.bts-carte__lieux, .bts-carte__sujets { margin: 0; padding: 0; list-style: none; display: grid; gap: 8px; }
+.bts-carte__panneau a { color: var(--bts-lien); }
+.bts-sujet { display: grid; padding: 6px 8px; border: 2px solid var(--bts-ligne); }
+.bts-sujet--nouveau { border-color: var(--bts-nouveau); }
+.bts-sujet__nouveau { justify-self: start; font: 12px var(--bts-police-pixel); color: var(--bts-nouveau); background: var(--bts-nouveau-fond); padding: 1px 6px; }
+.bts-sujet__meta { font-size: 14px; color: var(--bts-encre-douce); }
+.bts-carte__vide { margin: 0; color: var(--bts-encre-douce); }
+
+.bts-lieu { display: grid; gap: 2px; padding-bottom: 8px; border-bottom: 2px dotted var(--bts-ligne); }
+.bts-lieu:last-child { border-bottom: 0; }
+.bts-lieu__nom { justify-self: start; font: inherit; font-weight: 500; color: var(--bts-lien); background: none; border: 0; padding: 4px 0; min-height: 32px; cursor: pointer; text-align: left; text-decoration: underline; text-underline-offset: 3px; }
+.bts-lieu__dernier { font-size: 14px; color: var(--bts-encre-douce); }
+.bts-carte__retour { font-size: 13px; min-height: 36px; padding: 4px 12px; margin-top: 10px; }
+.bts-carte__entrer { margin: 10px 0 0; }
+
+/* ---------- Zoom sur un quartier ouvert ----------
+   --bts-echelle (posée par le script) vaut la part de la ville visible : 0,3 = zoom ×3.
+   Les plaques et les stations gardent leur taille à l'écran ; les pixels de la ville grossissent. */
+/* Les stations colorées disent déjà où est le nouveau ; les badges gêneraient en gros plan. */
+.bts-carte--quartier .bts-badges { display: none; }
+/* En gros plan, les stations grandissent un peu : on les vise plus facilement. */
+.bts-carte--quartier { --bts-station-taille: 1.5; }
+
+/* ---------- Sur l'accueil du forum ---------- */
+/* Le bloc reste caché jusqu'à ce que le script l'ait mis à sa place : pas de saut à l'écran. */
+.bts-accueil:not(.bts-accueil--pret) { display: none; }
+.bts-accueil > .bts-carte, .bts-accueil > #bts-carte { padding: 16px; }
+.bts-carte__attente, .bts-carte__erreur { margin: 0; padding: 16px; font-family: var(--bts-police-pixel, monospace); }
+.bts-carte__erreur { border: 2px dashed currentColor; }
